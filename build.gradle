@@ -1,0 +1,49 @@
+plugins {
+	id 'java'
+	id 'war'
+	id 'org.springframework.boot' version '2.7.7'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.project'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.0'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.projectlombok:lombok'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	//jsp dependencies 설정
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    implementation 'javax.servlet:jstl:1.2'
+    
+    //json 파싱
+	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+	
+	//메일 발송
+	implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.4'
+	
+	//스캐쥴러 https://mvnrepository.com/artifact/org.quartz-scheduler/quartz
+	implementation group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.2'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
