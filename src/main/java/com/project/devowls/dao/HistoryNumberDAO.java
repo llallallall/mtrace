@@ -21,6 +21,6 @@ public interface HistoryNumberDAO {
 
 	ArrayList<HistoryNumberVO> selectHistoryNumberBySpawningDate(String spawningDate);
 
-	ArrayList<String> selectHistoryNumberSucceeded();
+	ArrayList<HistoryNumberVO> selectHistoryNumberSucceeded();
 
 }

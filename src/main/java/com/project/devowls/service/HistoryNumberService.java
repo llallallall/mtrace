@@ -13,6 +13,6 @@ public interface HistoryNumberService {
 
 	ArrayList<HistoryNumberVO> searchHistoryNumberBySpawningDate(String spawningDate);
 
-	ArrayList<String> searchHistoryNumberSucceeded();
+	ArrayList<HistoryNumberVO> searchHistoryNumberSucceeded();
 
 }

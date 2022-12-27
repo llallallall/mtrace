@@ -3,6 +3,7 @@
 body {
 	margin:0;
 	padding:0;
+	
 }
 
 a {
@@ -113,6 +114,16 @@ a {
 
 
 /** 메인 영역 **/
+.contents {
+	height:100vh;
+	padding-bottom:100px;
+	overflow-y:scroll; 
+	-ms-overflow-style: none;
+}
+
+.contents::-webkit-scrollbar{
+  display:none;
+}
 
 .main-content .list-group-item{
 	height:70px;
@@ -136,31 +147,39 @@ a {
 	color:#999;
 }
 
-
-/* date picker */
-.ui-datepicker {
-	font-size : 30px;
-	line-height : 2;
+.table-responsive {
+	font-size:12px;
 }
-.ui-datepicker, .ui-datepicker-inline,
-.ui-datepicker .ui-datepicker-days,
-.ui-datepicker .table-condensed{
-	width : 100%;
-}		
 
-  
-.orange-highlight {  
-    color: white !important;  
+.text-success {
+	color : green;
+}
+/* calendar */
+#calendar {
+    max-width: 1100px;
+    margin: 0 auto;
+    height:480px;
+    width:100%;
+    padding:0;
     
-    background-color: rgba(255, 137, 76, 0.5);
-    background-position: center center;
-	border-radius: 50%;
-	background-repeat: no-repeat; 
+    font-size:12px;
+}
+
+.fc-header-toolbar {
+    /*
+    the calendar will be butting up against the edges,
+    but let's scoot in the header's buttons
+    */
+    padding-top: 1em;
+    padding-left: 0;
+    padding-right: 0;
+    font-size:0.6em;
+  }
+.fc-event-title-container{
+	text-align:center;
+	border:0;
 }  
-  
-.orange-highlight:hover {  
-    background-color: #f1590a !important;  
-    background-color: rgba(241, 89, 10, 0.8)
-    
-}  
-  
+.fc-event-title {
+	font-size:10px;
+	text-align:center;
+}

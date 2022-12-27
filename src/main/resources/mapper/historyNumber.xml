@@ -11,9 +11,25 @@
 			mtrace.history_number
 	</select>
 	
-	<select id="selectHistoryNumberSucceeded" resultType="String">
+	<select id="selectHistoryNumberSucceeded" resultType="HistoryNumberVO">
 					SELECT 
-						spawning_date
+					    report_time, 
+						result_code, 
+						result_msg, 
+						egg_hist_no, 
+						business_no, 
+						license_no, 
+						farm_id_no, 
+						egg_usage, 
+						spawning_date, 
+						storage_method, 
+						egg_xxl, 
+						egg_xl, 
+						egg_l, 
+						egg_m, 
+						egg_s, 
+						egg_e, 
+						washing_method
 					FROM 
 						mtrace.history_number
 					WHERE
@@ -21,10 +37,13 @@
 	</select>
 
 	<select id="selecthHistoryNumber" parameterType="hashmap" resultType="HistoryNumberVO">
-		SELECT a.*
+		SELECT b.*
 			FROM (
-					SELECT 
-						ROW_NUMBER() over ( ORDER BY report_time desc ) as num,
+				SELECT *
+				FROM 
+				 	(SELECT 
+						ROW_NUMBER() over ( ORDER BY report_time asc ) as num,
+						ROW_NUMBER() over ( ORDER BY report_time desc ) as idx,
 						report_time, 
 						result_code, 
 						result_msg, 
@@ -44,9 +63,10 @@
 						washing_method
 					FROM 
 						mtrace.history_number
-					
-			) a
-		where a.num between #{startrow} and #{startrow}+19		
+					) a
+				order by a.num asc 
+			) b
+		where b.idx between #{startrow} and #{startrow}+4		
 	</select>
 	
 	

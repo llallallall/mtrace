@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -42,10 +43,67 @@ public class HistoryNumberController {
 	public HashMap<String, Object> callHistoryNumberSucceeded() {
 		HashMap<String, Object> data = new HashMap<String, Object>();
 		
-		ArrayList<String> voList = hService.searchHistoryNumberSucceeded();
+		ArrayList<HistoryNumberVO> voList = hService.searchHistoryNumberSucceeded();
+		
+		JSONArray historyItem = new JSONArray();
 		
 		
-		data.put("HistoryList", voList);
+		//이력번호
+		for(HistoryNumberVO vo : voList ) {
+			JSONObject eventParams = new JSONObject();
+			String desc="";
+			DecimalFormat df = new DecimalFormat("###,###");
+			
+			if (vo.getEggXxl() > 0 ) {
+				desc = desc + "왕란 : " + df.format(vo.getEggXxl()) + ", ";
+			}
+			
+			if (vo.getEggXl() > 0 ) {
+				desc = desc + "특란 : " + df.format(vo.getEggXl()) + ", ";
+			}
+			
+			if (vo.getEggL() > 0 ) {
+				desc = desc + "대란 : " + df.format(vo.getEggL()) + ", ";
+			}
+			
+			if (vo.getEggM() > 0 ) {
+				desc = desc + "중란 : " + df.format(vo.getEggM()) + ", ";
+			}
+			
+			if (vo.getEggS() > 0 ) {
+				desc = desc + "소란 : " + df.format(vo.getEggS()) + ", ";
+			}
+			
+			if (vo.getEggE() > 0 ) {
+				desc = desc + "기타 : " + df.format(vo.getEggE()) + ", ";
+			}
+			
+			desc = desc.substring(0, desc.length() - 2);
+			
+			eventParams.put("title", "이력번호등록");
+			eventParams.put("start", vo.getSpawningDate());
+			eventParams.put("end", vo.getSpawningDate());
+			eventParams.put("description", desc);
+			
+			historyItem.add(eventParams);
+		}
+		//선별포장실적
+
+		
+		//사육현황신고
+		
+
+		//출고신고
+		
+
+		// 집계
+		JSONObject result = new JSONObject();
+		result.put("history", historyItem);
+		result.put("packaging", null);
+		result.put("breeding", null);
+		result.put("shipment", null);
+		
+		data.put("HistoryList", result);
 
 		return data;
 	}
@@ -60,7 +118,8 @@ public class HistoryNumberController {
 		ArrayList<HistoryNumberVO> voList = new ArrayList<HistoryNumberVO>();
 		voList =  hService.searchHistoryNumber(page,pageInfo);
 		
-		
+		System.out.println(pageInfo.getListCount());
+		System.out.println(pageInfo.getMaxPage());
 		data.put("totPropertiesList", voList);
 		data.put("pageInfo", pageInfo);
 

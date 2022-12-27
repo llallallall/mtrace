@@ -22,7 +22,7 @@ public class HistoryNumberServiceImpl implements HistoryNumberService {
 		HashMap<String, Object> param = new HashMap<String, Object>();
 		
 		int listCount = hDAO.selectHistoryNumber();
-		int maxPage = (int)Math.ceil((double)listCount/20);
+		int maxPage = (int)Math.ceil((double)listCount/5);
 		int startPage = (((int) ((double)page/10+0.9))-1)*10+1;
 		int endPage = startPage+10-1;
 		if(endPage>maxPage) endPage=maxPage;
@@ -31,7 +31,7 @@ public class HistoryNumberServiceImpl implements HistoryNumberService {
 		pageInfo.setMaxPage(maxPage);
 		pageInfo.setPage(page);
 		pageInfo.setStartPage(startPage);
-		int startrow = (page-1)*20+1;  // 페이지당 글 수 
+		int startrow = (page-1)*5+1;  // 페이지당 글 수 
 		
 		param.put("startrow", startrow);
 		
@@ -51,7 +51,7 @@ public class HistoryNumberServiceImpl implements HistoryNumberService {
 	}
 
 	@Override
-	public ArrayList<String> searchHistoryNumberSucceeded() {
+	public ArrayList<HistoryNumberVO> searchHistoryNumberSucceeded() {
 		// TODO Auto-generated method stub
 		return hDAO.selectHistoryNumberSucceeded();
 	}

@@ -1,9 +1,7 @@
 /* ========================================================================
 		공통 변수 
    ======================================================================== */
-var dateList = [];
-let loadedList;
-var loadedEls=[];
+
 /* ========================================================================
 		초기 로딩
    ======================================================================== */
@@ -11,183 +9,148 @@ $(document).ready(function(){
 
 		searchHistoryNumbers(1);
 		
-
-		// 기존 등록 목록 조회
-
-		$.ajax({
-			type : 'GET',
-			url : '/callHistoryNumberSucceeded',
-			dataType : 'json',
-			contentType : "application/json",
-			success : function(data) {
-					// 데이터 로딩
-					var hnList = data.HistoryList;
-			
-					for(var i=0; i<hnList.length; i++){
-						var list = hnList[i].substr(0,4)+'-'+hnList[i].substr(4,2)+'-'+hnList[i].substr(6,2);
-						dateList.push(list);
-					} //for
-					
-					console.log('makeDateList : ' + dateList);	
-					loadedList = dateList;
-					for(var i=0; i < dateList.length ; i++) {
-					
-					var dt = new Date(dateList[i]);
-					changeNodeList(dt);
-					}
-					
-					
-
-			} // success 
-
-		});	 //ajax''
+		let initDate = new Date();   
+		let initDateYear = initDate.getFullYear(); // 년도
+		let initDateMonth = initDate.getMonth() + 1;  // 월
+		let initDateDate = initDate.getDate();  // 날짜
 		
-		$.datepicker.setDefaults({
-	        dateFormat: 'yy-mm-dd(D)',
-	        prevText: '이전 달',
-	        nextText: '다음 달',
-	        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-	        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-	        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-	        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-	        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-	        showMonthAfterYear: true,
-	        yearSuffix: '년'
-	    });
-		
-		// 목록 조회 후 datepicker 로딩 	
-		$('#datepickerReportDate').datepicker({
-			
-			todayHighlight:true,
-//			beforeShowDay:changeNodeListAll
-			onSelect:function(dateText, inst) {
-//				console.log(dateText);
-//				console.log(inst);
-				let reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gim;
-			    $('#reportDateHidden').val(
-			        dateText.substr(0,10).replace(reg, "")
-			    );
-			    
-			    $('#reportDate').val(
-			        dateText
-			    );
-				changeNodeListAll();
-			}
-		});
-	
-		// 기존 등록 목록 색상 등록
-		function changeNodeList(in_date) {
-			if ( in_date ) {
-				var in_year = in_date.getFullYear();
-				var in_mth = in_date.getMonth();
-				var in_day = in_date.getDate();
-				var elY = Array.from(document.querySelectorAll('[data-year="'+in_year+'"]'));
-
-				for(var i=0; i < elY.length ;i++) {
-					if(elY[i].dataset.month == in_mth) {
-						if (elY[i].childNodes[0].dataset.date == in_day) {
-							loadedEls.push(elY[i].childNodes[0].parentElement);
-							//console.log(loadedEls)
-							elY[i].childNodes[0].classList.remove("orange-highlight");
-							elY[i].childNodes[0].classList.add("orange-highlight");
-						}
-					}
-				}
-
-			} 
-		}	
-		
-		// 기존 등록 목록 색상 등록
-		function changeNodeListAll() {
-			
-			//console.log("changeNodeListAll " + loadedEls);
-			//console.dir(loadedEls);
-			for(var i=0; i < loadedEls.length; i++) {
-				//console.log(loadedEls[i].querySelector('a'))
-				var el = loadedEls[i].querySelector('a')
-				el.classList.remove('ui-state-default');
-				
-				setTimeout(function( ) { 
-					console.log(el);
-					el.classList.add('orange-highlight');
-				} , 1000);
-				
-				
-				//ui-state-default ui-state-highlight ui-state-active orange-highlight ui-state-hover
-				//ui-state-default orange-highlight
-				//ui-state-default ui-state-highlight ui-state-hover
-				//ui-state-default ui-state-hover
-			}
-//			if ( in_date ) {
-//				var in_year = in_date.getFullYear();
-//				var in_mth = in_date.getMonth();
-//				var in_day = in_date.getDate();
-//				var elY = Array.from(document.querySelectorAll('[data-year="'+in_year+'"]'));
-//
-//				for(var i=0; i < elY.length ;i++) {
-//					if(elY[i].dataset.month == in_mth) {
-//						if (elY[i].childNodes[0].dataset.date == in_day) {
-//							loadedEls.push(elY[i].childNodes[0]);
-//							elY[i].childNodes[0].classList.add("orange-highlight");
-//						}
-//					}
-//				}
-//
-//			} 
-		}	
-		
-
-		
-				
-		// 기존 등록 목록 비활성화
-		function chkDateList(this_date) {
-			this_date = this_date.getFullYear()+ '-'
-                + (this_date.getMonth() + 1) + '-' + this_date.getDate() ;
-            
-            if(loadedList) {
-	            console.log(loadedList);
-				for(var i=0; i < loadedList.length; i++) {
-					var num_dt = new Date(dateList[i]);
-					console.log(num_dt*1);
-					//1672012800000  26
-					//1672099200000  27
-					var el = document.querySelector('[data-date="'+num_dt*1+'"]');
-					console.log(el);
-					el.classList.add("orange-highlight");
-					el.style.background = 'rgba(255, 137, 76, 0.5)';
-				}   
-            };
-                   
-			if( dateList.indexOf(this_date) > -1 )	 {
-				return [false, "notav", 'Not Available'];
-			} else {
-				return [true, "av", "available"];
-			};
-
-		    
-		} // function
-
-		
-//		$('#datepickerReportDate').on('changeDate', function() {
-//			
-//		    
-//		});
-		
-		
-		let today = new Date();   
-	
-		let year = today.getFullYear(); // 년도
-		let month = today.getMonth() + 1;  // 월
-		let date = today.getDate();  // 날짜
-		
+		var initDateStr = initDateYear+ '-' + initDateMonth + '-' + initDateDate;
 		var week = new Array('일', '월', '화', '수', '목', '금', '토');
+		$('#reportDate').val(initDateStr+ '(' + week[initDate.getDay()] + ')' );
 		
-		$("#datepickerReportDate").datepicker("setDate", today);
-		$('#reportDate').val(year+ '-' + month + '-' + date + '(' + week[today.getDay()] + ')' );
-
+		
+				
 });
 
 
+var calendarEl = document.getElementById('calendar');
+
+let today = new Date();   
+let year = today.getFullYear(); // 년도
+let month = today.getMonth() + 1;  // 월
+let date = today.getDate();  // 날짜
+
+var stdDate = year+ '-' + month + '-' + date;
+	
+var calendar = new FullCalendar.Calendar(calendarEl, {
+		initialDate: stdDate,
+      	locale: 'ko',
+      	select: function(obj){
+			//console.log(obj.start)
+			//console.log(typeof obj.start.getMonth())
+			
+			let selyear = obj.start.getFullYear(); // 년도
+			let selmonth = String((obj.start.getMonth() + 1)+'').padStart(2, "0");  // 월
+			let seldate = String((obj.start.getDate()+'').padStart(2, "0"));  // 날짜
+			
+			var selDateStr = selyear+ '-' + selmonth + '-' + seldate;
+			var week = new Array('일', '월', '화', '수', '목', '금', '토');
+			$('#reportDate').val(selDateStr+ '(' + week[obj.start.getDay()] + ')' );
+			
+			$('#reportDateHidden').val(selyear+selmonth+seldate);
+		},
+      	expandRows: true,
+      	headerToolbar: {
+	        left: 'prevYear,prev, today',
+	        center: 'title',
+	        right: 'next,nextYear'
+	     },
+      	navLinks: false, // can click day/week names to navigate views
+      	editable: true,
+      	selectable: true,
+      	nowIndicator: true,
+      	dayMaxEvents: false, // allow "more" link when too many events
+      	eventDidMount: function(info) {
+            tippy(info.el, {
+                content:  info.event.extendedProps.description,//이벤트 디스크립션을 툴팁으로 가져옵니다. 
+            });
+        },
+      	events: function(info, successCallback, failureCallback){
+				    
+				    $.ajax({
+				        type : 'GET',
+						url : '/callHistoryNumberSucceeded',
+						dataType : 'json',
+						contentType : "application/json",
+				        success: function(data){
+							//console.log(data.HistoryList);
+				            var events = [];
+				            
+				            var history = data.HistoryList.history;
+				            var packaging = data.HistoryList.packaging;
+				            var breeding = data.HistoryList.breeding;
+				            var shipment = data.HistoryList.shipment;
+				            
+				            
+				            if ( history !=null && history.length > 0 ) {
+								for(var i=0; i < history.length; i++) {
+									events.push({
+								 		title : history[i].title,
+								 		start : history[i].start.substr(0,4)+'-'+history[i].start.substr(4,2)+'-'+history[i].start.substr(6,2),
+								 		end : history[i].end.substr(0,4)+'-'+history[i].end.substr(4,2)+'-'+history[i].end.substr(6,2),
+								 		description : history[i].description,
+								 		backgroundColor: '#2471A3',
+								 		borderColor: '#2471A3',
+								 		textColor : '#FFF'
+								 	});	
+								}// for		
+							} // if
+							
+							if (packaging !=null && packaging.length > 0) {
+								for(var i=0; i < packaging.length; i++) {
+									events.push({
+								 		title : packaging[i].title,
+								 		start : packaging[i].start.substr(0,4)+'-'+packaging[i].start.substr(4,2)+'-'+packaging[i].start.substr(6,2),
+								 		end : packaging[i].end.substr(0,4)+'-'+packaging[i].end.substr(4,2)+'-'+packaging[i].end.substr(6,2),
+								 		description : packaging[i].description,
+								 		backgroundColor: '#2E86C1',
+								 		borderColor: '#2E86C1',
+								 		textColor : '#FFF'
+								 	});	
+								}// for		
+							} // if
+							
+							if (breeding !=null && breeding.length > 0) {
+								for(var i=0; i < breeding.length; i++) {
+									events.push({
+								 		title : breeding[i].title,
+								 		start : breeding[i].start.substr(0,4)+'-'+breeding[i].start.substr(4,2)+'-'+breeding[i].start.substr(6,2),
+								 		end : breeding[i].end.substr(0,4)+'-'+breeding[i].end.substr(4,2)+'-'+breeding[i].end.substr(6,2),
+								 		description : breeding[i].description,
+								 		backgroundColor: '##28B463',
+								 		borderColor: '##28B463',
+								 		textColor : '#FFF'
+								 	});	
+								}// for		
+							} // if 
+							
+							if (shipment !=null && shipment.length > 0) {
+								for(var i=0; i < shipment.length; i++) {
+									events.push({
+								 		title : shipment[i].title,
+								 		start : shipment[i].start.substr(0,4)+'-'+shipment[i].start.substr(4,2)+'-'+shipment[i].start.substr(6,2),
+								 		end : shipment[i].end.substr(0,4)+'-'+shipment[i].end.substr(4,2)+'-'+shipment[i].end.substr(6,2),
+								 		description : shipment[i].description,
+								 		backgroundColor: '#A569BD',
+								 		borderColor: '#A569BD',
+								 		textColor : 'FFF'
+								 	});	
+								}// for		
+							} // if
+
+				        successCallback(events);
+				    }
+				});	
+			}
+	 });
+	 
+document.addEventListener('DOMContentLoaded', function() {
+
+    calendar.render();
+  });
+  
+  
+  
 /* ========================================================================
 		리스트 로딩 함수 
    ======================================================================== */	
@@ -195,7 +158,7 @@ $(document).ready(function(){
 	
 // 페이지 로딩 	
 function searchHistoryNumbers(page){
-
+	
 
 	if(page==null || page==''){
 		page=1;
@@ -222,34 +185,98 @@ function searchHistoryNumbers(page){
 				var list = dataList[i];
 
 				////console.log(list);
-				html+='<tr>';
+				if (list.resultCode == "INFO-0000") {
+					html+='<tr>';
 					
 				
-				html+='<td>'+ list.num +'</td>';
-				
-				html+='<td>'+ formatDateTime(list.reportTime) +'</td>';
-				html+='<td>'+ list.resultCode +'</td>';
-				html+='<td>'+ list.resultMsg +'</td>';
-				
-				html+='<td>'+ list.eggHistNo +'</td>';
-				html+='<td>'+ list.businessNo +'</td>';
-				html+='<td>'+ list.licenseNo +'</td>';
-				html+='<td>'+ list.farmIdNo +'</td>';
-				
-				html+='<td>'+ list.eggUsage +'</td>';
-				html+='<td>'+ list.spawningDate +'</td>';
-				html+='<td>'+ list.storageMethod +'</td>';
-				html+='<td>'+ list.washingMethod +'</td>';
-				
-				
-				html+='<td style="text-align: right;">'+ numberWithCommas(list.eggXxl) +'</td>';
-				html+='<td style="text-align: right;">'+ numberWithCommas(list.eggXl) +'</td>';
-				html+='<td style="text-align: right;">'+ numberWithCommas(list.eggL) +'</td>';
-				html+='<td style="text-align: right;">'+ numberWithCommas(list.eggM) +'</td>';
-				html+='<td style="text-align: right;">'+ numberWithCommas(list.eggS) +'</td>';
-				html+='<td style="text-align: right;">'+ numberWithCommas(list.eggE) +'</td>';
+					html+='<td class="text-success">'+ list.num +'</td>';
+					
+					html+='<td class="text-success">'+ formatDateTime(list.reportTime) +'</td>';
+					html+='<td class="text-success">'+ list.resultCode +'</td>';
+					html+='<td class="text-success">'+ list.resultMsg +'</td>';
+					
+					html+='<td class="text-success">'+ list.eggHistNo +'</td>';
+					html+='<td class="text-success">'+ list.businessNo +'</td>';
+					html+='<td class="text-success">'+ list.licenseNo +'</td>';
+					html+='<td class="text-success">'+ list.farmIdNo +'</td>';
+					
+					html+='<td class="text-success">'+ list.eggUsage +'</td>';
+					html+='<td class="text-success">'+ list.spawningDate +'</td>';
+					html+='<td class="text-success">'+ list.storageMethod +'</td>';
+					html+='<td class="text-success">'+ list.washingMethod +'</td>';
+					
+					
+					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggXxl) +'</td>';
+					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggXl) +'</td>';
+					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggL) +'</td>';
+					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggM) +'</td>';
+					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggS) +'</td>';
+					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggE) +'</td>';
+	
+					html+='</tr>';
+					
+				} else if (list.resultCode.includes("ERROR")) {
+					
+					html+='<tr>';
 
-				html+='</tr>';
+					html+='<td class="text-danger">'+ list.num +'</td>';
+					
+					html+='<td class="text-danger">'+ formatDateTime(list.reportTime) +'</td>';
+					html+='<td class="text-danger">'+ list.resultCode +'</td>';
+					html+='<td class="text-danger">'+ list.resultMsg +'</td>';
+					
+					html+='<td class="text-danger">'+ list.eggHistNo +'</td>';
+					html+='<td class="text-danger">'+ list.businessNo +'</td>';
+					html+='<td class="text-danger">'+ list.licenseNo +'</td>';
+					html+='<td class="text-danger">'+ list.farmIdNo +'</td>';
+					
+					html+='<td class="text-danger">'+ list.eggUsage +'</td>';
+					html+='<td class="text-danger">'+ list.spawningDate +'</td>';
+					html+='<td class="text-danger">'+ list.storageMethod +'</td>';
+					html+='<td class="text-danger">'+ list.washingMethod +'</td>';
+					
+					
+					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggXxl) +'</td>';
+					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggXl) +'</td>';
+					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggL) +'</td>';
+					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggM) +'</td>';
+					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggS) +'</td>';
+					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggE) +'</td>';
+	
+					html+='</tr>';
+					
+				} else {
+					
+					html+='<tr>';
+
+					html+='<td>'+ list.num +'</td>';
+					
+					html+='<td>'+ formatDateTime(list.reportTime) +'</td>';
+					html+='<td>'+ list.resultCode +'</td>';
+					html+='<td>'+ list.resultMsg +'</td>';
+					
+					html+='<td>'+ list.eggHistNo +'</td>';
+					html+='<td>'+ list.businessNo +'</td>';
+					html+='<td>'+ list.licenseNo +'</td>';
+					html+='<td>'+ list.farmIdNo +'</td>';
+					
+					html+='<td>'+ list.eggUsage +'</td>';
+					html+='<td>'+ list.spawningDate +'</td>';
+					html+='<td>'+ list.storageMethod +'</td>';
+					html+='<td>'+ list.washingMethod +'</td>';
+					
+					
+					html+='<td style="text-align: right;">'+ numberWithCommas(list.eggXxl) +'</td>';
+					html+='<td style="text-align: right;">'+ numberWithCommas(list.eggXl) +'</td>';
+					html+='<td style="text-align: right;">'+ numberWithCommas(list.eggL) +'</td>';
+					html+='<td style="text-align: right;">'+ numberWithCommas(list.eggM) +'</td>';
+					html+='<td style="text-align: right;">'+ numberWithCommas(list.eggS) +'</td>';
+					html+='<td style="text-align: right;">'+ numberWithCommas(list.eggE) +'</td>';
+	
+					html+='</tr>';
+					
+				}
+				
 				
 			
                 
@@ -275,17 +302,17 @@ function searchHistoryNumbers(page){
 				pageHtml+='</li>';
 			}else{
 				pageHtml+='<li class="page-item">';
-				pageHtml+='<a class="page-link" onclick="searchProperties('+(pageInfo.page-1)+')" tabindex="-1" id="preLang">'+preLang+'</a>';
+				pageHtml+='<a class="page-link" onclick="searchHistoryNumbers('+(pageInfo.page-1)+')" tabindex="-1" id="preLang">'+preLang+'</a>';
 				pageHtml+='</li>';
 			}
 			for(var i=pageInfo.startPage;i<=pageInfo.endPage;i++){
 				if(pageInfo.page==i){
 					pageHtml+='<li class="page-item active">';
-					pageHtml+='<a class="page-link" onclick="searchProperties('+i+')">'+i+' <span class="sr-only">(current)</span></a>';
+					pageHtml+='<a class="page-link" onclick="searchHistoryNumbers('+i+')">'+i+' <span class="sr-only">(current)</span></a>';
 					pageHtml+='</li>';
 				}else{
 					pageHtml+='<li class="page-item">';
-					pageHtml+='<a class="page-link" onclick="searchProperties('+i+')">'+i+' </a>';
+					pageHtml+='<a class="page-link" onclick="searchHistoryNumbers('+i+')">'+i+' </a>';
 					pageHtml+='</li>';
 				}
 			}
@@ -295,7 +322,7 @@ function searchHistoryNumbers(page){
 				pageHtml+='</li>';
 			}else{
 				pageHtml+='<li class="page-item">';
-				pageHtml+='<a class="page-link" onclick="searchProperties('+(pageInfo.page+1)+')" href="#" id="nextLang">'+nextLang+'</a>';
+				pageHtml+='<a class="page-link" onclick="searchHistoryNumbers('+(pageInfo.page+1)+')" href="#" id="nextLang">'+nextLang+'</a>';
 				pageHtml+='</li>';
 			}
 
@@ -311,6 +338,22 @@ function searchHistoryNumbers(page){
    ======================================================================== */	
 
 function submitHistoryNumber() {
+	var spawningDate = new Date($('#reportDateHidden').val().substr(0,4)+'-'+$('#reportDateHidden').val().substr(4,2)+'-'+$('#reportDateHidden').val().substr(6,2));
+	
+	//console.log(spawningDate);
+	
+	let now = new Date();   
+	let year = now.getFullYear(); // 년도
+	let month = now.getMonth() + 1;  // 월
+	let date = now.getDate();  // 날짜
+	var today = new Date(year+'-'+month+'-'+date);
+	//console.log(today);
+	
+	if( spawningDate > today) {
+		alert("산란일자는 현재일자와 같거나 이전이어야 합니다.")
+		return false;
+	}
+			
 	let reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gim;
 	
 	let eggSize1 =  $("#size1").val().replace(reg, "")*1;
@@ -383,6 +426,8 @@ function submitHistoryNumber() {
 				}
 
 				searchHistoryNumbers(1);
+				calendar.refetchEvents();
+				//location.reload();
 				
 			}
 		    ,error: function(response){

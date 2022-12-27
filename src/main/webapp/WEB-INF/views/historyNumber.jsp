@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="/assets/bundle/bootstrap-5.1.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/bundle/fontawesome/css/fontawesome.css">
     <link rel="stylesheet" href="/assets/bundle/fontawesome/css/solid.css">
-    <link rel="stylesheet" href="/assets/bundle/jquery.ui.1.13.2/jquery-ui.css" >
     <link rel="stylesheet" href="/assets/bundle/jquery.toast/jquery.toast.min.css">
+
     <link rel="stylesheet" type="text/css" href="<c:url value="assets/css/custom.css"><c:param name="dt" value="${nowDate}"/></c:url>"/>
 
 </head>
@@ -25,7 +25,7 @@
 		<!-- end of navigation -->
 		
 		
-		
+		<div class="contents">
 		<!-- content -->
 		<form id="historyNumberForm" >
 		<div class="row main-content p-4 g-5">
@@ -92,7 +92,7 @@
 				            <span class="text-success text-end">
 				            	업소용
 				            	<br>
-				            	<input type="text" class="border-0 text-end  inputSmallText" name="eggUsage" value="314001" >
+				            	<input type="text" class="border-0 text-end  inputSmallText" name="eggUsage" value="314002" >
 				            </span>
 				          </li>
 				          <li class="list-group-item d-flex justify-content-between bg-light">
@@ -135,7 +135,7 @@
 				        
 				          <div class="row g-3">
 				          		<!-- 좌측 -->
-				          		<div class="col-sm-6">
+				          		<div class="col-sm-8">
 				          		
 				          			<div class="row reportDate" >
 							              <label for="reportDate" class="form-label">산란일자</label>
@@ -144,7 +144,7 @@
 							                    
 						            </div>
 						            <div class="row" >
-						            	<div id="datepickerReportDate" class="col-12"></div>
+						            	<div id='calendar'></div>
 						            	<input type="hidden" id="reportDateHidden" name="spawningDate">
 						            </div>
 										
@@ -152,7 +152,7 @@
 				          		</div>
 				          		
 				          		<!-- 우측 -->
-				          		<div class="col-sm-6">
+				          		<div class="col-sm-4">
 				          			<div class="row ">
 						          		<div class="col-sm-12 eggSize">
 							              <label for="size1" class="form-label">왕란</label>
@@ -258,7 +258,7 @@
 			                </div>
 			                
 			                
-			                <nav aria-label="Page navigation">
+			                <nav aria-label="Page navigation" class="py-3">
 							    <ul class="pagination justify-content-center" id="pageing">
 							    	
 								 </ul>
@@ -268,7 +268,7 @@
 			            </div>
 			        </div>
 		
-		
+		</div>
 		<!-- end of content -->
 		
 		
@@ -283,8 +283,12 @@
 	<script src="/assets/bundle/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
 	<script src="/assets/bundle/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 	<script src="/assets/bundle/jquery.toast/jquery.toast.min.js"></script>
-	<script src="/assets/bundle/jquery.ui.1.13.2/jquery-ui.js"></script>
-<!-- 	<script src="/assets/bundle/bootstrap-datepicker/locales/bootstrap-datepicker.ko.min.js"></script> -->
+
+	<!-- full calendar -->
+	<script src='/assets/bundle/fullcalendar-6.0.1/dist/index.global.js'></script>
+	<script src='/assets/bundle/fullcalendar-6.0.1/packages/bootstrap5/index.global.js'></script>
+	<script src="/assets/bundle/popper.2.11.6/js/popper.js"></script>
+	<script src="/assets/bundle/tippy.6.3.7/js/tippy.js"></script>
 	<script src="/assets/js/custom.js"></script>
 	<script src="/assets/js/page/historyNumber.js"></script>
 	
