@@ -131,7 +131,7 @@
 			        
 			      </div>
 			      <div class="col-md-7 col-lg-8">
-				        <h4 class="mb-3">이력번호 등록</h4>
+				        
 				        
 				          <div class="row g-3">
 				          		<!-- 좌측 -->

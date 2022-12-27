@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.devowls.dao.EggPackingDAO">
+
+	<select id="selectEggPackingCnt" resultType="int">
+		SELECT 
+			count(report_time)
+		FROM 
+			mtrace.egg_packng
+	</select>
+	
+	<select id="selectEggPackingSucceeded" resultType="EggPackingVO">
+		SELECT 
+			report_time, 
+			result_code, 
+			result_msg, 
+			business_no, 
+			license_no, 
+			egg_hist_no, 
+			request_date, 
+			farm_id_no, 
+			egg_usage, 
+			spawning_date, 
+			storage_method, 
+			washing_method, 
+			egg_xxl, 
+			egg_xl, 
+			egg_l, 
+			egg_m, 
+			egg_s, 
+			egg_e, 
+			egg_xxl_dispose, 
+			egg_xl_dispose, 
+			egg_l_dispose, 
+			egg_m_dispose, 
+			egg_s_dispose, 
+			egg_e_dispose
+		FROM 
+			mtrace.egg_packng
+		WHERE
+			result_code = "INFO-0000"
+	</select>
+
+	<select id="selectEggPacking" parameterType="hashmap" resultType="EggPackingVO">
+		SELECT b.*
+			FROM (
+				SELECT *
+				FROM 
+				 	(SELECT 
+						ROW_NUMBER() over ( ORDER BY report_time asc ) as num,
+						ROW_NUMBER() over ( ORDER BY report_time desc ) as idx,
+						report_time, 
+						result_code, 
+						result_msg, 
+						business_no, 
+						license_no, 
+						egg_hist_no, 
+						request_date, 
+						farm_id_no, 
+						egg_usage, 
+						spawning_date, 
+						storage_method, 
+						washing_method, 
+						egg_xxl, 
+						egg_xl, 
+						egg_l, 
+						egg_m, 
+						egg_s, 
+						egg_e, 
+						egg_xxl_dispose, 
+						egg_xl_dispose, 
+						egg_l_dispose, 
+						egg_m_dispose, 
+						egg_s_dispose, 
+						egg_e_dispose
+					FROM 
+						mtrace.egg_packng
+					) a
+				order by a.num asc 
+			) b
+		where b.idx between #{startrow} and #{startrow}+4		
+	</select>
+	
+	
+	<select id="selectEggPackingBySpawningDate" parameterType="String" resultType="EggPackingVO">
+			SELECT 
+				report_time, 
+				result_code, 
+				result_msg, 
+				business_no, 
+				license_no, 
+				egg_hist_no, 
+				request_date, 
+				farm_id_no, 
+				egg_usage, 
+				spawning_date, 
+				storage_method, 
+				washing_method, 
+				egg_xxl, 
+				egg_xl, 
+				egg_l, 
+				egg_m, 
+				egg_s, 
+				egg_e, 
+				egg_xxl_dispose, 
+				egg_xl_dispose, 
+				egg_l_dispose, 
+				egg_m_dispose, 
+				egg_s_dispose, 
+				egg_e_dispose
+				washing_method
+			FROM 
+				mtrace.egg_packng
+			WHERE 
+				spawning_date = #{spawningDate}
+	</select>
+	
+	<insert id="insertEggPacking" parameterType="EggPackingVO">
+	
+		INSERT INTO 
+			mtrace.history_number
+			(
+				report_time, 
+				result_code, 
+				result_msg, 
+				
+				business_no, 
+				license_no, 
+				egg_hist_no, 
+				
+				request_date, 
+				
+				farm_id_no, 
+				egg_usage, 
+				
+				spawning_date, 
+				storage_method, 
+				washing_method, 
+				
+				egg_xxl, 
+				egg_xl, 
+				egg_l, 
+				egg_m, 
+				egg_s, 
+				egg_e, 
+				
+				egg_xxl_dispose, 
+				egg_xl_dispose, 
+				egg_l_dispose, 
+				egg_m_dispose, 
+				egg_s_dispose, 
+				egg_e_dispose
+			)
+		VALUES
+			(
+				CURRENT_TIMESTAMP(), 
+				#{resultCode}, 
+				#{resultMsg}, 
+				
+				#{businessNo}, 
+				#{licenseNo},
+				#{eggHistNo}, 
+				
+				#{requestDate},
+				
+				#{farmIdNo}, 
+				#{eggUsage}, 
+				
+				#{spawningDate}, 
+				#{storageMethod}, 
+				#{washingMethod},
+				
+				#{eggXxl}, 
+				#{eggXl},
+				#{eggL}, 
+				#{eggM}, 
+				#{eggS}, 
+				#{eggE}, 
+				
+				#{eggXxlDispose}, 
+				#{eggXlDispose},
+				#{eggLDispose}, 
+				#{eggMDispose}, 
+				#{eggSDispose}, 
+				#{eggEDispose}
+				
+			)
+	</insert>
+
+</mapper>

@@ -7,7 +7,7 @@
    ======================================================================== */
 $(document).ready(function(){
 
-		searchHistoryNumbers(1);
+		searchEggPacking(1);
 		
 		let initDate = new Date();   
 		let initDateYear = initDate.getFullYear(); // 년도
@@ -36,7 +36,7 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 		initialDate: stdDate,
       	locale: 'ko',
       	select: function(obj){
-			//console.log(obj.start)
+			//console.log(obj)
 			//console.log(typeof obj.start.getMonth())
 			
 			let selyear = obj.start.getFullYear(); // 년도
@@ -65,21 +65,52 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
                 content:  info.event.extendedProps.description,//이벤트 디스크립션을 툴팁으로 가져옵니다. 
             });
         },
+        eventClick: function(info) {
+			//console.dir(info);
+			//console.dir(info.event._instance.range.start);
+			var clickStart = info.event._instance.range.start;
+			
+			let clickYear = clickStart.getFullYear(); // 년도
+			let clickMonth = String((clickStart.getMonth() + 1)+'').padStart(2, "0");  // 월
+			let clickDate = String((clickStart.getDate()+'').padStart(2, "0"));  // 날짜
+			
+			var clickDateStr = clickYear+ '-' + clickMonth + '-' + clickDate;
+			var week = new Array('일', '월', '화', '수', '목', '금', '토');
+			$('#reportDate').val(clickDateStr+ '(' + week[clickStart.getDay()] + ')' );
+			
+			$('#reportDateHidden').val(clickYear+clickMonth+clickDate);
+			
+				$("#size1").val(info.event.extendedProps.eggXxl);
+				$("#size2").val(info.event.extendedProps.eggXl);
+				$("#size3").val(info.event.extendedProps.eggL);
+				$("#size4").val(info.event.extendedProps.eggM);
+				$("#size5").val(info.event.extendedProps.eggS);
+				$("#size6").val(info.event.extendedProps.eggE);
+			
+			if(info.event.groupId =="packing") {
+				$("#size1Dispose").val(info.event.extendedProps.eggXxlDispose);
+				$("#size2Dispose").val(info.event.extendedProps.eggXlDispose);
+				$("#size3Dispose").val(info.event.extendedProps.eggLDispose);
+				$("#size4Dispose").val(info.event.extendedProps.eggMDispose);
+				$("#size5Dispose").val(info.event.extendedProps.eggSDispose);
+				$("#size6Dispose").val(info.event.extendedProps.eggEDispose);	
+			}
+		},
       	events: function(info, successCallback, failureCallback){
 				    
 				    $.ajax({
 				        type : 'GET',
-						url : '/callHistoryNumberSucceeded',
+						url : '/callEggPackingSucceeded',
 						dataType : 'json',
 						contentType : "application/json",
 				        success: function(data){
 							//console.log(data.HistoryList);
 				            var events = [];
 				            
-				            var history = data.HistoryList.history;
-				            var packaging = data.HistoryList.packaging;
-				            var breeding = data.HistoryList.breeding;
-				            var shipment = data.HistoryList.shipment;
+				            var history = data.eventList.history;
+				            var packaging = data.eventList.packaging;
+				            var breeding = data.eventList.breeding;
+				            var shipment = data.eventList.shipment;
 				            
 				            
 				            if ( history !=null && history.length > 0 ) {
@@ -88,6 +119,15 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 								 		title : history[i].title,
 								 		start : history[i].start.substr(0,4)+'-'+history[i].start.substr(4,2)+'-'+history[i].start.substr(6,2),
 								 		end : history[i].end.substr(0,4)+'-'+history[i].end.substr(4,2)+'-'+history[i].end.substr(6,2),
+								 		groupId : history[i].groupId,
+								 		extendedProps: {
+									        eggXxl	: history[i].eggXxl,
+									        eggXl	: history[i].eggXl,
+									        eggL	: history[i].eggL,
+									        eggM	: history[i].eggM,
+									        eggS	: history[i].eggS,
+									        eggE	: history[i].eggE
+									      },
 								 		description : history[i].description,
 								 		backgroundColor: '#2471A3',
 								 		borderColor: '#2471A3',
@@ -102,6 +142,21 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 								 		title : packaging[i].title,
 								 		start : packaging[i].start.substr(0,4)+'-'+packaging[i].start.substr(4,2)+'-'+packaging[i].start.substr(6,2),
 								 		end : packaging[i].end.substr(0,4)+'-'+packaging[i].end.substr(4,2)+'-'+packaging[i].end.substr(6,2),
+								 		groupId : packaging[i].groupId,
+								 		extendedProps: {
+									        eggXxl			: packaging[i].eggXxl,
+									        eggXl			: packaging[i].eggXl,
+									        eggL			: packaging[i].eggL,
+									        eggM			: packaging[i].eggM,
+									        eggS			: packaging[i].eggS,
+									        eggE			: packaging[i].eggE,
+									        eggXxlDispose	: packaging[i].eggXxlDispose,
+									        eggXlDispose	: packaging[i].eggXlDispose,
+									        eggLDispose		: packaging[i].eggLDispose,
+									        eggMDispose		: packaging[i].eggMDispose,
+									        eggSDispose		: packaging[i].eggSDispose,
+									        eggEDispose		: packaging[i].eggEDispose
+									      },
 								 		description : packaging[i].description,
 								 		backgroundColor: '#24A388',
 								 		borderColor: '#24A388',
@@ -157,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	
 // 페이지 로딩 	
-function searchHistoryNumbers(page){
+function searchEggPacking(page){
 	
 
 	if(page==null || page==''){
@@ -168,7 +223,7 @@ function searchHistoryNumbers(page){
 			
 	$.ajax({
 		type : 'GET',
-		url : '/callHistoryNumber',
+		url : '/callEggPacking',
 		dataType : 'json',
 		contentType : "application/json",
 		data : {
@@ -176,7 +231,7 @@ function searchHistoryNumbers(page){
         },
 		success : function(data) {
 			// 데이터 로딩
-			var dataList = data.totPropertiesList;
+			var dataList = data.eventList;
 			
 			//console.dir(dataList);
 			var html="";
@@ -283,7 +338,7 @@ function searchHistoryNumbers(page){
                 
 			}
 							
-			$("#history-number-body").html(html);
+			$("#egg-packing-body").html(html);
 			
 			// 페이지 로딩
 			
@@ -337,7 +392,7 @@ function searchHistoryNumbers(page){
 		등록 버튼 클릭 
    ======================================================================== */	
 
-function submitHistoryNumber() {
+function submitEggPackng() {
 	var spawningDate = new Date($('#reportDateHidden').val().substr(0,4)+'-'+$('#reportDateHidden').val().substr(4,2)+'-'+$('#reportDateHidden').val().substr(6,2));
 	
 	//console.log(spawningDate);
@@ -374,11 +429,31 @@ function submitHistoryNumber() {
 	let eggSize6 =  $("#size6").val().replace(reg, "")*1;
 	$("#size6Hidden").val(eggSize6);
 	
-	console.log($("#breedingMethod").val());
+	let eggSize1Dispose =  $("#size1Dispose").val().replace(reg, "")*1;
+	$("#size1DisposeHidden").val(eggSize1);
+	
+	let eggSize2Dispose =  $("#size2Dispose").val().replace(reg, "")*1;
+	$("#size2DisposeHidden").val(eggSize2);
+	
+	let eggSize3Dispose =  $("#size3Dispose").val().replace(reg, "")*1;
+	$("#size3DisposeHidden").val(eggSize3);
+	
+	let eggSize4Dispose =  $("#size4Dispose").val().replace(reg, "")*1;
+	$("#size4DisposeHidden").val(eggSize4);
+	
+	let eggSize5Dispose =  $("#size5Dispose").val().replace(reg, "")*1;
+	$("#size5DisposeHidden").val(eggSize5);
+	
+	let eggSize6Dispose =  $("#size6Dispose").val().replace(reg, "")*1;
+	$("#size6DisposeHidden").val(eggSize6);
+	
+	$("#requestDateHidden").val($("#reportDateHidden").val());
+	
+	//console.log($("#breedingMethod").val());
 	$.ajax({
-			 url :"/registerHistoryNumber"
+			 url :"/registerEggPacking"
 			,type:"post"
-			,data:$("#historyNumberForm").serialize()
+			,data:$("#eggPackngForm").serialize()
 			,dataType:"json"
 			,success:function(data){
 				
@@ -425,7 +500,7 @@ function submitHistoryNumber() {
 					
 				}
 
-				searchHistoryNumbers(1);
+				searchEggPacking(1);
 				calendar.refetchEvents();
 				//location.reload();
 				
