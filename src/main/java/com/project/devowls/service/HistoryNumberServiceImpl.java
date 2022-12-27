@@ -50,4 +50,10 @@ public class HistoryNumberServiceImpl implements HistoryNumberService {
 		return hDAO.selectHistoryNumberBySpawningDate(spawningDate);
 	}
 
+	@Override
+	public ArrayList<String> searchHistoryNumberSucceeded() {
+		// TODO Auto-generated method stub
+		return hDAO.selectHistoryNumberSucceeded();
+	}
+
 }

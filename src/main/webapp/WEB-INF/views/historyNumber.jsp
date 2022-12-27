@@ -13,10 +13,9 @@
     <link rel="stylesheet" href="/assets/bundle/bootstrap-5.1.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/bundle/fontawesome/css/fontawesome.css">
     <link rel="stylesheet" href="/assets/bundle/fontawesome/css/solid.css">
-    <link rel="stylesheet" href="/assets/bundle/bootstrap-datepicker/css/bootstrap-datepicker3.standalone.min.css" >
+    <link rel="stylesheet" href="/assets/bundle/jquery.ui.1.13.2/jquery-ui.css" >
     <link rel="stylesheet" href="/assets/bundle/jquery.toast/jquery.toast.min.css">
     <link rel="stylesheet" type="text/css" href="<c:url value="assets/css/custom.css"><c:param name="dt" value="${nowDate}"/></c:url>"/>
-    
 
 </head>
 <body>
@@ -284,8 +283,8 @@
 	<script src="/assets/bundle/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
 	<script src="/assets/bundle/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 	<script src="/assets/bundle/jquery.toast/jquery.toast.min.js"></script>
-	<script src="/assets/bundle/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-	<script src="/assets/bundle/bootstrap-datepicker/locales/bootstrap-datepicker.ko.min.js"></script>
+	<script src="/assets/bundle/jquery.ui.1.13.2/jquery-ui.js"></script>
+<!-- 	<script src="/assets/bundle/bootstrap-datepicker/locales/bootstrap-datepicker.ko.min.js"></script> -->
 	<script src="/assets/js/custom.js"></script>
 	<script src="/assets/js/page/historyNumber.js"></script>
 	

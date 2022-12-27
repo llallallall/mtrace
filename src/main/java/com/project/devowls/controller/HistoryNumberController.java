@@ -36,6 +36,19 @@ public class HistoryNumberController {
 	
 	@Autowired
 	HistoryNumberService hService;
+	
+	@RequestMapping(value="/callHistoryNumberSucceeded", method=RequestMethod.GET, produces = "application/json; charset=utf8")
+	@ResponseBody
+	public HashMap<String, Object> callHistoryNumberSucceeded() {
+		HashMap<String, Object> data = new HashMap<String, Object>();
+		
+		ArrayList<String> voList = hService.searchHistoryNumberSucceeded();
+		
+		
+		data.put("HistoryList", voList);
+
+		return data;
+	}
 
 	@RequestMapping(value="/callHistoryNumber", method=RequestMethod.GET, produces = "application/json; charset=utf8")
 	@ResponseBody
@@ -53,6 +66,8 @@ public class HistoryNumberController {
 
 		return data;
 	}
+	
+	
 	
 	
 	@RequestMapping(value="/registerHistoryNumber", method=RequestMethod.POST, produces = "application/json; charset=utf8")

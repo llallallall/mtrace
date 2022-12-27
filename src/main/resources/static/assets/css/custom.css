@@ -138,37 +138,29 @@ a {
 
 
 /* date picker */
+.ui-datepicker {
+	font-size : 30px;
+	line-height : 2;
+}
+.ui-datepicker, .ui-datepicker-inline,
+.ui-datepicker .ui-datepicker-days,
+.ui-datepicker .table-condensed{
+	width : 100%;
+}		
 
-.vio-highlight {  
-    background-color: #746495 !important;  
-    color: #fff !important;  
-    border-radius:50%;  
-  
-}  
-  
-.vio-highlight:hover {  
-    background-color: #503b7c !important;  
-    font-weight:bold;  
-}  
   
 .orange-highlight {  
-    background-color: #ff894c !important;  
     color: white !important;  
-    border-radius:50%;  
+    
+    background-color: rgba(255, 137, 76, 0.5);
+    background-position: center center;
+	border-radius: 50%;
+	background-repeat: no-repeat; 
 }  
   
 .orange-highlight:hover {  
     background-color: #f1590a !important;  
-    font-weight:bold;  
+    background-color: rgba(241, 89, 10, 0.8)
+    
 }  
   
-.blue-highlight {  
-    background-color: #1b93b6 !important;  
-    color: white !important;  
-    border-radius:50%;  
-}  
-  
-.blue-highlight:hover {  
-    background-color: #0b7695 !important;  
-    font-weight:bold;  
-}  

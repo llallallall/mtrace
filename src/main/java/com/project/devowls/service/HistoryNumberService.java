@@ -2,8 +2,8 @@ package com.project.devowls.service;
 
 import java.util.ArrayList;
 
-import com.project.devowls.vo.PageInfo;
 import com.project.devowls.vo.HistoryNumberVO;
+import com.project.devowls.vo.PageInfo;
 
 public interface HistoryNumberService {
 
@@ -12,5 +12,7 @@ public interface HistoryNumberService {
 	void insertHistoryNumber(HistoryNumberVO historyNumberVO);
 
 	ArrayList<HistoryNumberVO> searchHistoryNumberBySpawningDate(String spawningDate);
+
+	ArrayList<String> searchHistoryNumberSucceeded();
 
 }

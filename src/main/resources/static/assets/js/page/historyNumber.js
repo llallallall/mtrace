@@ -1,27 +1,177 @@
-
-
+/* ========================================================================
+		공통 변수 
+   ======================================================================== */
+var dateList = [];
+let loadedList;
+var loadedEls=[];
 /* ========================================================================
 		초기 로딩
    ======================================================================== */
 $(document).ready(function(){
 
 		searchHistoryNumbers(1);
+		
 
+		// 기존 등록 목록 조회
+
+		$.ajax({
+			type : 'GET',
+			url : '/callHistoryNumberSucceeded',
+			dataType : 'json',
+			contentType : "application/json",
+			success : function(data) {
+					// 데이터 로딩
+					var hnList = data.HistoryList;
+			
+					for(var i=0; i<hnList.length; i++){
+						var list = hnList[i].substr(0,4)+'-'+hnList[i].substr(4,2)+'-'+hnList[i].substr(6,2);
+						dateList.push(list);
+					} //for
+					
+					console.log('makeDateList : ' + dateList);	
+					loadedList = dateList;
+					for(var i=0; i < dateList.length ; i++) {
+					
+					var dt = new Date(dateList[i]);
+					changeNodeList(dt);
+					}
+					
+					
+
+			} // success 
+
+		});	 //ajax''
+		
+		$.datepicker.setDefaults({
+	        dateFormat: 'yy-mm-dd(D)',
+	        prevText: '이전 달',
+	        nextText: '다음 달',
+	        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+	        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+	        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+	        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+	        showMonthAfterYear: true,
+	        yearSuffix: '년'
+	    });
+		
+		// 목록 조회 후 datepicker 로딩 	
 		$('#datepickerReportDate').datepicker({
-				language:'ko',
-				todayHighlight:true
+			
+			todayHighlight:true,
+//			beforeShowDay:changeNodeListAll
+			onSelect:function(dateText, inst) {
+//				console.log(dateText);
+//				console.log(inst);
+				let reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gim;
+			    $('#reportDateHidden').val(
+			        dateText.substr(0,10).replace(reg, "")
+			    );
+			    
+			    $('#reportDate').val(
+			        dateText
+			    );
+				changeNodeListAll();
 			}
-		);
-		$('#datepickerReportDate').on('changeDate', function() {
-			let reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gim;
-		    $('#reportDateHidden').val(
-		        $('#datepickerReportDate').datepicker('getFormattedDate').substr(0,10).replace(reg, "")
-		    );
-		    
-		    $('#reportDate').val(
-		        $('#datepickerReportDate').datepicker('getFormattedDate')
-		    );
 		});
+	
+		// 기존 등록 목록 색상 등록
+		function changeNodeList(in_date) {
+			if ( in_date ) {
+				var in_year = in_date.getFullYear();
+				var in_mth = in_date.getMonth();
+				var in_day = in_date.getDate();
+				var elY = Array.from(document.querySelectorAll('[data-year="'+in_year+'"]'));
+
+				for(var i=0; i < elY.length ;i++) {
+					if(elY[i].dataset.month == in_mth) {
+						if (elY[i].childNodes[0].dataset.date == in_day) {
+							loadedEls.push(elY[i].childNodes[0].parentElement);
+							//console.log(loadedEls)
+							elY[i].childNodes[0].classList.remove("orange-highlight");
+							elY[i].childNodes[0].classList.add("orange-highlight");
+						}
+					}
+				}
+
+			} 
+		}	
+		
+		// 기존 등록 목록 색상 등록
+		function changeNodeListAll() {
+			
+			//console.log("changeNodeListAll " + loadedEls);
+			//console.dir(loadedEls);
+			for(var i=0; i < loadedEls.length; i++) {
+				//console.log(loadedEls[i].querySelector('a'))
+				var el = loadedEls[i].querySelector('a')
+				el.classList.remove('ui-state-default');
+				
+				setTimeout(function( ) { 
+					console.log(el);
+					el.classList.add('orange-highlight');
+				} , 1000);
+				
+				
+				//ui-state-default ui-state-highlight ui-state-active orange-highlight ui-state-hover
+				//ui-state-default orange-highlight
+				//ui-state-default ui-state-highlight ui-state-hover
+				//ui-state-default ui-state-hover
+			}
+//			if ( in_date ) {
+//				var in_year = in_date.getFullYear();
+//				var in_mth = in_date.getMonth();
+//				var in_day = in_date.getDate();
+//				var elY = Array.from(document.querySelectorAll('[data-year="'+in_year+'"]'));
+//
+//				for(var i=0; i < elY.length ;i++) {
+//					if(elY[i].dataset.month == in_mth) {
+//						if (elY[i].childNodes[0].dataset.date == in_day) {
+//							loadedEls.push(elY[i].childNodes[0]);
+//							elY[i].childNodes[0].classList.add("orange-highlight");
+//						}
+//					}
+//				}
+//
+//			} 
+		}	
+		
+
+		
+				
+		// 기존 등록 목록 비활성화
+		function chkDateList(this_date) {
+			this_date = this_date.getFullYear()+ '-'
+                + (this_date.getMonth() + 1) + '-' + this_date.getDate() ;
+            
+            if(loadedList) {
+	            console.log(loadedList);
+				for(var i=0; i < loadedList.length; i++) {
+					var num_dt = new Date(dateList[i]);
+					console.log(num_dt*1);
+					//1672012800000  26
+					//1672099200000  27
+					var el = document.querySelector('[data-date="'+num_dt*1+'"]');
+					console.log(el);
+					el.classList.add("orange-highlight");
+					el.style.background = 'rgba(255, 137, 76, 0.5)';
+				}   
+            };
+                   
+			if( dateList.indexOf(this_date) > -1 )	 {
+				return [false, "notav", 'Not Available'];
+			} else {
+				return [true, "av", "available"];
+			};
+
+		    
+		} // function
+
+		
+//		$('#datepickerReportDate').on('changeDate', function() {
+//			
+//		    
+//		});
 		
 		
 		let today = new Date();   
@@ -34,66 +184,9 @@ $(document).ready(function(){
 		
 		$("#datepickerReportDate").datepicker("setDate", today);
 		$('#reportDate').val(year+ '-' + month + '-' + date + '(' + week[today.getDay()] + ')' );
-		
-		$('#datepickerReportDate').css('font-size', '40px');
-		
-		var dateList = ['2022-12-19', 
-			'2022-12-20',
-			'2022-12-21', 
-			'2022-12-22', 
-			'2022-12-23', '2022-12-24'];
-		
-		function available(date, current) {  
-		  dmy = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();  
-		  if ($.inArray(dmy, dateList) > -1) {  
-		    return [true, "vio-highlight","예약가능"];  
-		  } 
-		  else {  
-		    return [false,"","unAvailable"];  
-		  }  
-		}  	
-		
-		$('#datepickerReportDate').datepicker({ beforeShowDay: available,  
-                        onSelect: function(dateText, inst) {  
-		        window.location = 'http://www.amerigotour.com/goods_airtel.calendar.asp?g_cd=' + dateText;  
-		    }  
-		 });  
-		  
-			
-//		$('#datepickerReportDate').datepicker().on("show", function(e) {
-//			const fixDate = new Date("2022", "12", "22"), fixDateData = '1671667200000', fixMarchLastDay = '31', fixDayData = '86400000';
-//			var split, date, dayGap, result, temp;
-//		
-//			for(var index = 0; index < dateList.length; index++){
-//			    split = dateList[index].split("-");
-//			    date = new Date(split[0], split[1], split[2]);
-//			    dayGap = fixDayData * (parseInt(fixMarchLastDay) - lastDay(split[0], split[1]));
-//		
-//			    result = date - fixDate + dayGap;
-//					
-//			    temp = parseInt(fixDateData) + parseInt(result);
-//					
-//			    $(".day[data-date='" + temp + "']").addClass("active");
-//			}
-//    });
 
 });
 
-
-//월별 마지막 일자
-function lastDay(year, month){
-	var m = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-	m[1] = isLeapYear(year) ? 29 : 28;
-	
-	return m[parseInt(month) - 1];	
-}
-
-//윤년 여부
-function isLeapYear(year){
-	var boolean;
-	boolean = year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
-	return boolean;
-}
 
 /* ========================================================================
 		리스트 로딩 함수 

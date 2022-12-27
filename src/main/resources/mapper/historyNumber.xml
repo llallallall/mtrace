@@ -11,6 +11,14 @@
 			mtrace.history_number
 	</select>
 	
+	<select id="selectHistoryNumberSucceeded" resultType="String">
+					SELECT 
+						spawning_date
+					FROM 
+						mtrace.history_number
+					WHERE
+						result_code = "INFO-0000"
+	</select>
 
 	<select id="selecthHistoryNumber" parameterType="hashmap" resultType="HistoryNumberVO">
 		SELECT a.*
