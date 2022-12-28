@@ -17,8 +17,8 @@ $(document).ready(function(){
 		var initDateStr = initDateYear+ '-' + initDateMonth + '-' + initDateDate;
 		var week = new Array('일', '월', '화', '수', '목', '금', '토');
 		$('#reportDate').val(initDateStr+ '(' + week[initDate.getDay()] + ')' );
-		$('#requestDateHidden').val( initDateYear + String(initDateMonth+'').padStart(2, "0") + String(initDateDate+'').padStart(2, "0") );
-
+		
+		
 				
 });
 
@@ -50,9 +50,9 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 			
 			var selDateStr = selyear+ '-' + selmonth + '-' + seldate;
 			var week = new Array('일', '월', '화', '수', '목', '금', '토');
-			$('#requestDate').val(selDateStr+ '(' + week[obj.start.getDay()] + ')' );
+			$('#reportDate').val(selDateStr+ '(' + week[obj.start.getDay()] + ')' );
 			
-//			$('#reportDateHidden').val(selyear+selmonth+seldate);
+			$('#reportDateHidden').val(selyear+selmonth+seldate);
 			
 			//입력정보 초기화 
 			resetEggCount();
@@ -93,7 +93,7 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 			var week = new Array('일', '월', '화', '수', '목', '금', '토');
 			$('#reportDate').val(clickDateStr+ '(' + week[clickStart.getDay()] + ')' );
 			
-//			$('#reportDateHidden').val(clickYear+clickMonth+clickDate);
+			$('#reportDateHidden').val(clickYear+clickMonth+clickDate);
 			
 			$("#eggHistNoHidden").val(info.event.extendedProps.eggHistNo);
 			
@@ -408,10 +408,8 @@ function searchEggPacking(page){
 					html+='<td class="text-success">'+ list.resultMsg +'</td>';
 					
 					html+='<td class="text-success">'+ list.eggHistNo +'</td>';
-					html+='<td class="text-success">'+ list.issueDate +'</td>';
-					
 					html+='<td class="text-success">'+ list.requestDate +'</td>';
-					
+					html+='<td class="text-success">'+ list.spawningDate +'</td>';
 					
 					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggXxl) +'</td>';
 					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggXl) +'</td>';
@@ -440,10 +438,8 @@ function searchEggPacking(page){
 					html+='<td class="text-danger">'+ list.resultMsg +'</td>';
 					
 					html+='<td class="text-danger">'+ list.eggHistNo +'</td>';
-					html+='<td class="text-danger">'+ list.issueDate +'</td>';
-					
 					html+='<td class="text-danger">'+ list.requestDate +'</td>';
-					
+					html+='<td class="text-danger">'+ list.spawningDate +'</td>';
 
 					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggXxl) +'</td>';
 					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggXl) +'</td>';
@@ -472,9 +468,8 @@ function searchEggPacking(page){
 					html+='<td class="">'+ list.resultMsg +'</td>';
 					
 					html+='<td class="">'+ list.eggHistNo +'</td>';
-					html+='<td class="">'+ list.issueDate +'</td>';
 					html+='<td class="">'+ list.requestDate +'</td>';
-					
+					html+='<td class="">'+ list.spawningDate +'</td>';
 
 					html+='<td class="" style="text-align: right;">'+ numberWithCommas(list.eggXxl) +'</td>';
 					html+='<td class="" style="text-align: right;">'+ numberWithCommas(list.eggXl) +'</td>';
@@ -563,22 +558,22 @@ function submitEggPackng() {
 		return false;
 	}
 	
-//	var reportDate = new Date($('#reportDateHidden').val().substr(0,4)+'-'+$('#reportDateHidden').val().substr(4,2)+'-'+$('#reportDateHidden').val().substr(6,2));
-//	
-//	//console.log(spawningDate);
-//	
-//	let now = new Date();   
-//	let year = now.getFullYear(); // 년도
-//	let month = now.getMonth() + 1;  // 월
-//	let date = now.getDate();  // 날짜
-//	var today = new Date(year+'-'+month+'-'+date);
-//	//console.log(today);
-//	
-//	// 입력기간 검증
-//	if( reportDate > today) {
-//		alert("신고일자는 현재일자와 같거나 이전이어야 합니다.")
-//		return false;
-//	}
+	var reportDate = new Date($('#reportDateHidden').val().substr(0,4)+'-'+$('#reportDateHidden').val().substr(4,2)+'-'+$('#reportDateHidden').val().substr(6,2));
+	
+	//console.log(spawningDate);
+	
+	let now = new Date();   
+	let year = now.getFullYear(); // 년도
+	let month = now.getMonth() + 1;  // 월
+	let date = now.getDate();  // 날짜
+	var today = new Date(year+'-'+month+'-'+date);
+	//console.log(today);
+	
+	// 입력기간 검증
+	if( reportDate > today) {
+		alert("신고일자는 현재일자와 같거나 이전이어야 합니다.")
+		return false;
+	}
 			
 	let reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gim;
 	
@@ -650,10 +645,10 @@ function submitEggPackng() {
 	let totalDispose=eggSize1Dispose+eggSize2Dispose+eggSize3Dispose+eggSize4Dispose+eggSize5Dispose+eggSize6Dispose;
 	$("#totalDisposeHidden").val(totalDispose);
 	
-//	console.log($("#reportDateHidden").val());
+	console.log($("#reportDateHidden").val());
 	
-//	$("#spawningDateHidden").val($("#reportDateHidden").val());
-//	$("#requestDateHidden").val($("#reportDateHidden").val());
+	$("#spawningDateHidden").val($("#reportDateHidden").val());
+	$("#requestDateHidden").val($("#reportDateHidden").val());
 	
 	
 	

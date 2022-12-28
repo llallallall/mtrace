@@ -13,10 +13,14 @@ public class EggPackingVO {
 	
 	private String 	eggHistNo; 
 	private String 	requestDate; 
-	private String 	reportDate; 
+	private String 	issueDate;   	//이력번호 발급일자
 	
 	private String 	businessNo; 
 	private String 	licenseNo; 
+	
+	private String 	clientBusinessNo; 
+	private String 	clientLicenseNo; 
+	
 	private String 	farmIdNo; 
 	private String 	eggUsage; 
 	private String 	spawningDate; 

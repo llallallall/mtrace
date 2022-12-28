@@ -39,17 +39,24 @@
 				          		<div class="col-sm-6">
 				          		
 				          			<div class="row reportDate" >
-							              <label for="reportDate" class="form-label">의뢰일자</label>
-							              <input type="text" class="form-control text-center" id="reportDate" >
-					              	
-							                    
+				          				<div class="col-6">
+				          					<label for="reportDate" class="form-label">이력번호 발급일자</label>
+							              	<input type="text" class="form-control text-center" id="reportDate" >
+				          				</div>
+				          				
+				          				<div class="col-6">
+				          					<label for="eggHistNo" class="form-label">이력번호</label>
+							              	<input type="text" class="form-control text-center" id="eggHistNoHidden" name="eggHistNo">
+				          				</div> 
 						            </div>
 						            <div class="row" >
 						            	<div id='calendar'></div>
-						            	<input type="hidden" id="spawningDateHidden" name="spawningDate">
-						            	<input type="hidden" id="reportDateHidden" name="reportDate">
-						            	<input type="hidden" id="requestDateHidden" name="requestDate">
-						            	<input type="hidden" id="eggHistNoHidden" name="eggHistNo">
+<!-- 						            	<input type="hidden" id="spawningDateHidden" name="spawningDate"> -->
+<!-- 						            	<input type="hidden" id="reportDateHidden" name="reportDate"> -->
+						            	<input type="hidden" id="requestDateHidden" name="requestDate">  <!-- 오늘 날짜 -->
+<!-- 						            	<input type="hidden" id="clientBusinessNoHidden" name="clientBusinessNo" value="8609200580">	의뢰인 사업자 번호 : 해오름농장 -->
+<!-- 						            	<input type="hidden" id="clientLicenseNoHidden" name="clientLicenseNo" value="00000202239"> 의뢰인 허가번호 : 해오름농장 -->
+						            	
 						            </div>
 										
 				          		
@@ -214,9 +221,11 @@
 			                                        
 			                                        <th rowspan="2">이력번호</th>
 			                                        
+			                                        <th rowspan="2">발급일자</th>
+			                                        
 			                                        <th rowspan="2">의뢰일자</th>
 			                                        
-			                                        <th rowspan="2">신고일자</th>
+			                                       
 			                                        
 <!-- 			                                        <th rowspan="2">사업자등록번호</th> -->
 <!-- 			                                        <th rowspan="2">인허가번호</th> -->

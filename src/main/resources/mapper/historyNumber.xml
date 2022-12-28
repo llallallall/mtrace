@@ -19,6 +19,8 @@
 						egg_hist_no, 
 						business_no, 
 						license_no, 
+						client_business_no, 
+						client_license_no, 
 						farm_id_no, 
 						egg_usage, 
 						spawning_date, 
@@ -29,7 +31,9 @@
 						egg_m, 
 						egg_s, 
 						egg_e, 
-						washing_method
+						washing_method,
+						report_date,
+						farm_uniq_no
 					FROM 
 						mtrace.history_number
 					WHERE
@@ -50,6 +54,8 @@
 						egg_hist_no, 
 						business_no, 
 						license_no, 
+						client_business_no, 
+						client_license_no, 
 						farm_id_no, 
 						egg_usage, 
 						spawning_date, 
@@ -60,7 +66,9 @@
 						egg_m, 
 						egg_s, 
 						egg_e, 
-						washing_method
+						washing_method,
+						report_date,
+						farm_uniq_no
 					FROM 
 						mtrace.history_number
 					) a
@@ -78,6 +86,8 @@
 				egg_hist_no, 
 				business_no, 
 				license_no, 
+				client_business_no, 
+				client_license_no, 
 				farm_id_no, 
 				egg_usage, 
 				spawning_date, 
@@ -88,7 +98,9 @@
 				egg_m, 
 				egg_s, 
 				egg_e, 
-				washing_method
+				washing_method,
+				report_date,
+				farm_uniq_no
 			FROM 
 				mtrace.history_number
 			WHERE 
@@ -103,9 +115,15 @@
 				report_time, 
 				result_code, 
 				result_msg, 
+				
 				egg_hist_no, 
+				
 				business_no, 
 				license_no, 
+				
+				client_business_no, 
+				client_license_no, 
+				
 				farm_id_no, 
 				egg_usage, 
 				spawning_date, 
@@ -116,16 +134,24 @@
 				egg_m, 
 				egg_s, 
 				egg_e, 
-				washing_method
+				washing_method,
+				report_date,
+				farm_uniq_no
 			)
 		VALUES
 			(
 				CURRENT_TIMESTAMP(), 
 				#{resultCode}, 
 				#{resultMsg}, 
+				
 				#{eggHistNo}, 
+				
 				#{businessNo}, 
 				#{licenseNo},
+				
+				#{clientBusinessNo}, 
+				#{clientLicenseNo},
+				
 				#{farmIdNo}, 
 				#{eggUsage}, 
 				#{spawningDate}, 
@@ -136,7 +162,9 @@
 				#{eggM}, 
 				#{eggS}, 
 				#{eggE}, 
-				#{washingMethod}
+				#{washingMethod},
+				#{reportDate},
+				#{farmUniqNo}
 			)
 	</insert>
 

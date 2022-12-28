@@ -60,6 +60,26 @@
 								</li>
 							</ul>
 						</li>
+						
+						<li class="nav-item">
+							<a href="#" class="nav-link text-white p-3 mb-1 mt-4" >
+								<i class="fa-solid fa-user-tie text-white fa-lg me-3"></i>거래처 
+							</a>
+							<ul class="navbar-nav flex-column mt-0 ms-3">
+								<li class="nav-item">
+									<a href="/accountAdd" class="nav-link text-white p-3 mb-2 sidebar-link" data-value="거래처 추가">
+										<i class="fa-solid fa-angle-right text-white fa-sm me-3"></i>거래처 추가
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="/accountMgmt" class="nav-link text-white p-3 mb-2 sidebar-link" data-value="거래처 관리">
+										<i class="fa-solid fa-angle-right text-white fa-sm me-3"></i>거래처 관리
+									</a>
+								</li>
+							</ul>
+						</li>
+						
+	
 					
 					</ul>
 				</div>

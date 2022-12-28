@@ -1,0 +1,84 @@
+/* ========================================================================
+		공통 변수 
+   ======================================================================== */
+
+/* ========================================================================
+		초기 로딩
+   ======================================================================== */
+$(document).ready(function(){
+
+				
+});
+
+function submitAdd(){
+	
+
+	//input 입력값 검증
+	let valList = {"input" : 
+					  {"accountNm" : "거래처명을", "businessNo" : "사업자등록번호를", 
+					   "licenseNo" : "인허가번호를", "ceoNm":"대표자명을", 
+					   "address" : "주소를", "addrDetail" : "상세주소를" , 
+					   "postCd" : "우편번호를"},
+				   "radio" : 
+				   	  {"accountType" : "거래처 유형을"}
+				   }
+					
+	
+	
+	let inputs = valList["input"];
+	let inputIds = Object.keys(inputs)
+	
+	let radios = valList["radio"];
+	let radioIds = Object.keys(radios)
+	
+	
+	// input 값 체크
+	for (var i = 0; i < inputIds.length; i++) {	
+    	let itemVal = $('#'+inputIds[i]).val();
+
+    	if(itemVal == null || itemVal.length < 1) {
+			let id = inputIds[i]
+			let nm = inputs[id]
+			
+			$("#toastBody").html(""+nm+" <br>입력해주세요.");
+			
+			$("#validToast").show();
+ 			setTimeout(() => 
+ 				$("#validToast").fadeOut(2000, function() {
+				  	$("#validToast").hide()
+				})
+ 			, 1000);
+ 			
+			$('#'+id).focus();
+			
+			return false;
+		}
+	}
+	
+	// 라디오 체크
+	
+	for (var i = 0; i < radioIds.length; i++) {	
+		let id = radioIds[i]
+		let nm = radios[id]
+		
+		if( !$('input:radio[name='+id+']').is(':checked')) {
+			
+			$("#toastBody").html(""+nm+" <br>선택해주세요.");
+			
+			$("#validToast").show();
+ 			setTimeout(() => 
+ 				$("#validToast").fadeOut(2000, function() {
+				  	$("#validToast").hide()
+				})
+ 			, 1000);
+ 			
+			//$(id)[0].focus();
+			document.getElementsByName(id)[0].focus(); 
+			
+			return false;
+		}
+	}
+//	});
+
+
+}

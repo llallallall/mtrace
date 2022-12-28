@@ -11,8 +11,8 @@ $(document).ready(function(){
 		
 		let initDate = new Date();   
 		let initDateYear = initDate.getFullYear(); // 년도
-		let initDateMonth = initDate.getMonth() + 1;  // 월
-		let initDateDate = initDate.getDate();  // 날짜
+		let initDateMonth = String((initDate.getMonth() + 1)+'').padStart(2, "0");  // 월
+		let initDateDate = String((initDate.getDate()+'').padStart(2, "0"));  // 날짜
 		
 		var initDateStr = initDateYear+ '-' + initDateMonth + '-' + initDateDate;
 		var week = new Array('일', '월', '화', '수', '목', '금', '토');
@@ -45,9 +45,9 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 			
 			var selDateStr = selyear+ '-' + selmonth + '-' + seldate;
 			var week = new Array('일', '월', '화', '수', '목', '금', '토');
-			$('#reportDate').val(selDateStr+ '(' + week[obj.start.getDay()] + ')' );
+			$('#spawningDate').val(selDateStr+ '(' + week[obj.start.getDay()] + ')' );
 			
-			$('#reportDateHidden').val(selyear+selmonth+seldate);
+			$('#spawningDateHidden').val(selyear+selmonth+seldate);
 		},
       	expandRows: true,
       	headerToolbar: {
@@ -349,6 +349,8 @@ function submitHistoryNumber() {
 	var today = new Date(year+'-'+month+'-'+date);
 	//console.log(today);
 	
+	
+	
 	if( spawningDate > today) {
 		alert("산란일자는 현재일자와 같거나 이전이어야 합니다.")
 		return false;
@@ -375,7 +377,13 @@ function submitHistoryNumber() {
 	$("#size6Hidden").val(eggSize6);
 	
 	
-	$("#spawningDateHidden").val($("#reportDateHidden").val());
+	let reportDate = new Date();   
+	let reportDateYear = reportDate.getFullYear(); // 년도
+	let reportDateMonth = String((reportDate.getMonth() + 1)+'').padStart(2, "0");  // 월
+	let reportDateDate = String((reportDate.getDate()+'').padStart(2, "0"));  // 날짜
+	
+	
+	$("#reportDateHidden").val(reportDateYear+reportDateMonth+reportDateDate);
 	
 	console.log($("#breedingMethod").val());
 	$.ajax({
@@ -426,6 +434,7 @@ function submitHistoryNumber() {
 					  position : 'top-center'       // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values to position the toast on page
 					})
 					
+					console.log(data.resultStr);
 				}
 
 				searchHistoryNumbers(1);
@@ -434,7 +443,7 @@ function submitHistoryNumber() {
 				
 			}
 		    ,error: function(response){
-
+				console.dir(response)
 		    	alert("에러발생 : " + response.responseText);
 		    }
 		});

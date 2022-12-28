@@ -152,16 +152,23 @@ public class HistoryNumberController {
 		String postUrl = "http://api.mtrace.go.kr/rest/dfts/trace/transParam";
 		String eggHistNoParam ="";
 		
+		System.out.println(historyNumberVO.getBusinessNo());
+		System.out.println(historyNumberVO.getLicenseNo());
+		
+		System.out.println(historyNumberVO.getClientBusinessNo());
+		System.out.println(historyNumberVO.getClientLicenseNo());
+		
 		//이력번호 (산란일자(4)+농장고유번호(5)+사육방식(1))
 		String histNo = historyNumberVO.getSpawningDate().substring(4,8) + historyNumberVO.getFarmUniqNo() + historyNumberVO.getBreedingMethod();
 				
 		eggHistNoParam= histNo+"|"								// 1.이력번호
 		         		+historyNumberVO.getBusinessNo()+"|"    // 2.신고인 사업자등록번호
          				+historyNumberVO.getLicenseNo()+"|"		// 3.신고인 인허가번호 
-         				+historyNumberVO.getReportDate()+"|"	// 4.발급일자
-         				+historyNumberVO.getBusinessNo()+"|"    // 5.의뢰인 사업자등록번호
          				
-         				+historyNumberVO.getLicenseNo()+"|"		// 6.의뢰인 인허가번호 
+         				+historyNumberVO.getReportDate()+"|"	// 4.발급일자
+         				
+         				+historyNumberVO.getClientBusinessNo()+"|"    // 5.의뢰인 사업자등록번호
+         				+historyNumberVO.getClientLicenseNo()+"|"		// 6.의뢰인 인허가번호 
          				+""+"|"	// 7.의뢰처 업체명 
          				+""+"|"	// 8.의뢰처 대표자명 
          				+""+"|"	// 9.의뢰처 휴대폰번호
@@ -201,18 +208,7 @@ public class HistoryNumberController {
 						+""+"|"		// 39.등급
 						+historyNumberVO.getWashingMethod();	// 40.세척방법코드
 						
-		// OPEN API 호출 URL 정보 설정
-		/*
-		 {
-				"userId": "openapitest",
-				"apiKey": "openApiTestApiKey",
-				"serviceKey": "addLot",
-				"item": [{"transParam":"T1|1278523023|20040310305|L21811283336992|20190618|100.25|120”}]
-		 }
-
-		 * 
-		 [{"transParam":"1029123411|8888888816|8888888816|20211102|8888888815|8888888815|대한유통|대한유통|01022222222|01022222222|세종시 가름로 232|Y|Y|Y|Y|Y|405422|12341|세종산란농장|장두|N|Y|Y|Y|Y|Y|314001|20211029|20|315001|기타|20211205|3|4|5|6|7|8|313001|238001"}]
-		 * */
+		System.out.println(eggHistNoParam);
 		JSONObject postParams = new JSONObject();
 
 		postParams.put("userId", userId);

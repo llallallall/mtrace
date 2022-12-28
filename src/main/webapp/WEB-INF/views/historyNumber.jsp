@@ -47,12 +47,22 @@
 				          </li>
 				          <li class="list-group-item d-flex justify-content-between bg-light">
 				            <div>
-				              <h6 class="my-0">사업자등록번호</h6>
-				              <small class="text-muted">영업허가번호</small>
+				              <h6 class="my-0">신고인 사업자등록번호</h6>
+				              <small class="text-muted">신고인 영업허가번호</small>
 				            </div>
 				            <span class="text-success text-end">
 				            	<input type="text" class="border-0 text-end bg-light text-success inputNormalText" name="businessNo" value="8609200580"><br>
 				            	<input type="text" class="border-0 text-end bg-light inputSmallText" name="licenseNo" value="00000202239" >
+				            </span>
+				          </li>
+				          <li class="list-group-item d-flex justify-content-between bg-light">
+				            <div>
+				              <h6 class="my-0">의뢰인 사업자등록번호</h6>
+				              <small class="text-muted">의뢰인 영업허가번호</small>
+				            </div>
+				            <span class="text-success text-end">
+				            	<input type="text" class="border-0 text-end bg-light text-success inputNormalText" name="clientBusinessNo" value="8609200580"><br>
+				            	<input type="text" class="border-0 text-end bg-light inputSmallText" name="clientLicenseNo" value="20200401604" >
 				            </span>
 				          </li>
 				          <li class="list-group-item d-flex justify-content-between lh-sm">
@@ -139,7 +149,7 @@
 				          		
 				          			<div class="row reportDate" >
 							              <label for="reportDate" class="form-label">산란일자</label>
-							              <input type="text" class="form-control text-center" id="reportDate" >
+							              <input type="text" class="form-control text-center" id="spawningDate" >
 					              	
 							                    
 						            </div>

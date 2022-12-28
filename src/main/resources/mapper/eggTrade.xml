@@ -2,16 +2,16 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.project.devowls.dao.EggPackingDAO">
+<mapper namespace="com.project.devowls.dao.EggTradeDAO">
 
-	<select id="selectEggPackingCnt" resultType="int">
+	<select id="selectEggTradeCnt" resultType="int">
 		SELECT 
 			count(report_time)
 		FROM 
-			mtrace.egg_packng
+			mtrace.egg_trade
 	</select>
 	
-	<select id="selectEggPackingSucceeded" resultType="EggPackingVO">
+	<select id="selectEggTradeSucceeded" resultType="EggTradeVO">
 		SELECT 
 			report_time, 
 			result_code, 
@@ -21,11 +21,8 @@
 			license_no, 
 			egg_hist_no, 
 			
-			client_business_no, 
-			client_license_no, 
-			
 			request_date, 
-			issue_date,
+			report_date,
 			
 			farm_id_no, 
 			egg_usage, 
@@ -59,14 +56,14 @@
 			total_dispose
 			
 		FROM 
-			mtrace.egg_packng
+			mtrace.egg_trade
 		WHERE
 			result_code = "INFO-0000"
 	</select>
 	
 	
 	
-	<select id="selectEggPackingByHistNo" parameterType="String" resultType="HistoryNumberVO">
+	<select id="selectEggTradeByHistNo" parameterType="String" resultType="HistoryNumberVO">
 		SELECT 
 			report_time, 
 			result_code, 
@@ -74,8 +71,6 @@
 			egg_hist_no, 
 			business_no, 
 			license_no, 
-			client_business_no, 
-			client_license_no, 
 			farm_id_no, 
 			egg_usage, 
 			spawning_date, 
@@ -94,11 +89,9 @@
 			mtrace.history_number
 		WHERE
 		    egg_hist_no =  #{eggHistNo} 
-		 AND 
-		 	result_code = "INFO-0000"
 	</select>
 
-	<select id="selectEggPacking" parameterType="hashmap" resultType="EggPackingVO">
+	<select id="selectEggTrade" parameterType="hashmap" resultType="EggTradeVO">
 		SELECT b.*
 			FROM (
 				SELECT *
@@ -114,11 +107,8 @@
 						license_no, 
 						egg_hist_no, 
 						
-						client_business_no, 
-						client_license_no, 
-						
 						request_date, 
-						issue_date,
+						report_date,
 						
 						farm_id_no, 
 						egg_usage, 
@@ -151,7 +141,7 @@
 						total_dealt, 
 						total_dispose
 					FROM 
-						mtrace.egg_packng
+						mtrace.egg_trade
 					) a
 				order by a.num asc 
 			) b
@@ -159,7 +149,7 @@
 	</select>
 	
 	
-	<select id="selectEggPackingBySpawningDate" parameterType="String" resultType="EggPackingVO">
+	<select id="selectEggTradeBySpawningDate" parameterType="String" resultType="EggTradeVO">
 			SELECT 
 				report_time, 
 				result_code, 
@@ -169,11 +159,8 @@
 				license_no, 
 				egg_hist_no, 
 				
-				client_business_no, 
-				client_license_no, 
-				
 				request_date, 
-				issue_date,
+				report_date,
 				
 				farm_id_no, 
 				egg_usage, 
@@ -206,16 +193,15 @@
 				total_dealt, 
 				total_dispose
 			FROM 
-				mtrace.egg_packng
+				mtrace.egg_trade
 			WHERE 
 				spawning_date = #{spawningDate}
-				
 	</select>
 	
-	<insert id="insertEggPacking" parameterType="EggPackingVO">
+	<insert id="insertEggTrade" parameterType="EggTradeVO">
 	
 		INSERT INTO 
-			mtrace.egg_packng
+			mtrace.egg_trade
 			(
 				report_time, 
 				result_code, 
@@ -225,11 +211,8 @@
 				license_no, 
 				egg_hist_no, 
 				
-				client_business_no, 
-				client_license_no, 
-				
 				request_date, 
-				issue_date,
+				report_date,
 				
 				farm_id_no, 
 				egg_usage, 
@@ -272,11 +255,8 @@
 				#{licenseNo},
 				#{eggHistNo}, 
 				
-				#{clientBusinessNo}, 
-				#{clientLicenseNo},
-				
 				#{requestDate},
-				#{issueDate},
+				#{reportDate},
 				
 				#{farmIdNo}, 
 				#{eggUsage}, 

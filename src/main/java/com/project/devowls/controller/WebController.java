@@ -31,6 +31,17 @@ public class WebController {
 		return "shipmentReport";
 	}
 	
+	@GetMapping("/accountAdd")
+	public String accountAdd() {
+		return "accountAdd";
+	}
+	
+	@GetMapping("/accountMgmt")
+	public String accountMgmt() {
+		return "accountMgmt";
+	}
+	
+	
 	
 
 }
