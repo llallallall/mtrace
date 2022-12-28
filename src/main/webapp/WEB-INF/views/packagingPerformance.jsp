@@ -36,7 +36,7 @@
 				        
 				          <div class="row g-3">
 				          		<!-- 좌측 -->
-				          		<div class="col-sm-8">
+				          		<div class="col-sm-6">
 				          		
 				          			<div class="row reportDate" >
 							              <label for="reportDate" class="form-label">의뢰일자</label>
@@ -46,8 +46,10 @@
 						            </div>
 						            <div class="row" >
 						            	<div id='calendar'></div>
-						            	<input type="hidden" id="reportDateHidden" name="spawningDate">
+						            	<input type="hidden" id="spawningDateHidden" name="spawningDate">
+						            	<input type="hidden" id="reportDateHidden" name="reportDate">
 						            	<input type="hidden" id="requestDateHidden" name="requestDate">
+						            	<input type="hidden" id="eggHistNoHidden" name="eggHistNo">
 						            </div>
 										
 				          		
@@ -57,85 +59,126 @@
 				          		<div class="col-sm-2">
 				          			<div class="row ">
 						          		<div class="col-sm-12 eggSize">
-							              <label for="size1" class="form-label">왕란</label>
-							              <input type="text" class="form-control text-end border-success" id="size1" placeholder="0" value="0" onKeyup="inputNumberFormat(this)"  >
+							              <label for="size1" class="form-label">왕란 - 입고</label>
+							              <input type="text" class="form-control text-end " id="size1" placeholder="0" value="" disabled >
 							              <input type="hidden" id="size1Hidden" name="eggXxl">
 							            </div>
 							            
 							            <div class="col-sm-12 eggSize">
-							              <label for="size2" class="form-label">특란</label>
-							              <input type="text" class="form-control text-end border-success" id="size2" placeholder="0" value="0" onKeyup="inputNumberFormat(this)"  >
+							              <label for="size2" class="form-label">특란 - 입고</label>
+							              <input type="text" class="form-control text-end " id="size2" placeholder="0" value="" disabled>
 							              <input type="hidden" id="size2Hidden" name="eggXl">
 							            </div>
 							            
 							            <div class="col-sm-12 eggSize">
-							              <label for="size3" class="form-label">대란</label>
-							              <input type="text" class="form-control text-end border-success" id="size3" placeholder="2,200" value="2,200" onKeyup="inputNumberFormat(this)"  >
+							              <label for="size3" class="form-label">대란 - 입고</label>
+							              <input type="text" class="form-control text-end " id="size3" placeholder="0" value="" disabled >
 							              <input type="hidden" id="size3Hidden" name="eggL">
 							            </div>
 							            
 							            <div class="col-sm-12 eggSize">
-							              <label for="size4" class="form-label">중란</label>
-							              <input type="text" class="form-control text-end border-success" id="size4" placeholder="0" value="0" onKeyup="inputNumberFormat(this)"  >
+							              <label for="size4" class="form-label">중란 - 입고</label>
+							              <input type="text" class="form-control text-end " id="size4" placeholder="0" value="" disabled >
 							              <input type="hidden" id="size4Hidden" name="eggM">
 							            </div>
 							            
 							            <div class="col-sm-12 eggSize">
-							              <label for="size5" class="form-label">소란</label>
-							              <input type="text" class="form-control text-end border-success" id="size5" placeholder="0" value="0" onKeyup="inputNumberFormat(this)"  >
+							              <label for="size5" class="form-label">소란 - 입고</label>
+							              <input type="text" class="form-control text-end " id="size5" placeholder="0" value="" disabled>
 							              <input type="hidden" id="size5Hidden" name="eggS">
 							            </div>
 							            
 							            <div class="col-sm-12 eggSize">
-							              <label for="size6" class="form-label">기타</label>
-							              <input type="text" class="form-control text-end border-success" id="size6" placeholder="0" value="0" onKeyup="inputNumberFormat(this)"  >
+							              <label for="size6" class="form-label">기타 - 입고</label>
+							              <input type="text" class="form-control text-end " id="size6" placeholder="0" value="" disabled>
 							              <input type="hidden" id="size6Hidden" name="eggE">
 							            </div>
 				          			</div>
 				          		</div>
+					            <input type="hidden" id="totalEggHidden" name="totalEgg">
 					            
+					            <div class="col-sm-2">
+				          			<div class="row ">
+						          		<div class="col-sm-12 eggSize">
+							              <label for="size1" class="form-label">왕란 - 처리</label>
+							              <input type="text" class="form-control text-end border-success" id="size1Dealt" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size1','dealt');inputNumberFormat(this)"  >
+							              <input type="hidden" id="size1DealtHidden" name="eggXxlDealt">
+							            </div>
+							            
+							            <div class="col-sm-12 eggSize">
+							              <label for="size2" class="form-label">특란 - 처리</label>
+							              <input type="text" class="form-control text-end border-success" id="size2Dealt" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size2','dealt');inputNumberFormat(this)"  >
+							              <input type="hidden" id="size2DealtHidden" name="eggXlDealt">
+							            </div>
+							            
+							            <div class="col-sm-12 eggSize">
+							              <label for="size3" class="form-label">대란 - 처리</label>
+							              <input type="text" class="form-control text-end border-success" id="size3Dealt" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size3','dealt');inputNumberFormat(this);" >
+							              <input type="hidden" id="size3DealtHidden" name="eggLDealt">
+							            </div>
+							            
+							            <div class="col-sm-12 eggSize">
+							              <label for="size4" class="form-label">중란 - 처리</label>
+							              <input type="text" class="form-control text-end border-success" id="size4Dealt" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size4','dealt');inputNumberFormat(this)"  >
+							              <input type="hidden" id="size4DealtHidden" name="eggMDealt">
+							            </div>
+							            
+							            <div class="col-sm-12 eggSize">
+							              <label for="size5" class="form-label">소란 - 처리</label>
+							              <input type="text" class="form-control text-end border-success" id="size5Dealt" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size5','dealt');inputNumberFormat(this)"  >
+							              <input type="hidden" id="size5DealtHidden" name="eggSDealt">
+							            </div>
+							            
+							            <div class="col-sm-12 eggSize">
+							              <label for="size6" class="form-label">기타 - 처리</label>
+							              <input type="text" class="form-control text-end border-success" id="size6Dealt" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size6','dealt');inputNumberFormat(this)"  >
+							              <input type="hidden" id="size6DealtHidden" name="eggEDealt">
+							            </div>
+				          			</div>
+				          		</div>
+					            <input type="hidden" id="totalDealtHidden" name="totalDealt">
 					            
 					            <!-- 우측 폐기 -->
 					            <div class="col-sm-2">
 				          			<div class="row ">
 						          		<div class="col-sm-12 eggSize">
 							              <label for="size1Dispose" class="form-label">왕란 - 폐기</label>
-							              <input type="text" class="form-control text-end border-warning" id="size1Dispose" placeholder="0" value="0" onKeyup="inputNumberFormat(this)"  >
+							              <input type="text" class="form-control text-end border-warning" id="size1Dispose" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size1','dispose');inputNumberFormat(this)"  >
 							              <input type="hidden" id="size1DisposeHidden" name="eggXxlDispose">
 							            </div>
 							            
 							            <div class="col-sm-12 eggSize">
 							              <label for="size2Dispose" class="form-label">특란 - 폐기</label>
-							              <input type="text" class="form-control text-end border-warning" id="size2Dispose" placeholder="0" value="0" onKeyup="inputNumberFormat(this)"  >
+							              <input type="text" class="form-control text-end border-warning" id="size2Dispose" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size2','dispose');inputNumberFormat(this)"  >
 							              <input type="hidden" id="size2DisposeHidden" name="eggXlDispose">
 							            </div>
 							            
 							            <div class="col-sm-12 eggSize">
 							              <label for="size3Dispose" class="form-label">대란 - 폐기</label>
-							              <input type="text" class="form-control text-end border-warning" id="size3Dispose" placeholder="0" value="0" onKeyup="inputNumberFormat(this)"  >
+							              <input type="text" class="form-control text-end border-warning" id="size3Dispose" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size3','dispose');inputNumberFormat(this)"  >
 							              <input type="hidden" id="size3DisposeHidden" name="eggLDispose">
 							            </div>
 							            
 							            <div class="col-sm-12 eggSize">
 							              <label for="size4Dispose" class="form-label">중란 - 폐기</label>
-							              <input type="text" class="form-control text-end border-warning" id="size4Dispose" placeholder="0" value="0" onKeyup="inputNumberFormat(this)"  >
+							              <input type="text" class="form-control text-end border-warning" id="size4Dispose" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size4','dispose');inputNumberFormat(this)"  >
 							              <input type="hidden" id="size4DisposeHidden" name="eggMDispose">
 							            </div>
 							            
 							            <div class="col-sm-12 eggSize">
 							              <label for="size5Dispose" class="form-label">소란 - 폐기</label>
-							              <input type="text" class="form-control text-end border-warning" id="size5Dispose" placeholder="0" value="0" onKeyup="inputNumberFormat(this)"  >
+							              <input type="text" class="form-control text-end border-warning" id="size5Dispose" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size5','dispose');inputNumberFormat(this)"  >
 							              <input type="hidden" id="size5DisposeHidden" name="eggSDispose">
 							            </div>
 							            
 							            <div class="col-sm-12 eggSize">
 							              <label for="size6Dispose" class="form-label">기타 - 폐기</label>
-							              <input type="text" class="form-control text-end border-warning" id="size6Dispose" placeholder="0" value="0" onKeyup="inputNumberFormat(this)"  >
+							              <input type="text" class="form-control text-end border-warning" id="size6Dispose" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size6','dispose');inputNumberFormat(this)"  >
 							              <input type="hidden" id="size6DisposeHidden" name="eggEDispose">
 							            </div>
 				          			</div>
 				          		</div>
-							
+								<input type="hidden" id="totalDisposeHidden" name="totalDispose">
 					            
 				            
 				           <hr class="my-4">

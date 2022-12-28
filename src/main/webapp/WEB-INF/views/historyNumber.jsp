@@ -145,7 +145,8 @@
 						            </div>
 						            <div class="row" >
 						            	<div id='calendar'></div>
-						            	<input type="hidden" id="reportDateHidden" name="spawningDate">
+						            	<input type="hidden" id="reportDateHidden" name="reportDate">
+						            	<input type="hidden" id="spawningDateHidden" name="spawningDate">
 						            </div>
 										
 				          		

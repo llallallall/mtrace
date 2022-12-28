@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.devowls.dao.EggPackingDAO;
 import com.project.devowls.vo.EggPackingVO;
+import com.project.devowls.vo.HistoryNumberVO;
 import com.project.devowls.vo.PageInfo;
 
 @Service
@@ -55,6 +56,12 @@ public class EggPackingServiceImpl implements EggPackingService {
 	public ArrayList<EggPackingVO> searchEggPackingSucceeded() {
 		// TODO Auto-generated method stub
 		return eDAO.selectEggPackingSucceeded();
+	}
+
+	@Override
+	public HistoryNumberVO searchEggPackingByHistNo(String eggHistNo) {
+		// TODO Auto-generated method stub
+		return eDAO.selectEggPackingByHistNo(eggHistNo);
 	}
 
 }

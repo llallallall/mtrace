@@ -16,31 +16,79 @@
 			report_time, 
 			result_code, 
 			result_msg, 
+			
 			business_no, 
 			license_no, 
 			egg_hist_no, 
+			
 			request_date, 
+			report_date,
+			
 			farm_id_no, 
 			egg_usage, 
 			spawning_date, 
 			storage_method, 
 			washing_method, 
+			
 			egg_xxl, 
 			egg_xl, 
 			egg_l, 
 			egg_m, 
 			egg_s, 
 			egg_e, 
+			
+			egg_xxl_dealt, 
+			egg_xl_dealt, 
+			egg_l_dealt, 
+			egg_m_dealt, 
+			egg_s_dealt, 
+			egg_e_dealt, 
+			
 			egg_xxl_dispose, 
 			egg_xl_dispose, 
 			egg_l_dispose, 
 			egg_m_dispose, 
 			egg_s_dispose, 
-			egg_e_dispose
+			egg_e_dispose,
+			
+			total_egg, 
+			total_dealt, 
+			total_dispose
+			
 		FROM 
 			mtrace.egg_packng
 		WHERE
 			result_code = "INFO-0000"
+	</select>
+	
+	
+	
+	<select id="selectEggPackingByHistNo" parameterType="String" resultType="HistoryNumberVO">
+		SELECT 
+			report_time, 
+			result_code, 
+			result_msg, 
+			egg_hist_no, 
+			business_no, 
+			license_no, 
+			farm_id_no, 
+			egg_usage, 
+			spawning_date, 
+			storage_method, 
+			egg_xxl, 
+			egg_xl, 
+			egg_l, 
+			egg_m, 
+			egg_s, 
+			egg_e, 
+			washing_method,
+			report_date,
+			farm_uniq_no
+			
+		FROM 
+			mtrace.history_number
+		WHERE
+		    egg_hist_no =  #{eggHistNo} 
 	</select>
 
 	<select id="selectEggPacking" parameterType="hashmap" resultType="EggPackingVO">
@@ -54,27 +102,44 @@
 						report_time, 
 						result_code, 
 						result_msg, 
+						
 						business_no, 
 						license_no, 
 						egg_hist_no, 
+						
 						request_date, 
+						report_date,
+						
 						farm_id_no, 
 						egg_usage, 
 						spawning_date, 
 						storage_method, 
 						washing_method, 
+						
 						egg_xxl, 
 						egg_xl, 
 						egg_l, 
 						egg_m, 
 						egg_s, 
 						egg_e, 
+						
+						egg_xxl_dealt, 
+						egg_xl_dealt, 
+						egg_l_dealt, 
+						egg_m_dealt, 
+						egg_s_dealt, 
+						egg_e_dealt, 
+						
 						egg_xxl_dispose, 
 						egg_xl_dispose, 
 						egg_l_dispose, 
 						egg_m_dispose, 
 						egg_s_dispose, 
-						egg_e_dispose
+						egg_e_dispose,
+						
+						total_egg, 
+						total_dealt, 
+						total_dispose
 					FROM 
 						mtrace.egg_packng
 					) a
@@ -89,28 +154,44 @@
 				report_time, 
 				result_code, 
 				result_msg, 
+				
 				business_no, 
 				license_no, 
 				egg_hist_no, 
+				
 				request_date, 
+				report_date,
+				
 				farm_id_no, 
 				egg_usage, 
 				spawning_date, 
 				storage_method, 
 				washing_method, 
+				
 				egg_xxl, 
 				egg_xl, 
 				egg_l, 
 				egg_m, 
 				egg_s, 
 				egg_e, 
+				
+				egg_xxl_dealt, 
+				egg_xl_dealt, 
+				egg_l_dealt, 
+				egg_m_dealt, 
+				egg_s_dealt, 
+				egg_e_dealt, 
+				
 				egg_xxl_dispose, 
 				egg_xl_dispose, 
 				egg_l_dispose, 
 				egg_m_dispose, 
 				egg_s_dispose, 
-				egg_e_dispose
-				washing_method
+				egg_e_dispose,
+				
+				total_egg, 
+				total_dealt, 
+				total_dispose
 			FROM 
 				mtrace.egg_packng
 			WHERE 
@@ -120,7 +201,7 @@
 	<insert id="insertEggPacking" parameterType="EggPackingVO">
 	
 		INSERT INTO 
-			mtrace.history_number
+			mtrace.egg_packng
 			(
 				report_time, 
 				result_code, 
@@ -131,10 +212,10 @@
 				egg_hist_no, 
 				
 				request_date, 
+				report_date,
 				
 				farm_id_no, 
 				egg_usage, 
-				
 				spawning_date, 
 				storage_method, 
 				washing_method, 
@@ -146,12 +227,23 @@
 				egg_s, 
 				egg_e, 
 				
+				egg_xxl_dealt, 
+				egg_xl_dealt, 
+				egg_l_dealt, 
+				egg_m_dealt, 
+				egg_s_dealt, 
+				egg_e_dealt, 
+				
 				egg_xxl_dispose, 
 				egg_xl_dispose, 
 				egg_l_dispose, 
 				egg_m_dispose, 
 				egg_s_dispose, 
-				egg_e_dispose
+				egg_e_dispose,
+				
+				total_egg, 
+				total_dealt, 
+				total_dispose
 			)
 		VALUES
 			(
@@ -164,6 +256,7 @@
 				#{eggHistNo}, 
 				
 				#{requestDate},
+				#{reportDate},
 				
 				#{farmIdNo}, 
 				#{eggUsage}, 
@@ -171,6 +264,7 @@
 				#{spawningDate}, 
 				#{storageMethod}, 
 				#{washingMethod},
+
 				
 				#{eggXxl}, 
 				#{eggXl},
@@ -179,12 +273,23 @@
 				#{eggS}, 
 				#{eggE}, 
 				
+				#{eggXxlDealt}, 
+				#{eggXlDealt}, 
+				#{eggLDealt}, 
+				#{eggMDealt}, 
+				#{eggSDealt}, 
+				#{eggEDealt}, 
+				
 				#{eggXxlDispose}, 
 				#{eggXlDispose},
 				#{eggLDispose}, 
 				#{eggMDispose}, 
 				#{eggSDispose}, 
-				#{eggEDispose}
+				#{eggEDispose},
+				
+				#{totalEgg}, 
+				#{totalDealt}, 
+				#{totalDispose}
 				
 			)
 	</insert>

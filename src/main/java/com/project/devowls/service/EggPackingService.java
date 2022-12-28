@@ -3,6 +3,7 @@ package com.project.devowls.service;
 import java.util.ArrayList;
 
 import com.project.devowls.vo.EggPackingVO;
+import com.project.devowls.vo.HistoryNumberVO;
 import com.project.devowls.vo.PageInfo;
 
 public interface EggPackingService {
@@ -14,5 +15,7 @@ public interface EggPackingService {
 	ArrayList<EggPackingVO> searchEggPackingBySpawningDate(String spawningDate);
 
 	ArrayList<EggPackingVO> searchEggPackingSucceeded();
+
+	HistoryNumberVO searchEggPackingByHistNo(String eggHistNo);
 
 }

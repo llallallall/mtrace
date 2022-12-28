@@ -84,7 +84,7 @@ public class EggPackingController {
 			
 			desc = desc.substring(0, desc.length() - 2);
 			
-			System.out.println(df.format(vo.getEggL()));
+			//System.out.println(df.format(vo.getEggL()));
 			
 			eventParams.put("title", "이력번호등록");
 			eventParams.put("start", vo.getSpawningDate());
@@ -92,6 +92,8 @@ public class EggPackingController {
 			eventParams.put("description", desc);
 			
 			eventParams.put("groupId", "history");
+			
+			eventParams.put("eggHistNo", vo.getEggHistNo());
 			
 			eventParams.put("eggXxl", df.format(vo.getEggXxl()));
 			eventParams.put("eggXl", df.format(vo.getEggXl()));
@@ -171,12 +173,21 @@ public class EggPackingController {
 			
 			eventParams.put("groupId", "packing");
 			
+			eventParams.put("eggHistNo", vo.getEggHistNo());
+			
 			eventParams.put("eggXxl", df.format(vo.getEggXxl()));
 			eventParams.put("eggXl", df.format(vo.getEggXl()));
 			eventParams.put("eggL", df.format(vo.getEggL()));
 			eventParams.put("eggM", df.format(vo.getEggM()));
 			eventParams.put("eggS", df.format(vo.getEggS()));
 			eventParams.put("eggE", df.format(vo.getEggE()));
+			
+			eventParams.put("eggXxlDealt", df.format(vo.getEggXxlDealt()));
+			eventParams.put("eggXlDealt", df.format(vo.getEggXlDealt()));
+			eventParams.put("eggLDealt", df.format(vo.getEggLDealt()));
+			eventParams.put("eggMDealt", df.format(vo.getEggMDealt()));
+			eventParams.put("eggSDealt", df.format(vo.getEggSDealt()));
+			eventParams.put("eggEDealt", df.format(vo.getEggEDealt()));
 			
 			eventParams.put("eggXxlDispose", df.format(vo.getEggXxlDispose()));
 			eventParams.put("eggXlDispose", df.format(vo.getEggXlDispose()));
@@ -216,8 +227,8 @@ public class EggPackingController {
 		ArrayList<EggPackingVO> voList = new ArrayList<EggPackingVO>();
 		voList =  eService.searchEggPacking(page,pageInfo);
 		
-		System.out.println(pageInfo.getListCount());
-		System.out.println(pageInfo.getMaxPage());
+		//System.out.println(pageInfo.getListCount());
+		//System.out.println(pageInfo.getMaxPage());
 		data.put("eventList", voList);
 		data.put("pageInfo", pageInfo);
 
@@ -242,6 +253,28 @@ public class EggPackingController {
 			}
 		}
 		
+		//
+		HistoryNumberVO voHistory = eService.searchEggPackingByHistNo(eggPackingVO.getEggHistNo());
+
+		eggPackingVO.setEggHistNo(voHistory.getEggHistNo());
+		System.out.println(eggPackingVO.getEggHistNo());
+		eggPackingVO.setBusinessNo(voHistory.getBusinessNo());
+		eggPackingVO.setLicenseNo(voHistory.getLicenseNo());
+		eggPackingVO.setFarmIdNo(voHistory.getFarmIdNo());
+		eggPackingVO.setEggUsage(voHistory.getEggUsage());
+		eggPackingVO.setReportDate(voHistory.getReportDate());
+		eggPackingVO.setSpawningDate(voHistory.getSpawningDate());
+		eggPackingVO.setStorageMethod(voHistory.getStorageMethod());
+		eggPackingVO.setEggXxl(voHistory.getEggXxl());
+		eggPackingVO.setEggXl(voHistory.getEggXl());
+		eggPackingVO.setEggL(voHistory.getEggL());
+		eggPackingVO.setEggM(voHistory.getEggM());
+		eggPackingVO.setEggS(voHistory.getEggS());
+		eggPackingVO.setEggE(voHistory.getEggE());
+		eggPackingVO.setWashingMethod(voHistory.getWashingMethod());
+		eggPackingVO.setBreedingMethod(voHistory.getBreedingMethod());
+		eggPackingVO.setFarmUniqNo(voHistory.getFarmUniqNo());
+		
 		//API 송신 후 결과 코드 받기
 		// 요청변수 설정
     	String userId = "e00580";
@@ -249,15 +282,12 @@ public class EggPackingController {
 		String serviceKey = "addEggPackng";
 		String postUrl = "http://api.mtrace.go.kr/rest/dfts/trace/transParam";
 		String eggHistNoParam ="";
-		
-		//이력번호 (산란일자(4)+농장고유번호(5)+사육방식(1))
-		String histNo = eggPackingVO.getSpawningDate().substring(4,8) + eggPackingVO.getFarmUniqNo() + eggPackingVO.getBreedingMethod();
 				
 		eggHistNoParam= eggPackingVO.getBusinessNo()+"|"    	// 1.신고인 사업자등록번호
          				+eggPackingVO.getLicenseNo()+"|"		// 2.신고인 인허가번호 
-         				+histNo+"|"								// 3.이력번호
-         				+eggPackingVO.getSpawningDate()+"|"		// 4.발급일자
-         				+""+"|"	// 								// 5.의뢰일자
+         				+eggPackingVO.getEggHistNo()+"|"		// 3.이력번호
+         				+eggPackingVO.getReportDate()+"|"		// 4.발급일자
+         				+eggPackingVO.getReportDate()+"|"		// 5.의뢰일자
          				
 						+""+"|"	// 								// 6.의뢰업체 유형
          				+eggPackingVO.getBusinessNo()+"|"    	// 7.의뢰인 사업자등록번호
@@ -275,7 +305,7 @@ public class EggPackingController {
          				+""+"|"									// 17.의뢰처 무항생제
          				+""+"|"									// 18.의뢰처 유기축산
          				+eggPackingVO.getFarmIdNo()+"|"			// 19.농장식별번호
-         				+""+"|"									// 20.농장고유번호
+         				+eggPackingVO.getFarmUniqNo()+"|"		// 20.농장고유번호
          				
          				+""+"|"									// 21.농장명
          				+""+"|"									// 22.농장경영자명
@@ -291,12 +321,12 @@ public class EggPackingController {
          				
          				+""+"|"									// 31.산란주령
          				
-         				+(eggPackingVO.getEggXxl()+eggPackingVO.getEggXxlDispose())+"|"			// 32.왕란
-						+(eggPackingVO.getEggXl()+eggPackingVO.getEggXlDispose())+"|"			// 33.특란
-						+(eggPackingVO.getEggL()+eggPackingVO.getEggLDispose())+"|"				// 34.대란
-						+(eggPackingVO.getEggM()+eggPackingVO.getEggMDispose())+"|"				// 35.중란
-						+(eggPackingVO.getEggS()+eggPackingVO.getEggSDispose())+"|"				// 36.소란
-						+(eggPackingVO.getEggE()+eggPackingVO.getEggEDispose())+"|"				// 37.기타
+         				+eggPackingVO.getEggXxl()+"|"			// 32.왕란
+						+eggPackingVO.getEggXl()+"|"			// 33.특란
+						+eggPackingVO.getEggL()+"|"				// 34.대란
+						+eggPackingVO.getEggM()+"|"				// 35.중란
+						+eggPackingVO.getEggS()+"|"				// 36.소란
+						+eggPackingVO.getEggE()+"|"				// 37.기타
 						
 						+""+"|"									// 38.등급
 						+eggPackingVO.getStorageMethod()+"|"	// 39.보관방법
@@ -304,12 +334,12 @@ public class EggPackingController {
          				
 						+""+"|"									// 41.유통기한
 						
-						+eggPackingVO.getEggXxl()+"|"			// 42.왕란
-						+eggPackingVO.getEggXl()+"|"			// 43.특란
-						+eggPackingVO.getEggL()+"|"				// 44.대란
-						+eggPackingVO.getEggM()+"|"				// 45.중란
-						+eggPackingVO.getEggS()+"|"				// 46.소란
-						+eggPackingVO.getEggE()+"|"				// 47.기타
+						+eggPackingVO.getEggXxlDealt()+"|"		// 42.왕란
+						+eggPackingVO.getEggXlDealt()+"|"		// 43.특란
+						+eggPackingVO.getEggLDealt()+"|"		// 44.대란
+						+eggPackingVO.getEggMDealt()+"|"		// 45.중란
+						+eggPackingVO.getEggSDealt()+"|"		// 46.소란
+						+eggPackingVO.getEggEDealt()+"|"		// 47.기타
 						
 						+(eggPackingVO.getEggXxlDispose()+
 						+eggPackingVO.getEggXlDispose()+
@@ -318,7 +348,7 @@ public class EggPackingController {
 						+eggPackingVO.getEggSDispose()+
 						+eggPackingVO.getEggEDispose())+"|"		// 48.폐기수량
 						
-						+"316099"+"|"							// 49.폐기방법
+						+"316001"+"|"							// 49.폐기방법 : 매몰 316001
 						+""+"|"									// 50.폐기기타내용
 
 						+eggPackingVO.getWashingMethod()+"|"	// 51.세척방법코드
@@ -328,20 +358,9 @@ public class EggPackingController {
 						+eggPackingVO.getEggLDispose()+"|"		// 54.대란(폐기)
 						+eggPackingVO.getEggMDispose()+"|"		// 55.중란(폐기)
 						+eggPackingVO.getEggSDispose()+"|"		// 56.소란(폐기)
-						+eggPackingVO.getEggEDispose()+"|";		// 57.기타(폐기)
+						+eggPackingVO.getEggEDispose();			// 57.기타(폐기)
 						
-		// OPEN API 호출 URL 정보 설정
-		/*
-		 {
-				"userId": "openapitest",
-				"apiKey": "openApiTestApiKey",
-				"serviceKey": "addLot",
-				"item": [{"transParam":"T1|1278523023|20040310305|L21811283336992|20190618|100.25|120”}]
-		 }
 
-		 * 
-		 [{"transParam":"1029123411|8888888816|8888888816|20211102|8888888815|8888888815|대한유통|대한유통|01022222222|01022222222|세종시 가름로 232|Y|Y|Y|Y|Y|405422|12341|세종산란농장|장두|N|Y|Y|Y|Y|Y|314001|20211029|20|315001|기타|20211205|3|4|5|6|7|8|313001|238001"}]
-		 * */
 		JSONObject postParams = new JSONObject();
 
 		postParams.put("userId", userId);
@@ -406,7 +425,7 @@ public class EggPackingController {
     		
     	
     		// DB에 결과값 입력
-    		eggPackingVO.setEggHistNo(histNo);
+    		System.out.println(eggPackingVO.getRequestDate().length());
     		eggPackingVO.setResultCode(resultCode);
     		eggPackingVO.setResultMsg(resultMsg);
     		eService.insertEggPacking(eggPackingVO);

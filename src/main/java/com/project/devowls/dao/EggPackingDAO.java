@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import com.project.devowls.vo.EggPackingVO;
+import com.project.devowls.vo.HistoryNumberVO;
 
 @Mapper
 @Repository
@@ -21,5 +22,7 @@ public interface EggPackingDAO {
 	ArrayList<EggPackingVO> selectEggPackingSucceeded();
 
 	int selectEggPackingCnt();
+
+	HistoryNumberVO selectEggPackingByHistNo(String eggHistNo);
 
 }

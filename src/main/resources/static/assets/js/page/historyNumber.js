@@ -374,6 +374,9 @@ function submitHistoryNumber() {
 	let eggSize6 =  $("#size6").val().replace(reg, "")*1;
 	$("#size6Hidden").val(eggSize6);
 	
+	
+	$("#spawningDateHidden").val($("#reportDateHidden").val());
+	
 	console.log($("#breedingMethod").val());
 	$.ajax({
 			 url :"/registerHistoryNumber"

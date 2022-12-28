@@ -13,6 +13,7 @@ public class EggPackingVO {
 	
 	private String 	eggHistNo; 
 	private String 	requestDate; 
+	private String 	reportDate; 
 	
 	private String 	businessNo; 
 	private String 	licenseNo; 
@@ -27,6 +28,16 @@ public class EggPackingVO {
 	private int		eggM; 
 	private int		eggS; 
 	private int		eggE; 
+	private int		totalEgg; 
+	
+	private int		eggXxlDealt; 
+	private int		eggXlDealt; 
+	private int		eggLDealt; 
+	private int		eggMDealt; 
+	private int		eggSDealt; 
+	private int		eggEDealt; 
+	
+	private int		totalDealt; 
 	
 	private String	washingMethod;
 	private String	breedingMethod;
@@ -38,5 +49,7 @@ public class EggPackingVO {
 	private int		eggMDispose; 
 	private int		eggSDispose; 
 	private int		eggEDispose; 
+	
+	private int		totalDispose;
 
 }

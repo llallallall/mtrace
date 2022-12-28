@@ -16,14 +16,18 @@ public class HistoryNumberVO {
 	private String 	licenseNo; 
 	private String 	farmIdNo; 
 	private String 	eggUsage; 
+	
+	private String 	reportDate; 
 	private String 	spawningDate; 
 	private String 	storageMethod; 
+	
 	private int		eggXxl; 
 	private int		eggXl; 
 	private int		eggL; 
 	private int		eggM; 
 	private int		eggS; 
 	private int		eggE; 
+	
 	private String	washingMethod;
 	private String	breedingMethod;
 	private String	farmUniqNo;

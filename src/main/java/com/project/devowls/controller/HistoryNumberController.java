@@ -158,7 +158,7 @@ public class HistoryNumberController {
 		eggHistNoParam= histNo+"|"								// 1.이력번호
 		         		+historyNumberVO.getBusinessNo()+"|"    // 2.신고인 사업자등록번호
          				+historyNumberVO.getLicenseNo()+"|"		// 3.신고인 인허가번호 
-         				+historyNumberVO.getSpawningDate()+"|"	// 4.발급일자
+         				+historyNumberVO.getReportDate()+"|"	// 4.발급일자
          				+historyNumberVO.getBusinessNo()+"|"    // 5.의뢰인 사업자등록번호
          				
          				+historyNumberVO.getLicenseNo()+"|"		// 6.의뢰인 인허가번호 
@@ -175,7 +175,7 @@ public class HistoryNumberController {
          				
          				+""+"|"		// 16.의뢰처 유기축산
          				+historyNumberVO.getFarmIdNo()+"|"		// 17.농장식별번호
-         				+""+"|"		// 18.농장고유번호
+         				+historyNumberVO.getFarmUniqNo()+"|"	// 18.농장고유번호
          				+""+"|"		// 19.농장명
          				+""+"|"		// 20.농장경영자명
          				+""+"|"		// 21.농장 의약품사용여부
@@ -185,22 +185,21 @@ public class HistoryNumberController {
          				+""+"|"		// 25.농장 무항생제
          				+""+"|"		// 26.농장 유기축산
          				+historyNumberVO.getEggUsage()+"|"		// 27.계란의용도
-         				+historyNumberVO.getSpawningDate()+"|"		// 28.산란일자
+         				+historyNumberVO.getSpawningDate()+"|"	// 28.산란일자
          				+""+"|"		// 29.산란주령
-         				+historyNumberVO.getStorageMethod()+"|"		// 30.보관방법
+         				+historyNumberVO.getStorageMethod()+"|"	// 30.보관방법
          				+""+"|"		// 31.보관방법기타
          				
 						+""+"|"		// 32.유통기한
 						+historyNumberVO.getEggXxl()+"|"		// 33.왕란
-						+historyNumberVO.getEggXl()+"|"		// 34.특란
-						+historyNumberVO.getEggL()+"|"		// 35.대란
-						+historyNumberVO.getEggM()+"|"		// 36.중란
-						+historyNumberVO.getEggS()+"|"		// 37.소란
+						+historyNumberVO.getEggXl()+"|"			// 34.특란
+						+historyNumberVO.getEggL()+"|"			// 35.대란
+						+historyNumberVO.getEggM()+"|"			// 36.중란
+						+historyNumberVO.getEggS()+"|"			// 37.소란
+						+historyNumberVO.getEggE()+"|"			// 38.기타
 						
-         				
-						+historyNumberVO.getEggE()+"|"		// 38.기타
 						+""+"|"		// 39.등급
-						+historyNumberVO.getWashingMethod();		// 40.세척방법코드
+						+historyNumberVO.getWashingMethod();	// 40.세척방법코드
 						
 		// OPEN API 호출 URL 정보 설정
 		/*
