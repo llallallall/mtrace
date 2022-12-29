@@ -1,7 +1,9 @@
 /* ========================================================================
 		공통 변수 
    ======================================================================== */
-
+var myAlert =document.getElementById('toastNotice');//select id of toast
+var bsAlert = new bootstrap.Toast(myAlert);//inizialize it
+          
 /* ========================================================================
 		초기 로딩
    ======================================================================== */
@@ -80,5 +82,37 @@ function submitAdd(){
 	}
 //	});
 
+	
+	//console.log($("#breedingMethod").val());
+	$.ajax({
+			 url :"/callRegisterAccount"
+			,type:"post"
+			,data:$("#accountForm").serialize()
+			,dataType:"json"
+			,success:function(data){
+				
+				if(data.resultCode == 'success') {
+					setToast("bg-success", "거래처 등록", null, "등록 되었습니다.")
+					bsAlert.show();//show it
+					
+				} else if (data.resultCode == 'duplicate') {
+					setToast("bg-warning", "거래처 등록", null, "이미 등록한 내역이 있습니다.")
+					bsAlert.show();//show it
+					
+				} else if  (data.resultCode == 'error') {
+					setToast("bg-danger", "거래처 등록", null, "오류가 발생했습니다.")
+					bsAlert.show();//show it
+				}
+
+//				searchEggPacking(1);
+//				calendar.refetchEvents();
+				//location.reload();
+				
+			}
+		    ,error: function(response){
+
+		    	alert("에러발생 : " + response.responseText);
+		    }
+		});
 
 }

@@ -20,7 +20,7 @@
 </head>
 <body>
 
-
+	
 
 	<div class="container-fluid p-0">
 	
@@ -32,29 +32,28 @@
 		
 		<!-- content -->
 		<div class="contents">
-		<!-- content -->
+
 			<div class="row">
 			
-				<div class="col my-5 pt-5 justify-content-center text-center">
+				<div class="col mb-3 pt-5 justify-content-center text-center">
 					<i class="fa-solid fa-user-plus " style="font-size:200px;opacity:0.7"></i>
 				</div>
 			</div>	
 			
 			<div class="row justify-content-center">
 				<div class="col-11 ">
-					<hr class="my-4">
+					<hr class="mx-4">
 				</div>
 			</div>
 			
 			<form id="accountForm">
-				<div class="row main-content p-4 g-5">
+				<div class="row main-content p-4">
 				
 										
 					<!-- Flexbox container for aligning the toasts -->
 					<div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center w-100" >
 					  <div class="toast bg-danger rounded-pill" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" id="validToast">
 					    <div class="toast-body text-white text-center fs-4" id="toastBody"> </div>
-					   
 					  </div>
 					</div>
 										
@@ -63,7 +62,7 @@
 						<div class="row">
 							<div class="col">
 								<label for="" class="form-label  my-3">거래처명</label>
-			              		<input type="text" class="form-control text-end border-danger" id="accountNm" name="accountNm"  value="" required >
+			              		<input type="text" class="form-control border-danger" id="accountNm" name="accountNm" placeholder="거래처 이름" required >
 							</div>
 						</div>
 						
@@ -132,11 +131,11 @@
 						<div class="row">
 							<div class="col-6">
 								<label for="" class="form-label  my-3">사업자등록번호</label>
-			              		<input type="text" class="form-control text-end border-danger" id="businessNo" name="businessNo"  value="" required >
+			              		<input type="number" class="form-control  border-danger" id="businessNo" name="businessNo" placeholder="숫자 10자리" onkeyup="chkword(this, 10)" required >
 							</div>
 							<div class="col-6">
 								<label for="" class="form-label  my-3">인허가번호</label>
-			              		<input type="text" class="form-control text-end border-danger" id="licenseNo" name="licenseNo"  value="" required >
+			              		<input type="number" class="form-control  border-danger" id="licenseNo" name="licenseNo" placeholder="숫자 11자리" onkeyup="chkword(this, 11)" required >
 							</div>
 						</div>
 						
@@ -144,11 +143,11 @@
 						<div class="row">
 							<div class="col-6">
 								<label for="" class="form-label  my-3">대표자명</label>
-			              		<input type="text" class="form-control text-end border-danger" id="ceoNm" name="ceoNm" value="" required >
+			              		<input type="text" class="form-control  border-danger" id="ceoNm" name="ceoNm" value="" required >
 							</div>
 							<div class="col-6">
 								<label for="" class="form-label  my-3">핸드폰번호</label>
-			              		<input type="text" class="form-control text-end " id="mobile" name="mobile"  value=""  >
+			              		<input type="number" class="form-control  " id="mobile" name="mobile" placeholder="숫자만" value=""  >
 							</div>
 						</div>
 
@@ -183,11 +182,11 @@
 						<div class="row">
 							<div class="col-12">
 								<label for="" class="form-label  my-3">주소</label>
-				              	<input type="text" class="form-control text-end border-danger" id="address" name="address" value="" required >
+				              	<input type="text" class="form-control  border-danger" id="address" name="address" value="" required >
 							</div>
 							<div class="col-12">
 								<label for="" class="form-label  my-3">상세주소</label>
-				             	<input type="text" class="form-control text-end border-danger" id="addrDetail" name="addrDetail" value="" required >
+				             	<input type="text" class="form-control  border-danger" id="addrDetail" name="addrDetail" value="" required >
 							</div>
 						</div>
 						
@@ -195,11 +194,11 @@
 						<div class="row">
 							<div class="col-6">
 								<label for="" class="form-label  my-3">우편번호</label>
-			              		<input type="text" class="form-control text-end border-danger" id="postCd" name="postCd" value="" required >
+			              		<input type="number" class="form-control  border-danger" id="postCd" name="postCd" placeholder="숫자 5자리" onkeyup="chkword(this, 5)" required >
 							</div>
 							<div class="col-6">
 								<label for="" class="form-label  my-3">행정구역코드</label>
-			              		<input type="text" class="form-control text-end " id="addrCd" name="addrCd" value=""  >
+			              		<input type="number" class="form-control  " id="addrCd" name="addrCd" placeholder="숫자 10자리" onkeyup="chkword(this, 10)"  >
 							</div>
 						</div>
 						
@@ -207,15 +206,24 @@
 						<div class="row">
 							<div class="col-6">
 								<label for="" class="form-label  my-3">전화번호</label>
-			              		<input type="text" class="form-control text-end " id="telephone" name="telephone" value=""  >
+			              		<input type="number" class="form-control  " id="telephone" name="telephone" placeholder="숫자만"  >
 							</div>
 							<div class="col-6">
 								<label for="" class="form-label  my-3">팩스번호</label>
-			              		<input type="text" class="form-control text-end " id="fax" name="fax"  value=""  >
+			              		<input type="number" class="form-control  " id="fax" name="fax"  placeholder="숫자만"  >
 							</div>
 						
 						</div>
+						
+						
 
+					</div>
+					
+					<div class="row">
+							<div class="col-12 ps-5 pe-4">
+								<label for="" class="form-label  my-3">비고</label>
+			              		<input type="text" class="form-control  " id="remark" name="remark" value=""  >
+							</div>
 					</div>
 					
 					<div class="row justify-content-center">
@@ -236,8 +244,6 @@
 				
 			</form>
 		
-			
-		
 		</div>
 		<!-- end of content -->
 		
@@ -250,15 +256,18 @@
 
 </body>
 	<!-- javascript -->
-	<script src="/assets/bundle/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
 	<script src="/assets/bundle/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+	<script src="/assets/bundle/popper.2.11.6/js/popper.js"></script>
+	<script src="/assets/bundle/tippy.6.3.7/js/tippy.js"></script>
+	
+	<script src="/assets/bundle/bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
+	
 
 
 	<!-- full calendar -->
 	<script src='/assets/bundle/fullcalendar-6.0.1/dist/index.global.js'></script>
 	<script src='/assets/bundle/fullcalendar-6.0.1/packages/bootstrap5/index.global.js'></script>
-	<script src="/assets/bundle/popper.2.11.6/js/popper.js"></script>
-	<script src="/assets/bundle/tippy.6.3.7/js/tippy.js"></script>
+	
 	<script src="/assets/js/custom.js"></script>
 	<script src="/assets/js/page/account.js"></script>
 	

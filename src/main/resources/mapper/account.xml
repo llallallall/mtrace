@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.devowls.dao.AccountDAO">
+
+	<select id="selectAccountByBusinessNo" resultType="int">
+		SELECT 
+			count(business_no)
+		FROM 
+			mtrace.account_mgmt
+		WHERE
+			business_no = #{businessNo}	
+		 AND
+		 	license_no = #{licenseNo}	
+	</select>
+	
+	<insert id="insertAccount" parameterType="AccountVO">
+		INSERT INTO account_mgmt
+			(business_no, 
+			account_nm, 
+			account_type, 
+			license_no, 
+			ceo_nm, 
+			address, 
+			addr_cd, 
+			post_cd, 
+			addr_detail, 
+			addr_type, 
+			telephone, 
+			mobile, 
+			fax,
+			remark,
+			reg_date)
+		VALUES
+			(#{businessNo},
+			#{accountNm},
+			#{accountType},
+			#{licenseNo},
+			#{ceoNm},
+			#{address},
+			#{addrCd},
+			#{postCd},
+			#{addrDetail},
+			#{addrType},
+			#{telephone}, 
+			#{mobile}, 
+			#{fax},
+			#{remark},
+			current_timestamp()
+			)	
+	</insert>
+
+</mapper>

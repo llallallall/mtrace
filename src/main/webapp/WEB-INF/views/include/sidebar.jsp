@@ -1,6 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+
+<!-- Toast -->
+	
+<div class="fixed-top start-50 mt-5 p-3" >
+
+	<div id="toastNotice" class="toast opacity-100" role="alert" aria-live="assertive" aria-atomic="true">
+	  <div class="toast-header opacity-100">
+	    <strong class="me-auto" id="toastNoticeTitle"></strong>
+	    <small id="toastNoticeInfo"></small>
+	    <button type="button" class="ms-2 mb-1 close" data-dismiss="toast">
+	      <span>&times;</span>
+	    </button>
+	  </div>
+	  <div class="toast-body opacity-100" id="toastNoticeContent"></div>
+	</div>
+</div>
+			    
 <!-- navbar --> 
 <nav class="navbar navbar-expand-md navbar-light" >
 	<button class="navbar-toggler ms-auto mb-2 bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">

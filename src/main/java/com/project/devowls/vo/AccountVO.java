@@ -38,4 +38,6 @@ public class AccountVO {
 	private Date regDate;
 	
 	private String code;
+	
+	private String remark;
 }
