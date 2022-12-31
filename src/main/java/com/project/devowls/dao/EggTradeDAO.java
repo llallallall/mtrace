@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import com.project.devowls.vo.AccountVO;
 import com.project.devowls.vo.EggTradeVO;
 import com.project.devowls.vo.HistoryNumberVO;
 
@@ -19,10 +20,16 @@ public interface EggTradeDAO {
 
 	ArrayList<EggTradeVO> selectEggTradeBySpawningDate(String spawningDate);
 
-	ArrayList<EggTradeVO> selectEggTradeSucceeded();
-
 	int selectEggTradeCnt();
 
 	HistoryNumberVO selectEggTradeByHistNo(String eggHistNo);
+
+	ArrayList<AccountVO> selectAccountListOnTradeUse(HashMap<String, Object> param);
+
+	void insertEggTradeByAccount(EggTradeVO eggTradeVO);
+
+	int selectEggHistIdx(String eggHistNo);
+
+	int selectTransIdxByEggHistIdx(String eggHistIdx);
 
 }

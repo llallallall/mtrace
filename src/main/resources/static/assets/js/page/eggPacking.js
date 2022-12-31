@@ -519,17 +519,17 @@ function searchEggPacking(page){
 				pageHtml+='</li>';
 			}else{
 				pageHtml+='<li class="page-item">';
-				pageHtml+='<a class="page-link" onclick="searchHistoryNumbers('+(pageInfo.page-1)+')" tabindex="-1" id="preLang">'+preLang+'</a>';
+				pageHtml+='<a class="page-link" onclick="searchEggPacking('+(pageInfo.page-1)+')" tabindex="-1" id="preLang">'+preLang+'</a>';
 				pageHtml+='</li>';
 			}
 			for(var i=pageInfo.startPage;i<=pageInfo.endPage;i++){
 				if(pageInfo.page==i){
 					pageHtml+='<li class="page-item active">';
-					pageHtml+='<a class="page-link" onclick="searchHistoryNumbers('+i+')">'+i+' <span class="sr-only">(current)</span></a>';
+					pageHtml+='<a class="page-link" onclick="searchEggPacking('+i+')">'+i+' <span class="sr-only">(current)</span></a>';
 					pageHtml+='</li>';
 				}else{
 					pageHtml+='<li class="page-item">';
-					pageHtml+='<a class="page-link" onclick="searchHistoryNumbers('+i+')">'+i+' </a>';
+					pageHtml+='<a class="page-link" onclick="searchEggPacking('+i+')">'+i+' </a>';
 					pageHtml+='</li>';
 				}
 			}
@@ -539,7 +539,7 @@ function searchEggPacking(page){
 				pageHtml+='</li>';
 			}else{
 				pageHtml+='<li class="page-item">';
-				pageHtml+='<a class="page-link" onclick="searchHistoryNumbers('+(pageInfo.page+1)+')" href="#" id="nextLang">'+nextLang+'</a>';
+				pageHtml+='<a class="page-link" onclick="searchEggPacking('+(pageInfo.page+1)+')" href="#" id="nextLang">'+nextLang+'</a>';
 				pageHtml+='</li>';
 			}
 

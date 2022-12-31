@@ -422,16 +422,26 @@ public class EggPackingController {
     		String resultMsg =resultMsgNode.getNodeValue();
     		System.out.println("resultMsg :: " + resultMsg) ;
     		
-    		data.put("resultCode", "success");
-    		data.put("resultStr", outResult.toString());
+    		
     		
     		
     	
-    		// DB에 결과값 입력
+    		// 성공 코드인 경우, DB에 결과값 입력
     		//System.out.println(eggPackingVO.getRequestDate().length());
-    		eggPackingVO.setResultCode(resultCode);
-    		eggPackingVO.setResultMsg(resultMsg);
-    		eService.insertEggPacking(eggPackingVO);
+    		if (resultCode.equals("INFO-0000")) {
+    			eggPackingVO.setResultCode(resultCode);
+        		eggPackingVO.setResultMsg(resultMsg);
+        		eService.insertEggPacking(eggPackingVO);
+        		
+        		data.put("resultCode", "success");
+        		data.put("resultStr", outResult.toString());
+    		} else {
+    			
+    			data.put("resultCode", "error");
+    	        data.put("resultStr", outResult.toString());
+    			
+    		}
+    		
     		
     	}catch(Exception e){
     		data.put("resultCode", "error");

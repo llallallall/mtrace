@@ -4,6 +4,51 @@
 
 <mapper namespace="com.project.devowls.dao.AccountDAO">
 
+	<select id="selectAccountCnt" resultType="int">
+	
+		SELECT 
+			count(*)
+		FROM 
+			mtrace.account_mgmt
+		
+	</select>
+	
+	<select id="selectAccountList" parameterType="hashmap" resultType="AccountVO">
+		SELECT b.*
+			FROM (
+				SELECT *
+				FROM 
+				 	(SELECT 
+						ROW_NUMBER() over ( ORDER BY m.reg_date asc, m.business_no asc, m.license_no asc  ) as num,
+						ROW_NUMBER() over ( ORDER BY m.reg_date desc, m.business_no desc, m.license_no desc ) as idx,
+						m.business_no, 
+						m.account_nm, 
+						m.account_type,
+						(select nm from code_secondary where cd = m.account_type and parent_cd='accounttype' and use_yn = 'Y' )
+						 as 'account_type_nm', 
+						
+						m.license_no, 
+						m.ceo_nm, 
+						m.address, 
+						m.addr_cd, 
+						m.post_cd, 
+						m.addr_detail, 
+						m.addr_type, 
+						m.telephone, 
+						m.mobile, 
+						m.fax, 
+						m.remark, 
+						m.reg_date, 
+						m.trade_use
+					FROM 
+						mtrace.account_mgmt m
+					) a
+				order by a.num asc 
+			) b
+		where b.idx between #{startrow} and #{startrow}+9	
+	</select>
+	
+
 	<select id="selectAccountByBusinessNo" resultType="int">
 		SELECT 
 			count(business_no)
@@ -50,5 +95,42 @@
 			current_timestamp()
 			)	
 	</insert>
+	
+	<update id="updateAccount" parameterType="AccountVO">
+		UPDATE 
+			mtrace.account_mgmt
+		SET 
+			business_no		= #{businessNoNext},
+			license_no		= #{licenseNoNext},
+			account_nm		= #{accountNm}, 
+			account_type	= #{accountType}, 
+			ceo_nm			= #{ceoNm}, 
+			address			= #{address}, 
+			addr_detail		= #{addrDetail}, 
+			telephone		= #{telephone}, 
+			mod_date		= current_timestamp()
+		WHERE 
+			business_no		= #{businessNo}
+		AND license_no		= #{licenseNo}
+	</update>
+	
+	<update id="updateTradeUse" parameterType="AccountVO">
+		UPDATE 
+			mtrace.account_mgmt
+		SET 
+			mod_date		= current_timestamp(), 
+			trade_use		= #{tradeUse}
+		WHERE 
+			business_no=#{businessNo}
+		AND license_no=#{licenseNo}
+	</update>
+	
+	<delete id="deleteAccount" parameterType="AccountVO">
+		DELETE FROM 
+			mtrace.account_mgmt
+		WHERE 
+			business_no=#{businessNo}
+		AND license_no=#{licenseNo}
+	</delete>
 
 </mapper>

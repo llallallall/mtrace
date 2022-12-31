@@ -7,13 +7,18 @@ import lombok.Data;
 @Data
 public class AccountVO {
 	
+	private int    num;
+	
 	private String businessNo;
+	private String businessNoNext;
 	
 	private String accountNm;
 	
 	private String accountType;
+	private String accountTypeNm;
 	
 	private String licenseNo;
+	private String licenseNoNext;
 	
 	private String ceoNm;
 	
@@ -26,6 +31,7 @@ public class AccountVO {
 	private String postCd;
 	
 	private String addrType;
+	private String addrTypeNm;
 	
 	private String telephone;
 	
@@ -33,7 +39,7 @@ public class AccountVO {
 	
 	private String fax;
 	
-	private String use;
+	private String tradeUse;
 	
 	private Date regDate;
 	

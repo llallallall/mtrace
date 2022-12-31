@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/assets/bundle/fontawesome/css/solid.css">
 
 
-    <link rel="stylesheet" type="text/css" href="<c:url value="assets/css/custom.css"><c:param name="dt" value="${nowDate}"/></c:url>"/>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/custom.css"><c:param name="dt" value="${nowDate}"/></c:url>"/>
 
 </head>
 <body>

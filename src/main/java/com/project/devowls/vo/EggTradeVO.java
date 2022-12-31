@@ -1,6 +1,7 @@
 package com.project.devowls.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -11,24 +12,30 @@ public class EggTradeVO {
 	private String 	resultCode; 
 	private String 	resultMsg; 
 	
-	private String 	eggHistNo; 
+	//공통
 	private String 	requestDate; 
 	private String 	reportDate; 
+	private String 	issueDate; 
 	
-	private String 	businessNo; 
-	private String 	licenseNo; 
-	private String 	farmIdNo; 
-	private String 	eggUsage; 
-	private String 	spawningDate; 
+	private String 	packingReportDate; 
+	private String 	histNoIssueDate; 
+	
 	private String 	storageMethod; 
-	
-	private int		eggXxl; 
-	private int		eggXl; 
-	private int		eggL; 
-	private int		eggM; 
-	private int		eggS; 
-	private int		eggE; 
-	private int		totalEgg; 
+	private String	washingMethod;
+	private String	breedingMethod;
+	private String 	businessNo;			//사업업자번호
+	private String 	licenseNo;			//인허가번호
+
+	//저장 용
+	private String	eggHistIdx;
+
+	//전송 용
+	private String 	reporterBusinessNo; //신고인 사업자번호
+	private String 	reporterLicenseNo; 	//신고인 인허가번호
+
+	private String 	eggHistNo; 			//이력번호
+	private String 	eggUsage; 			//계란의 용도
+	private String 	spawningDate; 		//산란일자
 	
 	private int		eggXxlDealt; 
 	private int		eggXlDealt; 
@@ -39,17 +46,9 @@ public class EggTradeVO {
 	
 	private int		totalDealt; 
 	
-	private String	washingMethod;
-	private String	breedingMethod;
-	private String	farmUniqNo;
+	//거래내역 
 	
-	private int		eggXxlDispose; 
-	private int		eggXlDispose; 
-	private int		eggLDispose; 
-	private int		eggMDispose; 
-	private int		eggSDispose; 
-	private int		eggEDispose; 
-	
-	private int		totalDispose;
+	private List<EggTradeDetailVO> eggTradeList;
+
 
 }

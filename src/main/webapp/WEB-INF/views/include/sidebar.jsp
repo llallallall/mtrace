@@ -3,17 +3,17 @@
 
 <!-- Toast -->
 	
-<div class="fixed-top start-50 mt-5 p-3" >
+<div id="toast-container" class="fixed-top d-flex justify-content-end mt-5 p-3" style="z-index:100000000">
 
-	<div id="toastNotice" class="toast opacity-100" role="alert" aria-live="assertive" aria-atomic="true">
-	  <div class="toast-header opacity-100">
+	<div id="toastNotice" class="toast" role="alert" aria-live="assertive" aria-atomic="true" >
+	  <div class="toast-header" style="display:none">
 	    <strong class="me-auto" id="toastNoticeTitle"></strong>
 	    <small id="toastNoticeInfo"></small>
-	    <button type="button" class="ms-2 mb-1 close" data-dismiss="toast">
-	      <span>&times;</span>
+	    <button type="button" class="ms-2 mb-1 close" data-dismiss="toast" >
+	      <span >&times;</span>
 	    </button>
 	  </div>
-	  <div class="toast-body opacity-100" id="toastNoticeContent"></div>
+	  <div class="toast-body text-white text-center" id="toastNoticeContent" onclick="$(this).hide()"></div>
 	</div>
 </div>
 			    

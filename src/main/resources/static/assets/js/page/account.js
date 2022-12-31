@@ -1,8 +1,7 @@
 /* ========================================================================
 		공통 변수 
    ======================================================================== */
-var myAlert =document.getElementById('toastNotice');//select id of toast
-var bsAlert = new bootstrap.Toast(myAlert);//inizialize it
+
           
 /* ========================================================================
 		초기 로딩
@@ -92,7 +91,7 @@ function submitAdd(){
 			,success:function(data){
 				
 				if(data.resultCode == 'success') {
-					setToast("bg-success", "거래처 등록", null, "등록 되었습니다.")
+					setToast("bg-success", "거래처 등록", null, "성공적으로 등록 되었습니다.")
 					bsAlert.show();//show it
 					
 				} else if (data.resultCode == 'duplicate') {
@@ -100,13 +99,16 @@ function submitAdd(){
 					bsAlert.show();//show it
 					
 				} else if  (data.resultCode == 'error') {
-					setToast("bg-danger", "거래처 등록", null, "오류가 발생했습니다.")
+					setToast("bg-danger", "거래처 등록", null, "오류가 발생했습니다.<br>"+data.resultCd+"<br>"+data.resultStr)
 					bsAlert.show();//show it
 				}
 
 //				searchEggPacking(1);
 //				calendar.refetchEvents();
 				//location.reload();
+				setTimeout(() => 
+ 					location.reload()
+ 				, 3000);	
 				
 			}
 		    ,error: function(response){

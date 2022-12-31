@@ -27,184 +27,150 @@
 		
 		<div class="contents">
 		<!-- content -->
-		<form id="eggPackngForm" >
+		
 		<div class="row main-content p-4 g-5">
 				 
 			      
 			      <div class="col-md-12 col-lg-12">
 				        
-				        
+				        	
 				          <div class="row g-3">
 				          		<!-- 좌측 -->
 				          		<div class="col-sm-6">
 				          		
 				          			<div class="row reportDate" >
-							              <label for="reportDate" class="form-label">의뢰일자</label>
+							              <label for="reportDate" class="form-label">출고 신고일자</label>
 							              <input type="text" class="form-control text-center" id="reportDate" >
-					              	
+					              			
 							                    
 						            </div>
 						            <div class="row" >
 						            	<div id='calendar'></div>
-						            	<input type="hidden" id="spawningDateHidden" name="spawningDate">
-						            	<input type="hidden" id="reportDateHidden" name="reportDate">
-						            	<input type="hidden" id="requestDateHidden" name="requestDate">
-						            	<input type="hidden" id="eggHistNoHidden" name="eggHistNo">
 						            </div>
 										
 				          		
 				          		</div>
 				          		
 				          		<!-- 우측 -->
-				          		<div class="col-sm-2">
-				          			<div class="row ">
-						          		<div class="col-sm-12 eggSize">
-							              <label for="size1" class="form-label">왕란 - 입고</label>
-							              <input type="text" class="form-control text-end " id="size1" placeholder="0" value="" disabled >
-							              <input type="hidden" id="size1Hidden" name="eggXxl">
-							            </div>
-							            
-							            <div class="col-sm-12 eggSize">
-							              <label for="size2" class="form-label">특란 - 입고</label>
-							              <input type="text" class="form-control text-end " id="size2" placeholder="0" value="" disabled>
-							              <input type="hidden" id="size2Hidden" name="eggXl">
-							            </div>
-							            
-							            <div class="col-sm-12 eggSize">
-							              <label for="size3" class="form-label">대란 - 입고</label>
-							              <input type="text" class="form-control text-end " id="size3" placeholder="0" value="" disabled >
-							              <input type="hidden" id="size3Hidden" name="eggL">
-							            </div>
-							            
-							            <div class="col-sm-12 eggSize">
-							              <label for="size4" class="form-label">중란 - 입고</label>
-							              <input type="text" class="form-control text-end " id="size4" placeholder="0" value="" disabled >
-							              <input type="hidden" id="size4Hidden" name="eggM">
-							            </div>
-							            
-							            <div class="col-sm-12 eggSize">
-							              <label for="size5" class="form-label">소란 - 입고</label>
-							              <input type="text" class="form-control text-end " id="size5" placeholder="0" value="" disabled>
-							              <input type="hidden" id="size5Hidden" name="eggS">
-							            </div>
-							            
-							            <div class="col-sm-12 eggSize">
-							              <label for="size6" class="form-label">기타 - 입고</label>
-							              <input type="text" class="form-control text-end " id="size6" placeholder="0" value="" disabled>
-							              <input type="hidden" id="size6Hidden" name="eggE">
-							            </div>
+				          		<div class="col-sm-6">
+				          			<div class="row reportDate" >
+							              <label class="form-label text-center">선별포장신고 내역</label>
+							              <input type="hidden" class="form-control text-center" >
+					              	
+							                    
+						            </div>
+						            <form id="eggTradeForm" >
+						            	<input type="hidden" id="histNoIssueDate" name="histNoIssueDate">
+						            	<input type="hidden" id="reportDateHidden" name="reportDate">
+						            	<input type="hidden" id="requestDateHidden" name="requestDate">
+						            	<input type="hidden" id="spawningDate" name="spawningDate">
+				          			<div class="row d-flex flex-row ">
+				          				<div class="table-responsive ">
+						          			<table class="table table-bordered align-middle">
+												<thead id="eggPackingHeader" class="table-light text-center">
+													<tr>
+														<th>이력번호</th>
+														<th>신고일자</th>
+														<th>산란일자</th>
+														
+														<th>왕란</th>
+														<th>특란</th>
+														<th>대란</th>
+														<th>중란</th>
+														<th>소란</th>
+														<th>기타</th>
+														<th>합계</th>
+													</tr>
+												</thead>
+												<tbody id="eggPackingList">
+													<tr>
+														<td class="text-center ts-18 py-2" colspan="10">선별포장신고 내역을 선택하세요</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+				          				
 				          			</div>
+				          			</form>
+				          			<form id="eggTradeDetailForm" >
+				          			<div class="row reportDate" >
+							              <label class="form-label text-center ">출고신고 내역</label>
+							              <input type="hidden" class="form-control text-center" >
+					              	
+							                    
+						            </div>
+				          			<div class="row ">
+						          		<div class="table-responsive mt-1">
+						          			<table class="table table-striped table-hover table-bordered align-middle">
+												<thead id="accountListForTradeHeader" class="table-light text-center">
+													<tr>
+														<th style="width:5%">번호</th>
+														<th style="width:25%">거래처명</th>
+														<th style="width:10%">사업자번호</th>
+														<th style="width:15%">거래일자</th>
+														<th style="width:5%">왕란</th>
+														<th style="width:5%">특란</th>
+														<th style="width:10%">대란</th>
+														<th style="width:5%">중란</th>
+														<th style="width:5%">소란</th>
+														<th style="width:5%">기타</th>
+														<th style="width:10%">합계</th>
+													</tr>
+												</thead>
+												<tbody id="accountListForTrade">
+												</tbody>
+												<tfoot>
+												   <tr>
+														<td colspan="4" class="text-center">합계</td>
+														
+														<td ><input type="text" class="w-100 p-0 m-0 text-end bg-tranparent" id="sumEggXxlDealt" value="0" disabled></td>
+														<td ><input type="text" class="w-100 p-0 m-0 text-end bg-tranparent" id="sumEggXlDealt" value="0" disabled></td>
+														<td ><input type="text" class="w-100 p-0 m-0 text-end bg-tranparent" id="sumEggLDealt" value="0" disabled></td>
+														<td ><input type="text" class="w-100 p-0 m-0 text-end bg-tranparent" id="sumEggMDealt" value="0" disabled></td>
+														<td ><input type="text" class="w-100 p-0 m-0 text-end bg-tranparent" id="sumEggSDealt" value="0" disabled></td>
+														<td ><input type="text" class="w-100 p-0 m-0 text-end bg-tranparent" id="sumEggEDealt" value="0" disabled></td>
+														<td ><input type="text" class="w-100 p-0 m-0 text-end bg-tranparent" id="sumEggTotalDealt" value="0" disabled></td>
+													</tr>
+												</tfoot>
+																								
+											
+											</table>
+										</div>
+										
+										<nav aria-label="Page navigation" class="py-3">
+										    <ul class="pagination justify-content-center" id="pageing"></ul>
+										</nav> 
+				          			</div>
+				          			</form>
 				          		</div>
-					            <input type="hidden" id="totalEggHidden" name="totalEgg">
+					           
 					            
-					            <div class="col-sm-2">
-				          			<div class="row ">
-						          		<div class="col-sm-12 eggSize">
-							              <label for="size1" class="form-label">왕란 - 처리</label>
-							              <input type="text" class="form-control text-end border-success" id="size1Dealt" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size1','dealt');inputNumberFormat(this)"  >
-							              <input type="hidden" id="size1DealtHidden" name="eggXxlDealt">
-							            </div>
-							            
-							            <div class="col-sm-12 eggSize">
-							              <label for="size2" class="form-label">특란 - 처리</label>
-							              <input type="text" class="form-control text-end border-success" id="size2Dealt" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size2','dealt');inputNumberFormat(this)"  >
-							              <input type="hidden" id="size2DealtHidden" name="eggXlDealt">
-							            </div>
-							            
-							            <div class="col-sm-12 eggSize">
-							              <label for="size3" class="form-label">대란 - 처리</label>
-							              <input type="text" class="form-control text-end border-success" id="size3Dealt" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size3','dealt');inputNumberFormat(this);" >
-							              <input type="hidden" id="size3DealtHidden" name="eggLDealt">
-							            </div>
-							            
-							            <div class="col-sm-12 eggSize">
-							              <label for="size4" class="form-label">중란 - 처리</label>
-							              <input type="text" class="form-control text-end border-success" id="size4Dealt" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size4','dealt');inputNumberFormat(this)"  >
-							              <input type="hidden" id="size4DealtHidden" name="eggMDealt">
-							            </div>
-							            
-							            <div class="col-sm-12 eggSize">
-							              <label for="size5" class="form-label">소란 - 처리</label>
-							              <input type="text" class="form-control text-end border-success" id="size5Dealt" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size5','dealt');inputNumberFormat(this)"  >
-							              <input type="hidden" id="size5DealtHidden" name="eggSDealt">
-							            </div>
-							            
-							            <div class="col-sm-12 eggSize">
-							              <label for="size6" class="form-label">기타 - 처리</label>
-							              <input type="text" class="form-control text-end border-success" id="size6Dealt" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size6','dealt');inputNumberFormat(this)"  >
-							              <input type="hidden" id="size6DealtHidden" name="eggEDealt">
-							            </div>
-				          			</div>
-				          		</div>
-					            <input type="hidden" id="totalDealtHidden" name="totalDealt">
-					            
-					            <!-- 우측 폐기 -->
-					            <div class="col-sm-2">
-				          			<div class="row ">
-						          		<div class="col-sm-12 eggSize">
-							              <label for="size1Dispose" class="form-label">왕란 - 폐기</label>
-							              <input type="text" class="form-control text-end border-warning" id="size1Dispose" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size1','dispose');inputNumberFormat(this)"  >
-							              <input type="hidden" id="size1DisposeHidden" name="eggXxlDispose">
-							            </div>
-							            
-							            <div class="col-sm-12 eggSize">
-							              <label for="size2Dispose" class="form-label">특란 - 폐기</label>
-							              <input type="text" class="form-control text-end border-warning" id="size2Dispose" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size2','dispose');inputNumberFormat(this)"  >
-							              <input type="hidden" id="size2DisposeHidden" name="eggXlDispose">
-							            </div>
-							            
-							            <div class="col-sm-12 eggSize">
-							              <label for="size3Dispose" class="form-label">대란 - 폐기</label>
-							              <input type="text" class="form-control text-end border-warning" id="size3Dispose" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size3','dispose');inputNumberFormat(this)"  >
-							              <input type="hidden" id="size3DisposeHidden" name="eggLDispose">
-							            </div>
-							            
-							            <div class="col-sm-12 eggSize">
-							              <label for="size4Dispose" class="form-label">중란 - 폐기</label>
-							              <input type="text" class="form-control text-end border-warning" id="size4Dispose" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size4','dispose');inputNumberFormat(this)"  >
-							              <input type="hidden" id="size4DisposeHidden" name="eggMDispose">
-							            </div>
-							            
-							            <div class="col-sm-12 eggSize">
-							              <label for="size5Dispose" class="form-label">소란 - 폐기</label>
-							              <input type="text" class="form-control text-end border-warning" id="size5Dispose" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size5','dispose');inputNumberFormat(this)"  >
-							              <input type="hidden" id="size5DisposeHidden" name="eggSDispose">
-							            </div>
-							            
-							            <div class="col-sm-12 eggSize">
-							              <label for="size6Dispose" class="form-label">기타 - 폐기</label>
-							              <input type="text" class="form-control text-end border-warning" id="size6Dispose" placeholder="0" value="" onClick="chkHistNo()" onKeyDown="chkHistNo()" onKeyup="validSum('size6','dispose');inputNumberFormat(this)"  >
-							              <input type="hidden" id="size6DisposeHidden" name="eggEDispose">
-							            </div>
-				          			</div>
-				          		</div>
-								<input type="hidden" id="totalDisposeHidden" name="totalDispose">
 					            
 				            
 				           <hr class="my-4">
 				
-				          <button class="w-100 btn btn-primary btn-lg" type="button" onclick="submitEggPackng()">신고하기</button>
+				          <button id="submitBtn" class="w-100 btn btn-primary btn-lg" type="button" onclick="submitEggTrade()">출고 신고하기</button>
 				          
 				          </div>
 
 			      		</div>
 		        	
 			    </div>
-			    </form>  
+			    
 			    
 			    <hr class="my-4">
 			
 			          <h4 class="mb-3">등록 내역</h4>
-			
+						
 			          <div class="row">    
 			            <div class="col-lg-12">
 			                <div class="card">
 			                    <div class="card-body">
 
 			                        <div class="table-responsive">
-			                            <table class="table table-striped mb-0">
+			                            <table class="table table-bordered table-striped mb-0">
 			
-			                                <thead>
+			                                <thead  >
 			                                    <tr>
 			                                        <th rowspan="2">#</th>
 			                                        <th rowspan="2">전송시간</th>
@@ -213,56 +179,21 @@
 			                                        <th rowspan="2">응답메시지</th>
 			                                        
 			                                        <th rowspan="2">이력번호</th>
-			                                        
-			                                        <th rowspan="2">의뢰일자</th>
-			                                        
+			                                        <th rowspan="2">거래일자</th>
 			                                        <th rowspan="2">신고일자</th>
 			                                        
-<!-- 			                                        <th rowspan="2">사업자등록번호</th> -->
-<!-- 			                                        <th rowspan="2">인허가번호</th> -->
-<!-- 			                                        <th rowspan="2">농장식별번호</th> -->
 			                                        
-<!-- 			                                        <th rowspan="2">계란의용도</th> -->
-			                                        
-<!-- 			                                        <th rowspan="2">산란일자</th> -->
-			                                        
-<!-- 			                                        <th rowspan="2">보관방법</th> -->
-<!-- 			                                        <th rowspan="2">세척방법</th> -->
-			                                        
-			                                        <th colspan="6" class="text-center">처리실적</th>
-<!-- 			                                        <th>특란</th> -->
-<!-- 			                                        <th>대란</th> -->
-<!-- 			                                        <th>중란</th> -->
-<!-- 			                                        <th>소란</th> -->
-<!-- 			                                        <th>기타</th> -->
-			                                        
-			                                        <th colspan="6" class="text-center">폐기내역</th>
-<!-- 			                                        <th>특란</th> -->
-<!-- 			                                        <th>대란</th> -->
-<!-- 			                                        <th>중란</th> -->
-<!-- 			                                        <th>소란</th> -->
-<!-- 			                                        <th>기타</th> -->
+			                                        <th colspan="2" class="text-center">거래처</th>
+
+			                                        <th colspan="7" class="text-center">출고수량</th>
 
 			                                    </tr>
 			                                    <tr>
-<!-- 			                                        <th colspan="2">#</th> -->
-<!-- 			                                        <th colspan="2">전송시간</th> -->
+
 			                                        
-<!-- 			                                        <th colspan="2">응답코드</th> -->
-<!-- 			                                        <th colspan="2">응답메시지</th> -->
+			                                        <th>업체명</th>
+			                                        <th>사업자번호</th>
 			                                        
-<!-- 			                                        <th colspan="2">이력번호</th> -->
-			                                        
-<!-- 			                                        <th colspan="2">사업자등록번호</th> -->
-<!-- 			                                        <th colspan="2">인허가번호</th> -->
-<!-- 			                                        <th colspan="2">농장식별번호</th> -->
-			                                        
-<!-- 			                                        <th colspan="2">계란의용도</th> -->
-			                                        
-<!-- 			                                        <th colspan="2">산란일자</th> -->
-			                                        
-<!-- 			                                        <th colspan="2">보관방법</th> -->
-<!-- 			                                        <th colspan="2">세척방법</th> -->
 			                                        
 			                                        <th>왕란</th>
 			                                        <th>특란</th>
@@ -270,13 +201,7 @@
 			                                        <th>중란</th>
 			                                        <th>소란</th>
 			                                        <th>기타</th>
-			                                        
-			                                        <th>왕란</th>
-			                                        <th>특란</th>
-			                                        <th>대란</th>
-			                                        <th>중란</th>
-			                                        <th>소란</th>
-			                                        <th>기타</th>
+			                                        <th>합계</th>
 
 			                                    </tr>
 			                                </thead>
@@ -322,6 +247,6 @@
 	<script src="/assets/bundle/popper.2.11.6/js/popper.js"></script>
 	<script src="/assets/bundle/tippy.6.3.7/js/tippy.js"></script>
 	<script src="/assets/js/custom.js"></script>
-	<script src="/assets/js/page/eggPacking.js"></script>
+	<script src="/assets/js/page/eggTrade.js"></script>
 	
 </html>

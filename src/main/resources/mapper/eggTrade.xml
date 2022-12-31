@@ -4,6 +4,43 @@
 
 <mapper namespace="com.project.devowls.dao.EggTradeDAO">
 
+	<select id="selectAccountListOnTradeUse" parameterType="hashmap" resultType="AccountVO">
+		SELECT b.*
+			FROM (
+				SELECT *
+				FROM 
+				 	(SELECT 
+						ROW_NUMBER() over ( ORDER BY m.reg_date asc, m.business_no asc, m.license_no asc  ) as num,
+						ROW_NUMBER() over ( ORDER BY m.reg_date desc, m.business_no desc, m.license_no desc ) as idx,
+						m.business_no, 
+						m.account_nm, 
+						m.account_type,
+						(select nm from code_secondary where cd = m.account_type and parent_cd='accounttype' and use_yn = 'Y' )
+						 as 'account_type_nm', 
+						
+						m.license_no, 
+						m.ceo_nm, 
+						m.address, 
+						m.addr_cd, 
+						m.post_cd, 
+						m.addr_detail, 
+						m.addr_type, 
+						m.telephone, 
+						m.mobile, 
+						m.fax, 
+						m.remark, 
+						m.reg_date, 
+						m.trade_use
+					FROM 
+						mtrace.account_mgmt m
+					WHERE 	m.trade_use = "Y"
+					) a
+				order by a.num asc 
+			) b
+		where b.idx between #{startrow} and #{startrow}+9	
+		 
+	</select>
+
 	<select id="selectEggTradeCnt" resultType="int">
 		SELECT 
 			count(report_time)
@@ -11,55 +48,6 @@
 			mtrace.egg_trade
 	</select>
 	
-	<select id="selectEggTradeSucceeded" resultType="EggTradeVO">
-		SELECT 
-			report_time, 
-			result_code, 
-			result_msg, 
-			
-			business_no, 
-			license_no, 
-			egg_hist_no, 
-			
-			request_date, 
-			report_date,
-			
-			farm_id_no, 
-			egg_usage, 
-			spawning_date, 
-			storage_method, 
-			washing_method, 
-			
-			egg_xxl, 
-			egg_xl, 
-			egg_l, 
-			egg_m, 
-			egg_s, 
-			egg_e, 
-			
-			egg_xxl_dealt, 
-			egg_xl_dealt, 
-			egg_l_dealt, 
-			egg_m_dealt, 
-			egg_s_dealt, 
-			egg_e_dealt, 
-			
-			egg_xxl_dispose, 
-			egg_xl_dispose, 
-			egg_l_dispose, 
-			egg_m_dispose, 
-			egg_s_dispose, 
-			egg_e_dispose,
-			
-			total_egg, 
-			total_dealt, 
-			total_dispose
-			
-		FROM 
-			mtrace.egg_trade
-		WHERE
-			result_code = "INFO-0000"
-	</select>
 	
 	
 	
@@ -160,8 +148,7 @@
 				egg_hist_no, 
 				
 				request_date, 
-				report_date,
-				
+			
 				farm_id_no, 
 				egg_usage, 
 				spawning_date, 
@@ -198,100 +185,126 @@
 				spawning_date = #{spawningDate}
 	</select>
 	
+	
+	<select id="selectEggHistIdx" parameterType="String" resultType="int">
+		SELECT 
+			ifnull(	max(	convert(SUBSTRING(egg_hist_idx,11,3), signed integer)	) +1 ,1 ) as idx
+		FROM 
+			mtrace.egg_trade
+		WHERE
+			egg_hist_no= #{eggHistNo}	
+	</select>
+	
 	<insert id="insertEggTrade" parameterType="EggTradeVO">
 	
-		INSERT INTO 
-			mtrace.egg_trade
-			(
-				report_time, 
+		INSERT INTO mtrace.egg_trade
+			(	report_time, 
 				result_code, 
 				result_msg, 
-				
-				business_no, 
-				license_no, 
+				egg_hist_idx, 
+				packing_report_date, 
 				egg_hist_no, 
-				
-				request_date, 
-				report_date,
-				
-				farm_id_no, 
+				hist_no_issue_date, 
 				egg_usage, 
 				spawning_date, 
-				storage_method, 
-				washing_method, 
-				
+				reporter_business_no, 
+				reporter_license_no
+			)
+		VALUES
+			(	CURRENT_TIMESTAMP(), 
+				#{resultCode}, 
+				#{resultMsg}, 
+				#{eggHistIdx}, 
+				#{packingReportDate}, 
+				#{eggHistNo},
+				#{histNoIssueDate}, 
+				#{eggUsage}, 
+				#{spawningDate},
+				#{reporterBusinessNo}, 
+				#{reporterLicenseNo}
+			)
+	</insert>
+	
+	
+	
+	<select id="selectTransIdxByEggHistIdx" parameterType="String" resultType="int">
+		SELECT 
+			ifnull(	max(	trans_idx	) +1 ,1 ) as idx
+		FROM 
+			mtrace.egg_trade_detail
+		WHERE
+			egg_hist_idx= #{eggHistIdx}	
+	</select>
+	
+	
+	
+	<insert id="insertEggTradeByAccount" parameterType="EggTradeVO">
+	
+		INSERT INTO mtrace.egg_trade
+			(	report_time, 
+				result_code, 
+				result_msg, 
+				egg_hist_idx, 
+				packing_report_date, 
+				egg_hist_no, 
+				hist_no_issue_date, 
+				egg_usage, 
+				spawning_date, 
+				reporter_business_no, 
+				reporter_license_no
+			)
+		VALUES
+			(	CURRENT_TIMESTAMP(), 
+				#{resultCode}, 
+				#{resultMsg}, 
+				#{eggHistIdx}, 
+				#{packingReportDate}, 
+				#{eggHistNo},
+				#{histNoIssueDate}, 
+				#{eggUsage}, 
+				#{spawningDate},
+				#{reporterBusinessNo}, 
+				#{reporterLicenseNo}
+			)
+			
+		INSERT INTO mtrace.egg_trade_detail
+			(	egg_hist_idx, 
+				trans_idx, 
+				account_nm, 
+				account_business_no, 
+				account_license_no, 
 				egg_xxl, 
 				egg_xl, 
 				egg_l, 
 				egg_m, 
 				egg_s, 
 				egg_e, 
-				
-				egg_xxl_dealt, 
-				egg_xl_dealt, 
-				egg_l_dealt, 
-				egg_m_dealt, 
-				egg_s_dealt, 
-				egg_e_dealt, 
-				
-				egg_xxl_dispose, 
-				egg_xl_dispose, 
-				egg_l_dispose, 
-				egg_m_dispose, 
-				egg_s_dispose, 
-				egg_e_dispose,
-				
 				total_egg, 
-				total_dealt, 
-				total_dispose
+				reg_date, 
+				mod_date, 
+				trans_date, 
+				trans_type
 			)
 		VALUES
-			(
-				CURRENT_TIMESTAMP(), 
-				#{resultCode}, 
-				#{resultMsg}, 
-				
-				#{businessNo}, 
-				#{licenseNo},
-				#{eggHistNo}, 
-				
-				#{requestDate},
-				#{reportDate},
-				
-				#{farmIdNo}, 
-				#{eggUsage}, 
-				
-				#{spawningDate}, 
-				#{storageMethod}, 
-				#{washingMethod},
-
-				
+			(	#{eggHistIdx}, 
+				#{transIdx}, 
+				#{accountNm}, 
+				#{accountBusinessNo}, 
+				#{accountLicenseNo}, 
 				#{eggXxl}, 
-				#{eggXl},
+				#{eggXl}, 
 				#{eggL}, 
 				#{eggM}, 
 				#{eggS}, 
 				#{eggE}, 
-				
-				#{eggXxlDealt}, 
-				#{eggXlDealt}, 
-				#{eggLDealt}, 
-				#{eggMDealt}, 
-				#{eggSDealt}, 
-				#{eggEDealt}, 
-				
-				#{eggXxlDispose}, 
-				#{eggXlDispose},
-				#{eggLDispose}, 
-				#{eggMDispose}, 
-				#{eggSDispose}, 
-				#{eggEDispose},
-				
 				#{totalEgg}, 
-				#{totalDealt}, 
-				#{totalDispose}
-				
+				current_timestamp(), 
+				current_timestamp(), 
+				#{transDate}, 
+				#{transType}
 			)
 	</insert>
+	
+	
 
 </mapper>

@@ -1,13 +1,13 @@
 /* ========================================================================
 		공통 변수 
    ======================================================================== */
-
+var reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gim;
 /* ========================================================================
 		초기 로딩
    ======================================================================== */
 $(document).ready(function(){
 
-		searchEggPacking(1);
+		searchEggTrade(1);
 		
 		let initDate = new Date();   
 		let initDateYear = initDate.getFullYear(); // 년도
@@ -17,9 +17,7 @@ $(document).ready(function(){
 		var initDateStr = initDateYear+ '-' + initDateMonth + '-' + initDateDate;
 		var week = new Array('일', '월', '화', '수', '목', '금', '토');
 		$('#reportDate').val(initDateStr+ '(' + week[initDate.getDay()] + ')' );
-		
-		
-				
+
 });
 
 
@@ -59,7 +57,7 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 			
 			
 			//입고등록번호 초기화
-			$("#eggHistNoHidden").val(null);
+			//$("#eggHistNoHidden").val(null);
 			
 		},
       	expandRows: true,
@@ -91,50 +89,95 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 			
 			var clickDateStr = clickYear+ '-' + clickMonth + '-' + clickDate;
 			var week = new Array('일', '월', '화', '수', '목', '금', '토');
+			
 			$('#reportDate').val(clickDateStr+ '(' + week[clickStart.getDay()] + ')' );
+			//$('#reportDateHidden').val(clickYear+clickMonth+clickDate);
 			
-			$('#reportDateHidden').val(clickYear+clickMonth+clickDate);
 			
-			$("#eggHistNoHidden").val(info.event.extendedProps.eggHistNo);
+			let eggHistNo  		= info.event.extendedProps.eggHistNo ;				//이력번호
+			let issueDate  		= info.event.extendedProps.issueDate ;				//이력번호 발급일자
+			let spawningDate  	= info.event.extendedProps.spawningDate ;			//산란일자
+			let requestDate  	= info.event.extendedProps.requestDate ;			//선별포장신고 일자
 			
-			$("#size1").val(info.event.extendedProps.eggXxl);
-			$("#size2").val(info.event.extendedProps.eggXl);
-			$("#size3").val(info.event.extendedProps.eggL);
-			$("#size4").val(info.event.extendedProps.eggM);
-			$("#size5").val(info.event.extendedProps.eggS);
-			$("#size6").val(info.event.extendedProps.eggE);
+			let eggUsage  				= info.event.extendedProps.eggUsage ;				//계란용도
+			let reporterBusinessNo  	= info.event.extendedProps.reporterBusinessNo ;			//사업자번호	
+			let reporterLicenseNo  		= info.event.extendedProps.reporterLicenseNo ;			//인허가번호
 			
-			if(info.event.groupId =="history") {
-				$("#size1Dealt").val(info.event.extendedProps.eggXxl);
-				$("#size2Dealt").val(info.event.extendedProps.eggXl);
-				$("#size3Dealt").val(info.event.extendedProps.eggL);
-				$("#size4Dealt").val(info.event.extendedProps.eggM);
-				$("#size5Dealt").val(info.event.extendedProps.eggS);
-				$("#size6Dealt").val(info.event.extendedProps.eggE);
+			//$("#eggHistNoHidden").val(eggHistNo);
+			
+			let eggXxlDealt  	=  info.event.extendedProps.eggXxlDealt ;
+			let eggXlDealt  	=  info.event.extendedProps.eggXlDealt ;
+			let eggLDealt  		=  info.event.extendedProps.eggLDealt ;
+			let eggMDealt  		=  info.event.extendedProps.eggMDealt ;
+			let eggSDealt  		=  info.event.extendedProps.eggSDealt ;
+			let eggEDealt  		=  info.event.extendedProps.eggEDealt ;
+			let totalDealt 	 	=  info.event.extendedProps.totalDealt ;
+			
+			let html = "";
+			if(info.event.groupId =="packing") {
+
+				html +="<tr>";
 				
-			} else if(info.event.groupId =="packing") {
+				html +="	<td><input type='text' id='selEggHistNo' name='eggHistNo' class='w-100 p-0 m-0 text-end bg-tranparent' value='"+eggHistNo+"'/></td>"; 		//이력번호
+				html +="	<td><input type='text' id='selIssueDate' class='w-100 p-0 m-0 text-end bg-tranparent'  value='"+dateFormat(issueDate,'-')+"'/></td>";			//신고일자
+				html +="	<td><input type='text' id='selSpawningDate' class='w-100 p-0 m-0 text-end bg-tranparent'  value='"+dateFormat(spawningDate,'-')+"'/></td>";		//산란일자
 				
-				$("#size1Dealt").val(info.event.extendedProps.eggXxlDealt);
-				$("#size2Dealt").val(info.event.extendedProps.eggXlDealt);
-				$("#size3Dealt").val(info.event.extendedProps.eggLDealt);
-				$("#size4Dealt").val(info.event.extendedProps.eggMDealt);
-				$("#size5Dealt").val(info.event.extendedProps.eggSDealt);
-				$("#size6Dealt").val(info.event.extendedProps.eggEDealt);
+				html +=' 		<input type="hidden" name="packingReportDate" id="packingReportDate" value="'+requestDate+'" >';
+				html +=' 		<input type="hidden" name="eggUsage" id="eggUsage" value="'+eggUsage+'" >';
+				html +=' 		<input type="hidden" name="reporterBusinessNo" id="reporterBusinessNo" value="'+reporterBusinessNo+'" >';
+				html +=' 		<input type="hidden" name="reporterLicenseNo" id="packingReportDate" value="'+reporterLicenseNo+'" >';
+
+				html +="	<td><input type='text' id='selEggXxlDealt' class='w-100 p-0 m-0 text-end bg-tranparent'  value='"+eggXxlDealt+"'/></td>";		//왕란
+				html +="	<td><input type='text' id='selEggXlDealt' class='w-100 p-0 m-0 text-end bg-tranparent'  value='"+eggXlDealt+"'/></td>";		//특란
+				html +="	<td><input type='text' id='selEggLDealt' class='w-100 p-0 m-0 text-end bg-tranparent'  value='"+eggLDealt+"'/></td>";		//대란
+				html +="	<td><input type='text' id='selEggMDealt' class='w-100 p-0 m-0 text-end bg-tranparent'  value='"+eggMDealt+"'/></td>";		//중란
+				html +="	<td><input type='text' id='selEggSDealt' class='w-100 p-0 m-0 text-end bg-tranparent'  value='"+eggSDealt+"'/></td>";		//소란
+				html +="	<td><input type='text' id='selEggEDealt' class='w-100 p-0 m-0 text-end bg-tranparent'  value='"+eggEDealt+"'/></td>";		//기타
+				html +="	<td><input type='text' id='selEggTotalDealt' class='w-100 p-0 m-0 text-end bg-tranparent'  value='"+totalDealt+"'/></td>";		//합계
+				
+				html +="</tr>";
+				
+				$("#eggPackingList").html(html);
+				
+				$("#eggPackingHeader").removeAttr("class");
+				$("#eggPackingHeader").addClass("table-info text-center");	
 				
 				
-				$("#size1Dispose").val(info.event.extendedProps.eggXxlDispose);
-				$("#size2Dispose").val(info.event.extendedProps.eggXlDispose);
-				$("#size3Dispose").val(info.event.extendedProps.eggLDispose);
-				$("#size4Dispose").val(info.event.extendedProps.eggMDispose);
-				$("#size5Dispose").val(info.event.extendedProps.eggSDispose);
-				$("#size6Dispose").val(info.event.extendedProps.eggEDispose);	
+				$("#accountListForTradeHeader").removeAttr("class");
+				$("#accountListForTradeHeader").addClass("table-success text-center");	
+				
+				
+				//거래일자를 선별포장 신고일자로 변경(초기 오늘날짜)
+				let tds = document.querySelectorAll('.transDate');
+				tds.forEach(td => td.value = dateFormat(requestDate,'-'));
+				
+				let tdHiddens = document.querySelectorAll('input[name="transDate"]');
+				tdHiddens.forEach(td => td.value = requestDate);
+					 //console.log(tdHiddens);
+					 
+				
+				//이력번호 발급일자 입력
+				$("#histNoIssueDate").val(issueDate);
+				
+				//산란일자 입력
+				$("#spawningDate").val(spawningDate);
+				
 			}
+			
+			// 거래처별 자동 배분 ( 왕란,특란,대란,중란,소란,기타,합계)
+			distributeByAccount(eggXxlDealt,eggXlDealt,eggLDealt,eggMDealt,eggSDealt,eggEDealt,totalDealt);
+			
+			// 모달
+			setToast("bg-success", "선별포장신고 내역", null, "선별포장 신고내역이 업데이트 되었습니다.<br><br>거래처별 출고 수량을 수정하세요")
+			bsAlert.show();//show it
+			
 		},
+
       	events: function(info, successCallback, failureCallback){
 				    
 				    $.ajax({
 				        type : 'GET',
-						url : '/callEggPackingSucceeded',
+						url : '/callEggTradeSucceeded',
 						dataType : 'json',
 						contentType : "application/json",
 				        success: function(data){
@@ -157,6 +200,8 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 								 		extendedProps: {
 									
 											eggHistNo	: history[i].eggHistNo,
+											reportDate	: history[i].reportDate,
+											spawningDate	: history[i].spawningDate,
 											
 									        eggXxl	: history[i].eggXxl,
 									        eggXl	: history[i].eggXl,
@@ -166,9 +211,9 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 									        eggE	: history[i].eggE
 									      },
 								 		description : history[i].description,
-								 		backgroundColor: '#2471A3',
-								 		borderColor: '#2471A3',
-								 		textColor : '#FFF'
+								 		backgroundColor: 'rgba(36, 113, 163, 0.4)',
+								 		borderColor: 'rgba(36, 113, 163, 0.4)',
+								 		textColor : 'rgba(0, 0, 0, 0.2)'
 								 	});	
 								}// for		
 							} // if
@@ -183,7 +228,14 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 								 		extendedProps: {
 									
 											eggHistNo		: packaging[i].eggHistNo,
+											issueDate		: packaging[i].issueDate,
+											spawningDate	: packaging[i].spawningDate,
+											requestDate		: packaging[i].requestDate,
 											
+											eggUsage		: packaging[i].eggUsage,
+											reporterBusinessNo		: packaging[i].reporterBusinessNo,
+											reporterLicenseNo		: packaging[i].reporterLicenseNo,
+
 									        eggXxl			: packaging[i].eggXxl,
 									        eggXl			: packaging[i].eggXl,
 									        eggL			: packaging[i].eggL,
@@ -203,14 +255,21 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 									        eggLDispose		: packaging[i].eggLDispose,
 									        eggMDispose		: packaging[i].eggMDispose,
 									        eggSDispose		: packaging[i].eggSDispose,
-									        eggEDispose		: packaging[i].eggEDispose
+									        eggEDispose		: packaging[i].eggEDispose,
+									        
+									        totalEgg		: packaging[i].totalEgg,
+									        totalDealt		: packaging[i].totalDealt,
+									        totalDispose	: packaging[i].totalDispose
 									      },
 								 		description : packaging[i].description,
 								 		backgroundColor: '#24A388',
 								 		borderColor: '#24A388',
 								 		textColor : '#FFF'
 								 	});	
-								}// for		
+								}// for	
+								
+								
+								
 							} // if
 							
 							if (breeding !=null && breeding.length > 0) {
@@ -241,7 +300,9 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 								}// for		
 							} // if
 
-				        successCallback(events);
+				        successCallback(events)
+				        
+				        
 				    }
 				});	
 			}
@@ -250,34 +311,27 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 document.addEventListener('DOMContentLoaded', function() {
 
     calendar.render();
+   
+    //글자 웨이브 효과
   });
   
+  
+
+//  waveAnimation("wave-title", "신고하기")
 
 /* ========================================================================
 		초기화 함수 
    ======================================================================== */
 function resetEggCount() {
-	$("#size1").val(0);
-	$("#size2").val(0);
-	$("#size3").val(0);
-	$("#size4").val(0);
-	$("#size5").val(0);
-	$("#size6").val(0);
-
-	$("#size1Dealt").val(0);
-	$("#size2Dealt").val(0);
-	$("#size3Dealt").val(0);
-	$("#size4Dealt").val(0);
-	$("#size5Dealt").val(0);
-	$("#size6Dealt").val(0);
+	$("#eggPackingHeader").removeAttr("class");
+	$("#eggPackingHeader").addClass("table-light text-center");
+	
+	$("#accountListForTradeHeader").removeAttr("class");
+	$("#accountListForTradeHeader").addClass("table-light text-center");
 	
 	
-	$("#size1Dispose").val(0);
-	$("#size2Dispose").val(0);
-	$("#size3Dispose").val(0);
-	$("#size4Dispose").val(0);
-	$("#size5Dispose").val(0);
-	$("#size6Dispose").val(0);
+	let html ='<td class="text-center ts-18 py-2" colspan="10">선별포장신고 내역을 선택하세요</td>';
+	$("#eggPackingList").html(html);
 	
 }
 
@@ -286,101 +340,80 @@ function resetEggCount() {
    ======================================================================== */
 function chkHistNo () {
 	//입고등록 확인
-	if($("#eggHistNoHidden").val() == null || $("#eggHistNoHidden").val().length <1 ) {
-		alert("선별포장실적을 신고할 일자의 [입고등록번호]를 클릭하세요");
+	if($("#selEggHistNo").val() == null || $("#selEggHistNo").val().length <1 ) {
+		alert("출고 신고할 일자의 [선별포장신고]를 클릭하세요");
 		return false;
 	
 	}
 }
  	
-
 /* ========================================================================
-		합계 검증 함수 
+		입고내역 자동 배분
    ======================================================================== */
- 
- function validSum(size,step){
+function distributeByAccount(eggXxlDealt,eggXlDealt,eggLDealt,eggMDealt,eggSDealt,eggEDealt,totalDealt){
 	
-	
-	
-	let reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gim;
+	let nodes = document.querySelector("#accountListForTrade").querySelectorAll("input[name='accountBusinessNo']")
 
+	// 객체 생성
+	var sizeData = new Object() ;
 
-	let sum = $('#'+size).val().replace(reg, "")*1;
-	let dealt = $('#'+size+'Dealt').val().replace(reg, "")*1;
-	let dispose = $('#'+size+'Dispose').val().replace(reg, "")*1;
+	sizeData.eggXxlDealt 	= eggXxlDealt.replace(reg, "")*1;
+	sizeData.eggXlDealt 	= eggXlDealt.replace(reg, "")*1;
+	sizeData.eggLDealt 		= eggLDealt.replace(reg, "")*1;
+	sizeData.eggMDealt 		= eggMDealt.replace(reg, "")*1;
+	sizeData.eggSDealt 		= eggSDealt.replace(reg, "")*1;
+	sizeData.eggEDealt 		= eggEDealt.replace(reg, "")*1;
+	sizeData.totalDealt 	= totalDealt.replace(reg, "")*1;
+
+	//console.log(sizeData);
 	
-	// 1. 처리내역 초과
-	//console.log(sum)
-	//console.log(dealt)
-	//console.log(dispose)
-	
-	if(dealt < 0) {
-		$('#'+size+'Dealt').val(0);
-		$('#'+size+'Dispose').val(numberWithCommas(sum));
-	};
-	
-	
-	if(dispose < 0) {
-		$('#'+size+'Dispose').val(0);
-		$('#'+size+'Dealt').val(numberWithCommas(sum));
-	};
-	
-	
-	if(sum < dealt) {
-		//console.log(1);
-		$('#'+size+'Dealt').val(numberWithCommas(sum));
-		$('#'+size+'Dispose').val(0);
-	}
-	
-	// 2. 합계 초과
-	if(sum < (dealt+dispose)) {
-		//console.log(2);
-		$('#'+size+'Dispose').val(numberWithCommas(Math.max(sum-dealt,0)));
-	}
-	
-	// 3. 폐기 초과
-	if(sum < (dispose)) {
-		//console.log(3);
-		$('#'+size+'Dealt').val(0);
-		$('#'+size+'Dispose').val(numberWithCommas(sum));
-	}
-	
-	// 4. 자동 계산
-	if(step == "dealt") {
-		if(sum >0 && dealt >0) {
-			//console.log(4);
-			$('#'+size+'Dispose').val(numberWithCommas(Math.max(sum-dealt,0)));
+	$.each(sizeData, function(key, value){
+		makeAccountArry(key, value ,nodes.length)
 		}
-	} else if (step == "dispose") {
-		if(sum >0 && dispose >0) {
-			//console.log(5);
-			$('#'+size+'Dealt').val(numberWithCommas(Math.max(sum-dispose,0)));
+	);
+	
+}
+
+function makeAccountArry(id, cnt ,dataLength){
+//	let inputId = 'arr'+capitalize(id);
+//	console.log(inputId);
+	//console.log(id+' '+cnt+' '+dataLength)
+	for(let index=0; index < dataLength; index++){
+		let val = ( cnt / dataLength).toFixed();
+		let valLast = cnt - (val*(dataLength -1));
+		if ( index < dataLength -1) {
+			// 텍스트
+			$("#"+id+index).val(numberWithCommas(val)) ;
+			// Hidden num
+			$("#"+id.replace("Dealt","")+index).val((val)) ;
+		} else if (index == dataLength -1) {
+			// 텍스트
+			$("#"+id+index).val(numberWithCommas(valLast)) ;
+			// Hidden num
+			$("#"+id.replace("Dealt","")+index).val((valLast)) ;
 		}
+		sumAccountRow(index)
+//		console.log("#"+id+index);
 	}
-	
-	
-	
-}  
-   			  
-  
+
+}
+
 /* ========================================================================
 		리스트 로딩 함수 
    ======================================================================== */	
 	
 	
 // 페이지 로딩 	
-function searchEggPacking(page){
+function searchEggTrade(page){
 	
 
 	if(page==null || page==''){
 		page=1;
 	}
-	
-	
-			
+
 	$.ajax({
 		type : 'GET',
-		url : '/callEggPacking',
+		url : '/callAccountListForEggTrade',
 		dataType : 'json',
 		contentType : "application/json",
 		data : {
@@ -388,114 +421,47 @@ function searchEggPacking(page){
         },
 		success : function(data) {
 			// 데이터 로딩
-			var dataList = data.eventList;
+			var dataList = data.accountList;
 			
 			//console.dir(dataList);
 			var html="";
-			
+
 			for(var i=0; i<dataList.length; i++){
 				var list = dataList[i];
 
-				////console.log(list);
-				if (list.resultCode == "INFO-0000") {
-					html+='<tr>';
-					
-				
-					html+='<td class="text-success">'+ list.num +'</td>';
-					
-					html+='<td class="text-success">'+ formatDateTime(list.reportTime) +'</td>';
-					html+='<td class="text-success">'+ list.resultCode +'</td>';
-					html+='<td class="text-success">'+ list.resultMsg +'</td>';
-					
-					html+='<td class="text-success">'+ list.eggHistNo +'</td>';
-					html+='<td class="text-success">'+ list.requestDate +'</td>';
-					html+='<td class="text-success">'+ list.spawningDate +'</td>';
-					
-					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggXxl) +'</td>';
-					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggXl) +'</td>';
-					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggL) +'</td>';
-					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggM) +'</td>';
-					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggS) +'</td>';
-					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggE) +'</td>';
-					
-					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggXxlDispose) +'</td>';
-					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggXlDispose) +'</td>';
-					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggLDispose) +'</td>';
-					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggMDispose) +'</td>';
-					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggSDispose) +'</td>';
-					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggEDispose) +'</td>';
-	
-					html+='</tr>';
-					
-				} else if (list.resultCode.includes("ERROR")) {
-					
-					html+='<tr>';
-					
-					html+='<td class="text-danger">'+ list.num +'</td>';
-					
-					html+='<td class="text-danger">'+ formatDateTime(list.reportTime) +'</td>';
-					html+='<td class="text-danger">'+ list.resultCode +'</td>';
-					html+='<td class="text-danger">'+ list.resultMsg +'</td>';
-					
-					html+='<td class="text-danger">'+ list.eggHistNo +'</td>';
-					html+='<td class="text-danger">'+ list.requestDate +'</td>';
-					html+='<td class="text-danger">'+ list.spawningDate +'</td>';
 
-					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggXxl) +'</td>';
-					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggXl) +'</td>';
-					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggL) +'</td>';
-					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggM) +'</td>';
-					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggS) +'</td>';
-					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggE) +'</td>';
-					
-					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggXxlDispose) +'</td>';
-					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggXlDispose) +'</td>';
-					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggLDispose) +'</td>';
-					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggMDispose) +'</td>';
-					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggSDispose) +'</td>';
-					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggEDispose) +'</td>';
-	
-					html+='</tr>';
-					
-				} else {
-					
-					html+='<tr>';
-
-					html+='<td>'+ list.num +'</td>';
-					
-					html+='<td class="">'+ formatDateTime(list.reportTime) +'</td>';
-					html+='<td class="">'+ list.resultCode +'</td>';
-					html+='<td class="">'+ list.resultMsg +'</td>';
-					
-					html+='<td class="">'+ list.eggHistNo +'</td>';
-					html+='<td class="">'+ list.requestDate +'</td>';
-					html+='<td class="">'+ list.spawningDate +'</td>';
-
-					html+='<td class="" style="text-align: right;">'+ numberWithCommas(list.eggXxl) +'</td>';
-					html+='<td class="" style="text-align: right;">'+ numberWithCommas(list.eggXl) +'</td>';
-					html+='<td class="" style="text-align: right;">'+ numberWithCommas(list.eggL) +'</td>';
-					html+='<td class="" style="text-align: right;">'+ numberWithCommas(list.eggM) +'</td>';
-					html+='<td class="" style="text-align: right;">'+ numberWithCommas(list.eggS) +'</td>';
-					html+='<td class="" style="text-align: right;">'+ numberWithCommas(list.eggE) +'</td>';
-					
-					html+='<td class="" style="text-align: right;">'+ numberWithCommas(list.eggXxlDispose) +'</td>';
-					html+='<td class="" style="text-align: right;">'+ numberWithCommas(list.eggXlDispose) +'</td>';
-					html+='<td class="" style="text-align: right;">'+ numberWithCommas(list.eggLDispose) +'</td>';
-					html+='<td class="" style="text-align: right;">'+ numberWithCommas(list.eggMDispose) +'</td>';
-					html+='<td class="" style="text-align: right;">'+ numberWithCommas(list.eggSDispose) +'</td>';
-					html+='<td class="" style="text-align: right;">'+ numberWithCommas(list.eggEDispose) +'</td>';
-	
-					html+='</tr>';
-					
-				}
+				html+='<tr class="">';
 				
+				html+='<td class="text-center">'+ list.num +'</td>';
+				html+='<td class="">'+ list.accountNm +'</td>';
+				html+='<td class="text-center">'+ list.businessNo +'</td>';
+				html+='		<input type="hidden" name="accountNm" id="accountNm" value="'+list.accountNm+'" >';
+				html+='		<input type="hidden" name="accountBusinessNo" id="businessNo" value="'+list.businessNo+'" >';
+				html+='		<input type="hidden" name="accountLicenseNo" id="licenseNo" value="'+list.licenseNo+'" >';
+				html+='		<input type="hidden" name="transType" id="transType" value="309002" >';	//거래유형 : 출고
 				
-			
-                
-                
-			}
+				html+='<td class="text-center " ><input type="text" class="transDate w-100 p-0 m-0 py-2 text-center bg-tranparent" oninput="inputDateFormat(this,\'-\')" onKeyUp="setTransDate(this.value,\'transDate'+i+'\')" value="'+dateFormat(year+''+month+''+date,'-')+'" > </td>';		//거래일자	
+				html+='		<input type="hidden" name="transDate" id="transDate'+i+'" value="'+dateFormat(year+''+month+''+date,'')+'"  >';
+				
+				html+='<td class="" style="text-align: right;"> <input id="eggXxlDealt'+i+'" type="text" class="w-100 p-0 m-0 py-2 text-end bg-tranparent" name="eggXxlDealtStr" placeholder="0" onKeyup="sumAccountRow(\''+i+'\');inputNumberFormat(this);setEggVal(this)"></td>';
+				html+='		<input type="hidden" name="eggXxl" id="eggXxl'+i+'" value="" >';
+				html+='<td class="" style="text-align: right;"> <input id="eggXlDealt'+i+'" type="text" class="w-100 p-0 m-0 text-end bg-tranparent" name="eggXlDealtStr" placeholder="0" onKeyup="sumAccountRow(\''+i+'\');inputNumberFormat(this)"></td>';
+				html+='		<input type="hidden" name="eggXl" id="eggXl'+i+'" value="" >';
+				html+='<td class="" style="text-align: right;"> <input id="eggLDealt'+i+'" type="text" class="w-100 p-0 m-0 text-end bg-tranparent" name="eggLDealtStr" placeholder="0" onKeyup="sumAccountRow(\''+i+'\');inputNumberFormat(this)"></td>';
+				html+='		<input type="hidden" name="eggL" id="eggL'+i+'" value="" >';
+				html+='<td class="" style="text-align: right;"> <input id="eggMDealt'+i+'" type="text" class="w-100 p-0 m-0 text-end bg-tranparent" name="eggMDealtStr" placeholder="0" onKeyup="sumAccountRow(\''+i+'\');inputNumberFormat(this)"></td>';
+				html+='		<input type="hidden" name="eggM" id="eggM'+i+'" value="" >';
+				html+='<td class="" style="text-align: right;"> <input id="eggSDealt'+i+'" type="text" class="w-100 p-0 m-0 text-end bg-tranparent" name="eggSDealtStr" placeholder="0" onKeyup="sumAccountRow(\''+i+'\');inputNumberFormat(this)"></td>';
+				html+='		<input type="hidden" name="eggS" id="eggS'+i+'" value="" >';
+				html+='<td class="" style="text-align: right;"> <input id="eggEDealt'+i+'" type="text" class="w-100 p-0 m-0 text-end bg-tranparent" name="eggEDealtStr" placeholder="0" onKeyup="sumAccountRow(\''+i+'\');inputNumberFormat(this)"></td>';
+				html+='		<input type="hidden" name="eggE" id="eggE'+i+'" value="" >';
+				html+='<td class="" style="text-align: right;"> <input id="eggTotalDealt'+i+'" type="text" class="w-100 p-0 m-0 text-end bg-tranparent" name="eggTotalDealtStr" value="0" disabled></td>';				
+				html+='		<input type="hidden" name="totalEgg" id="totalEgg'+i+'" value="" >';
+				html+='</tr>';
+
+			} 
 							
-			$("#egg-packing-body").html(html);
+			$("#accountListForTrade").html(html);
 			
 			// 페이지 로딩
 			
@@ -514,17 +480,17 @@ function searchEggPacking(page){
 				pageHtml+='</li>';
 			}else{
 				pageHtml+='<li class="page-item">';
-				pageHtml+='<a class="page-link" onclick="searchHistoryNumbers('+(pageInfo.page-1)+')" tabindex="-1" id="preLang">'+preLang+'</a>';
+				pageHtml+='<a class="page-link" onclick="searchEggTrade('+(pageInfo.page-1)+')" tabindex="-1" id="preLang">'+preLang+'</a>';
 				pageHtml+='</li>';
 			}
 			for(var i=pageInfo.startPage;i<=pageInfo.endPage;i++){
 				if(pageInfo.page==i){
 					pageHtml+='<li class="page-item active">';
-					pageHtml+='<a class="page-link" onclick="searchHistoryNumbers('+i+')">'+i+' <span class="sr-only">(current)</span></a>';
+					pageHtml+='<a class="page-link" onclick="searchEggTrade('+i+')">'+i+' <span class="sr-only">(current)</span></a>';
 					pageHtml+='</li>';
 				}else{
 					pageHtml+='<li class="page-item">';
-					pageHtml+='<a class="page-link" onclick="searchHistoryNumbers('+i+')">'+i+' </a>';
+					pageHtml+='<a class="page-link" onclick="searchEggTrade('+i+')">'+i+' </a>';
 					pageHtml+='</li>';
 				}
 			}
@@ -534,7 +500,7 @@ function searchEggPacking(page){
 				pageHtml+='</li>';
 			}else{
 				pageHtml+='<li class="page-item">';
-				pageHtml+='<a class="page-link" onclick="searchHistoryNumbers('+(pageInfo.page+1)+')" href="#" id="nextLang">'+nextLang+'</a>';
+				pageHtml+='<a class="page-link" onclick="searchEggTrade('+(pageInfo.page+1)+')" href="#" id="nextLang">'+nextLang+'</a>';
 				pageHtml+='</li>';
 			}
 
@@ -546,21 +512,131 @@ function searchEggPacking(page){
 }
 
 /* ========================================================================
+		거래일자 입력
+   ======================================================================== */
+function setTransDate(val,target){
+	var parts = val.toString().split("-"); 
+	
+	if ( parts.length == 3 ) {
+		$("#"+target).val(parts[0]+parts[1].padStart(2, '0')+parts[2].padStart(2, '0'));
+	}
+	
+}   
+
+/* ========================================================================
+		거래수량 입력
+   ======================================================================== */
+function setEggVal(obj){
+	//console.log(obj);
+	//console.log(obj.id.replace("Dealt",""));
+	//console.log(obj.value);
+	
+	$("#"+obj.id.replace("Dealt","")).val(obj.value);
+}      
+
+/* ========================================================================
+		거래처별 합계 
+   ======================================================================== */	
+function sumAccountRow(index) {
+	
+	let eggXxlDealt = $("#eggXxlDealt"+index).val().replace(reg, "")*1;
+	let eggXlDealt = $("#eggXlDealt"+index).val().replace(reg, "")*1;
+	let eggLDealt = $("#eggLDealt"+index).val().replace(reg, "")*1;
+	let eggMDealt = $("#eggMDealt"+index).val().replace(reg, "")*1;
+	let eggSDealt = $("#eggSDealt"+index).val().replace(reg, "")*1;
+	let eggEDealt = $("#eggEDealt"+index).val().replace(reg, "")*1;
+	let eggTotalDealt = $("#eggTotalDealt"+index);
+	let eggTotal = $("#totalEgg"+index);
+	
+	eggTotalDealt.val(numberWithCommas(eggXxlDealt+eggXlDealt+eggLDealt+eggMDealt+eggSDealt+eggEDealt));
+	eggTotal.val(eggXxlDealt+eggXlDealt+eggLDealt+eggMDealt+eggSDealt+eggEDealt);
+	sumTotalTrade();
+	
+}
+
+function sumTotalTrade() {
+	let nodes = document.querySelector("#accountListForTrade").querySelectorAll("input[name='accountBusinessNo']")
+	//console.log(nodes.length);
+//	nodes.forEach((node,index) => {
+//		console.log(node);
+//	});
+	
+	
+	let sumEggXxlDealt=0;
+	let sumEggXlDealt=0;
+	let sumEggLDealt=0;
+	let sumEggMDealt=0;
+	let sumEggSDealt=0;
+	let sumEggEDealt=0;
+	let sumEggTotalDealt=0;
+
+	for(let index=0; index < nodes.length; index++){
+		let eggXxlDealt = $("#eggXxlDealt"+index).val().replace(reg, "")*1;
+		let eggXlDealt = $("#eggXlDealt"+index).val().replace(reg, "")*1;
+		let eggLDealt = $("#eggLDealt"+index).val().replace(reg, "")*1;
+		let eggMDealt = $("#eggMDealt"+index).val().replace(reg, "")*1;
+		let eggSDealt = $("#eggSDealt"+index).val().replace(reg, "")*1;
+		let eggEDealt = $("#eggEDealt"+index).val().replace(reg, "")*1;
+		let eggTotalDealt = $("#eggTotalDealt"+index).val().replace(reg, "")*1;
+		
+		sumEggXxlDealt 	+=eggXxlDealt;
+		sumEggXlDealt 	+=eggXlDealt;
+	 	sumEggLDealt 		+=eggLDealt;
+	 	sumEggMDealt 		+=eggMDealt;
+	 	sumEggSDealt 		+=eggSDealt;
+	 	sumEggEDealt 		+=eggEDealt;
+	 	sumEggTotalDealt 	+=eggTotalDealt;
+	}
+	
+	$("#sumEggXxlDealt").val(numberWithCommas(sumEggXxlDealt));
+	$("#sumEggXlDealt").val(numberWithCommas(sumEggXlDealt));
+	$("#sumEggLDealt").val(numberWithCommas(sumEggLDealt));
+	$("#sumEggMDealt").val(numberWithCommas(sumEggMDealt));
+	$("#sumEggSDealt").val(numberWithCommas(sumEggSDealt));
+	$("#sumEggEDealt").val(numberWithCommas(sumEggEDealt));
+	$("#sumEggTotalDealt").val(numberWithCommas(sumEggTotalDealt));
+	
+}
+/* ========================================================================
 		등록 버튼 클릭 
    ======================================================================== */	
    
    
 
-function submitEggPackng() {
+function submitEggTrade() {
 		
 	//입고등록 확인
 	if ( chkHistNo() == false){
 		return false;
 	}
 	
+	//합계 검증
+	let size1 = $("#selEggXxlDealt").val().replace(/,/g, "")*1;
+	let size2 = $("#selEggXlDealt").val().replace(/,/g, "")*1;
+	let size3 = $("#selEggLDealt").val().replace(/,/g, "")*1;
+	let size4 = $("#selEggMDealt").val().replace(/,/g, "")*1;
+	let size5 = $("#selEggSDealt").val().replace(/,/g, "")*1;
+	let size6 = $("#selEggEDealt").val().replace(/,/g, "")*1;
+	let size7 = $("#selEggTotalDealt").val().replace(/,/g, "")*1;
+			
+	let calc1 = $("#sumEggXxlDealt").val().replace(/,/g, "")*1;
+	let calc2 = $("#sumEggXlDealt").val().replace(/,/g, "")*1;
+	let calc3 = $("#sumEggLDealt").val().replace(/,/g, "")*1;
+	let calc4 = $("#sumEggMDealt").val().replace(/,/g, "")*1;
+	let calc5 = $("#sumEggSDealt").val().replace(/,/g, "")*1;
+	let calc6 = $("#sumEggEDealt").val().replace(/,/g, "")*1;
+	let calc7 = $("#sumEggTotalDealt").val().replace(/,/g, "")*1;
+	
+	for (var i =1; i < 8 ; i++ ) {
+		if( eval("size"+i) != eval("calc"+i) ){
+			alert(i+"번째 합계가 불일치 합니다.");
+			return false;
+		}
+	}
+
+	
 	var reportDate = new Date($('#reportDateHidden').val().substr(0,4)+'-'+$('#reportDateHidden').val().substr(4,2)+'-'+$('#reportDateHidden').val().substr(6,2));
 	
-	//console.log(spawningDate);
 	
 	let now = new Date();   
 	let year = now.getFullYear(); // 년도
@@ -571,142 +647,112 @@ function submitEggPackng() {
 	
 	// 입력기간 검증
 	if( reportDate > today) {
-		alert("신고일자는 현재일자와 같거나 이전이어야 합니다.")
+		alert("출고일자는 현재일자와 같거나 이전이어야 합니다.")
 		return false;
 	}
-			
-	let reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gim;
+
+	//console.log($("#reportDateHidden").val());
+	//var formsubmitSerialArray = $("#eggTradeDetailForm").serializeObject();
+	//var formsubmit = JSON.stringify(objectifyForm(formsubmitSerialArray));
 	
-	let eggSize1 =  $("#size1").val().replace(reg, "")*1;
-	$("#size1Hidden").val(eggSize1);
+//	let formData = $("#eggTradeForm")
+//	let formDetailData = $("#eggTradeDetailForm").serializeArrayObject()
+//	formData.eggTradeList = formDetailData;
+//	
+//	const form = document.getElementById('eggTradeForm');
+//	const payload = new FormData(form);
+//	let   url_form_data = new URLSearchParams(payload)
+//	let fetchData = JSON.stringify(formData);
+//	console.log(fetchData);
+//	
+//	fetch('/registerEggTrade', {
+//	    method: 'POST',
+//	    cache: 'no-cache',
+//	    headers: {
+//        'Content-Type': 'application/x-www-form-urlencoded'
+//    	},
+//	    body: url_form_data
+//	})
+//	.then((response) => response.json())
+//	.then((data) => {
+//	    //console.log(data.resultCode);
+//	    if(data.resultCode == 'success') {
+//			setToast("bg-success", "출고 등록", null, "성공적으로 등록 되었습니다.")
+//			bsAlert.show();//show it
+//			
+//		} else if (data.resultCode == 'error') {
+//			setToast("bg-danger", "출고 등록", null, "오류가 발생했습니다.<br>"+data.resultCd+"<br>"+data.resultStr)
+//			bsAlert.show();//show it
+//		}
+//	    resetEggCount();
+//		searchEggTrade(1);
+//		calendar.refetchEvents();
+//	});
+//	
+//	
+//	
+//	
+//	
+//	return false;
 	
-	let eggSize2 =  $("#size2").val().replace(reg, "")*1;
-	$("#size2Hidden").val(eggSize2);
+	const ajax = function(url, data){
+		    console.log("ajax", url, data);
+		    const xhr = new XMLHttpRequest();
+		    xhr.open("POST", url);
+		    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8;");
+		    xhr.responseType = "json";
+		    xhr.onload = function(e) {
+		        console.log(this, e);
+		    };
+	    xhr.send(JSON.stringify(data));
+	}
 	
-	let eggSize3 =  $("#size3").val().replace(reg, "")*1;
-	$("#size3Hidden").val(eggSize3);
+	const sendUrl = "/registerEggTrade";
 	
-	let eggSize4 =  $("#size4").val().replace(reg, "")*1;
-	$("#size4Hidden").val(eggSize4);
+	let formData = $("#eggTradeForm").serializeObject()
+	let formDetailData = $("#eggTradeDetailForm").serializeArrayObject()
+	formData.eggTradeList = formDetailData;
 	
-	let eggSize5 =  $("#size5").val().replace(reg, "")*1;
-	$("#size5Hidden").val(eggSize5);
+	console.log(formData);
+	//console.log(formDetailData);
+	//ajax(sendUrl, formData);
+				
 	
-	let eggSize6 =  $("#size6").val().replace(reg, "")*1;
-	$("#size6Hidden").val(eggSize6);
-	
-	let totalEgg=eggSize1+eggSize2+eggSize3+eggSize4+eggSize5+eggSize6;
-	$("#totalEggHidden").val(totalEgg);
-	
-	
-	
-	let eggSize1Dealt =  $("#size1Dealt").val().replace(reg, "")*1;
-	$("#size1DealtHidden").val(eggSize1Dealt);
-	
-	let eggSize2Dealt =  $("#size2Dealt").val().replace(reg, "")*1;
-	$("#size2DealtHidden").val(eggSize2Dealt);
-	
-	let eggSize3Dealt =  $("#size3Dealt").val().replace(reg, "")*1;
-	$("#size3DealtHidden").val(eggSize3Dealt);
-	
-	let eggSize4Dealt =  $("#size4Dealt").val().replace(reg, "")*1;
-	$("#size4DealtHidden").val(eggSize4Dealt);
-	
-	let eggSize5Dealt =  $("#size5Dealt").val().replace(reg, "")*1;
-	$("#size5DealtHidden").val(eggSize5Dealt);
-	
-	let eggSize6Dealt =  $("#size6Dealt").val().replace(reg, "")*1;
-	$("#size6DealtHidden").val(eggSize6Dealt);
-	
-	let totalDealt=eggSize1Dealt+eggSize2Dealt+eggSize3Dealt+eggSize4Dealt+eggSize5Dealt+eggSize6Dealt;
-	$("#totalDealtHidden").val(totalDealt);
-	
-	
-	
-	
-	let eggSize1Dispose =  $("#size1Dispose").val().replace(reg, "")*1;
-	$("#size1DisposeHidden").val(eggSize1Dispose);
-	
-	let eggSize2Dispose =  $("#size2Dispose").val().replace(reg, "")*1;
-	$("#size2DisposeHidden").val(eggSize2Dispose);
-	
-	let eggSize3Dispose =  $("#size3Dispose").val().replace(reg, "")*1;
-	$("#size3DisposeHidden").val(eggSize3Dispose);
-	
-	let eggSize4Dispose =  $("#size4Dispose").val().replace(reg, "")*1;
-	$("#size4DisposeHidden").val(eggSize4Dispose);
-	
-	let eggSize5Dispose =  $("#size5Dispose").val().replace(reg, "")*1;
-	$("#size5DisposeHidden").val(eggSize5Dispose);
-	
-	let eggSize6Dispose =  $("#size6Dispose").val().replace(reg, "")*1;
-	$("#size6DisposeHidden").val(eggSize6Dispose);
-	
-	let totalDispose=eggSize1Dispose+eggSize2Dispose+eggSize3Dispose+eggSize4Dispose+eggSize5Dispose+eggSize6Dispose;
-	$("#totalDisposeHidden").val(totalDispose);
-	
-	console.log($("#reportDateHidden").val());
-	
-	$("#spawningDateHidden").val($("#reportDateHidden").val());
-	$("#requestDateHidden").val($("#reportDateHidden").val());
-	
-	
-	
-	
-	
-	
-	//console.log($("#breedingMethod").val());
 	$.ajax({
-			 url :"/registerEggPacking"
+			 url :"/registerEggTrade"
 			,type:"post"
-			,data:$("#eggPackngForm").serialize()
+			,data: JSON.stringify(formData)
+//			{
+//				 reportData : formsubmitSerialArray.serialize()
+//				,ACOUNTDATA : $("#EGGTRADEDETAILFORM").SERIALIZE()
+//			}
+			//,data:formsubmit
 			,dataType:"json"
+			,contentType: 'application/json'
 			,success:function(data){
 				
 				if(data.resultCode == 'success') {
 					
-					$.toast({ 
-					  heading: 'Success',
-					  text : "<h2>성공적으로 등록되었습니다.</h2>", 
-					  showHideTransition : 'slide',  // It can be plain, fade or slide
-					  icon: 'success',
-					  allowToastClose : false,       // Show the close button or not
-					  hideAfter : 2000,              // `false` to make it sticky or time in miliseconds to hide after
-					  stack : 5,                     // `fakse` to show one stack at a time count showing the number of toasts that can be shown at once
-					  textAlign : 'left',            // Alignment of text i.e. left, right, center
-					  position : 'top-center'       // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values to position the toast on page
-					})
+					setToast("bg-success", "출고 등록", null, "성공적으로 등록되었습니다.")
+					bsAlert.show();//show it
+					
+					
 					
 				} else if (data.resultCode == 'duplicate') {
 					
-					$.toast({ 
-					  heading: 'Warning',
-					  text : "<h2>이미 등록한 내역이 있습니다.</h2>", 
-					  showHideTransition : 'slide',  // It can be plain, fade or slide
-					  icon: 'warning',
-					  allowToastClose : false,       // Show the close button or not
-					  hideAfter : 2000,              // `false` to make it sticky or time in miliseconds to hide after
-					  stack : 5,                     // `fakse` to show one stack at a time count showing the number of toasts that can be shown at once
-					  textAlign : 'left',            // Alignment of text i.e. left, right, center
-					  position : 'top-center'       // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values to position the toast on page
-					})
+					setToast("bg-warning", "출고 등록", null, "이미 등록한 내역이 있습니다.")
+					bsAlert.show();//show it
+					
+					
 					
 				} else if  (data.resultCode == 'error') {
-					$.toast({ 
-					  heading: 'Error',
-					  text : "<h2>오류가 발생했습니다.</h2>", 
-					  showHideTransition : 'slide',  // It can be plain, fade or slide
-					  icon: 'danger',
-					  allowToastClose : false,       // Show the close button or not
-					  hideAfter : 2000,              // `false` to make it sticky or time in miliseconds to hide after
-					  stack : 5,                     // `fakse` to show one stack at a time count showing the number of toasts that can be shown at once
-					  textAlign : 'left',            // Alignment of text i.e. left, right, center
-					  position : 'top-center'       // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values to position the toast on page
-					})
 					
+					setToast("bg-danger", "출고 등록", null, "오류가 발생했습니다.<br>"+data.resultCode+"<br>"+data.resultMsg)
+					bsAlert.show();//show it
+	
 				}
-
-				searchEggPacking(1);
+				resetEggCount();
+				searchEggTrade(1);
 				calendar.refetchEvents();
 				//location.reload();
 				
