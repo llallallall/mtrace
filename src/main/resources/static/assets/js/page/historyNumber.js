@@ -30,10 +30,11 @@ let year = today.getFullYear(); // 년도
 let month = today.getMonth() + 1;  // 월
 let date = today.getDate();  // 날짜
 
-var stdDate = year+ '-' + month + '-' + date;
+var stdDate = year+ '-' + month.toString().padStart(2, '0') + '-' + date.toString().padStart(2, '0');
 	
 var calendar = new FullCalendar.Calendar(calendarEl, {
 		initialDate: stdDate,
+		//initialDate:'2023-01-01',
       	locale: 'ko',
       	select: function(obj){
 			//console.log(obj.start)
@@ -338,21 +339,25 @@ function searchHistoryNumbers(page){
    ======================================================================== */	
 
 function submitHistoryNumber() {
-	var spawningDate = new Date($('#reportDateHidden').val().substr(0,4)+'-'+$('#reportDateHidden').val().substr(4,2)+'-'+$('#reportDateHidden').val().substr(6,2));
+	var chkSpawningDate = $('#spawningDateHidden').val();
 	
+	if (chkSpawningDate == null || chkSpawningDate.length <1 ) {
+		alert("달력에서 [산란일자]에 해당하는 날짜를 클릭해주세요 .");
+		return false;
+	}
 	//console.log(spawningDate);
 	
 	let now = new Date();   
 	let year = now.getFullYear(); // 년도
 	let month = now.getMonth() + 1;  // 월
 	let date = now.getDate();  // 날짜
-	var today = new Date(year+'-'+month+'-'+date);
+	var today = new Date(year+'-'+month.toString().padStart(2, '0')+'-'+date.toString().padStart(2, '0'));
 	//console.log(today);
 	
-	
+	var spawningDate = new Date(chkSpawningDate.substr(0,4) +'-'+ chkSpawningDate.substr(4,2)  +'-'+ chkSpawningDate.substr(6,8) );
 	
 	if( spawningDate > today) {
-		alert("산란일자는 현재일자와 같거나 이전이어야 합니다.")
+		alert("산란일자는 현재일자("+year+'-'+month.toString().padStart(2, '0')+'-'+date.toString().padStart(2, '0')+")와 같거나 이전이어야 합니다.")
 		return false;
 	}
 			

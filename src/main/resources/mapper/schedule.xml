@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.devowls.dao.ScheduleDAO">
+
+
+	
+	<select id="selectScheduleTerm" parameterType="String" resultType="String">
+		SELECT 
+			concat(ifnull(second,'*'),' ',ifnull(minute,'*'),' ',ifnull(hour,'*'),' ',ifnull(date,'*'),' ',ifnull(month,'*'),' ',ifnull(day,'?'),' ',ifnull(year,'*') ) as term
+		FROM 
+			schedule_job
+		WHERE
+			jobname = #{jobName}
+	</select>
+	
+	
+	<select id="selectTriggerName" parameterType="String"  resultType="String">
+		SELECT 
+			triggername
+		FROM 
+			schedule_job
+		WHERE 
+			jobname = #{jobName}
+	</select>
+
+	
+	<select id="selectEggInfoForSchedule" resultType="ScheduleVO">
+			SELECT 
+				packing_business_no, 
+				packing_license_no, 
+				farm_id_no, 
+				egg_usage, 
+				storage_method, 
+				egg_xxl, 
+				egg_xl, 
+				egg_l, 
+				egg_m, 
+				egg_s, 
+				egg_e, 
+				washing_method, 
+				farm_uniq_no, 
+				trade_business_no, 
+				trade_license_no, 
+				trade_term
+		FROM schedule_info
+	</select>
+	
+	<select id="selectAccountListForSchedule" resultType="ScheduleVO">
+		
+		SELECT a.*
+		FROM 
+		 	(SELECT 
+				ROW_NUMBER() over ( ORDER BY m.reg_date asc, m.business_no asc, m.license_no asc  ) as num,
+					m.account_nm, 
+					m.business_no, 
+					m.license_no, 
+					n.egg_xxl, 
+					n.egg_xl, 
+					n.egg_l, 
+					n.egg_m, 
+					n.egg_s,
+					n.egg_e, 
+					n.total_egg,
+					 case
+					    when  n.trade_term = 'D'   then '일'
+					    when  n.trade_term = 'W'   then '주'
+					    when  n.trade_term = 'M'   then '월'
+					    else ''
+					 end as tradeTerm
+				FROM 
+					mtrace.account_mgmt m  LEFT OUTER JOIN mtrace.schedule_account n
+					ON m.business_no  = n.account_business_no
+					AND m.license_no  = n.account_license_no
+			) a
+		order by a.num desc 
+			
+		
+	</select>
+	
+
+</mapper>

@@ -36,12 +36,13 @@ dependencies {
     
     //json 파싱
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+	implementation group: 'org.json', name: 'json', version: '20220924'
 	
 	//메일 발송
 	implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.4'
 	
 	//스캐쥴러 https://mvnrepository.com/artifact/org.quartz-scheduler/quartz
-	implementation group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.2'
+	//implementation group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.2'
 }
 
 tasks.named('test') {

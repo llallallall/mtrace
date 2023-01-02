@@ -326,8 +326,12 @@
 	<script src="/assets/bundle/jquery.toast/jquery.toast.min.js"></script>
 
 	<!-- full calendar -->
-	<script src='/assets/bundle/fullcalendar-6.0.1/dist/index.global.js'></script>
-	<script src='/assets/bundle/fullcalendar-6.0.1/packages/bootstrap5/index.global.js'></script>
+	<script src='/assets/bundle/fullcalendar-6.0.2/dist/index.global.js'></script>
+	<script src='/assets/bundle/fullcalendar-6.0.2/packages/bootstrap5/index.global.js'></script>
+<!-- 	<script src='/assets/bundle/fullcalendar-6.0.2/packages/moment/index.global.js'></script> -->
+<!-- 	<script src='/assets/bundle/fullcalendar-6.0.2/packages/moment-timezone/index.global.js'></script> -->
+	<script src='/assets/bundle/fullcalendar-6.0.2/packages/web-component/index.global.js'></script>
+	
 	<script src="/assets/bundle/popper.2.11.6/js/popper.js"></script>
 	<script src="/assets/bundle/tippy.6.3.7/js/tippy.js"></script>
 	<script src="/assets/js/custom.js"></script>

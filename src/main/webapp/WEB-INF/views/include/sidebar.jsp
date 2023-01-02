@@ -40,24 +40,31 @@
 					<ul class="navbar-nav flex-column mt-4">
 
 						<li class="nav-item">
+							<a href="/dashboard" class="nav-link text-white p-2 mb-1" data-value="이력제신고 내역">
+								<i class="fa-solid fa-calendar-days text-white fa-lg me-3"></i>이력제신고 내역
+							</a>
+							
+						</li>
+						
+						<li class="nav-item">
 							<a href="#" class="nav-link text-white p-3 mb-1">
 								<i class="fa-solid fa-boxes-packing text-white fa-lg me-3"></i>식용란 선별포장업
 							</a>
 							<ul class="navbar-nav flex-column mt-0 ms-3">
 								<li class="nav-item">
-									<a href="/historyNumber" class="nav-link text-white p-3 mb-2 sidebar-link" data-value="이력번호 등록">
+									<a href="/historyNumber" class="nav-link text-white p-1 mb-1 sidebar-link" data-value="이력번호 등록">
 										<i class="fa-solid fa-angle-right text-white fa-sm me-3"></i>이력번호 등록
 									</a>
 								</li>
 								
 								<li class="nav-item">
-									<a href="/packagingPerformance" class="nav-link text-white p-3 mb-2 sidebar-link" data-value="선별포장실적 신고">
+									<a href="/packagingPerformance" class="nav-link text-white p-1 mb-1 sidebar-link" data-value="선별포장실적 신고">
 										<i class="fa-solid fa-angle-right text-white fa-sm me-3"></i>선별포장실적 신고
 									</a>
 								</li>
 								
 								<li class="nav-item">
-									<a href="/breedingStatus" class="nav-link text-white p-3 mb-2 sidebar-link" data-value="사육현황 신고">
+									<a href="/breedingStatus" class="nav-link text-white p-1 mb-1 sidebar-link" data-value="사육현황 신고">
 										<i class="fa-solid fa-angle-right text-white fa-sm me-3"></i>사육현황 신고
 									</a>
 								</li>
@@ -70,7 +77,7 @@
 							</a>
 							<ul class="navbar-nav flex-column mt-0 ms-3">
 								<li class="nav-item">
-									<a href="/shipmentReport" class="nav-link text-white p-3 mb-2 sidebar-link" data-value="출고신고">
+									<a href="/shipmentReport" class="nav-link text-white p-1 mb-1 sidebar-link" data-value="출고신고">
 										<i class="fa-solid fa-angle-right text-white fa-sm me-3"></i>출고신고
 									</a>
 								</li>
@@ -83,15 +90,40 @@
 							</a>
 							<ul class="navbar-nav flex-column mt-0 ms-3">
 								<li class="nav-item">
-									<a href="/accountAdd" class="nav-link text-white p-3 mb-2 sidebar-link" data-value="거래처 추가">
+									<a href="/accountAdd" class="nav-link text-white p-1 mb-1 sidebar-link" data-value="거래처 추가">
 										<i class="fa-solid fa-angle-right text-white fa-sm me-3"></i>거래처 추가
 									</a>
 								</li>
 								<li class="nav-item">
-									<a href="/accountMgmt" class="nav-link text-white p-3 mb-2 sidebar-link" data-value="거래처 관리">
+									<a href="/accountMgmt" class="nav-link text-white p-1 mb-1 sidebar-link" data-value="거래처 관리">
 										<i class="fa-solid fa-angle-right text-white fa-sm me-3"></i>거래처 관리
 									</a>
 								</li>
+							</ul>
+						</li>
+						
+						
+						<li class="nav-item">
+							<a href="#" class="nav-link text-white p-3 mb-1 mt-4" >
+								<i class="fa-solid fa-user-tie text-white fa-lg me-3"></i>신고 예약 
+							</a>
+							<ul class="navbar-nav flex-column mt-0 ms-3">
+								<li class="nav-item">
+									<a href="/scheduleInfo" class="nav-link text-white p-1 mb-1 sidebar-link" data-value="예약 정보">
+										<i class="fa-solid fa-angle-right text-white fa-sm me-3"></i>예약 정보
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="/scheduleMgmt" class="nav-link text-white p-1 mb-1 sidebar-link" data-value="예약 관리">
+										<i class="fa-solid fa-angle-right text-white fa-sm me-3"></i>예약 관리
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="/scheduleHist" class="nav-link text-white p-1 mb-1 sidebar-link" data-value="처리 내역">
+										<i class="fa-solid fa-angle-right text-white fa-sm me-3"></i>처리 내역
+									</a>
+								</li>
+								
 							</ul>
 						</li>
 						

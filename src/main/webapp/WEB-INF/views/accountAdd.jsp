@@ -36,7 +36,7 @@
 			<div class="row">
 			
 				<div class="col mb-3 pt-5 justify-content-center text-center">
-					<i class="fa-solid fa-user-plus " style="font-size:200px;opacity:0.7"></i>
+					<i class="fa-solid fa-user-plus " style="font-size:100px;opacity:0.7"></i>
 				</div>
 			</div>	
 			

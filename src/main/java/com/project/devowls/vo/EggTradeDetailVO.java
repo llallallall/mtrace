@@ -7,9 +7,9 @@ import lombok.Data;
 @Data
 public class EggTradeDetailVO {
 	
-//	private int 	num;
-//
-//	private String	eggHistIdx;
+	private int 	num;
+
+	private String	eggHistIdx;
 	
 	private int		transIdx;
 	private Date	regDate;

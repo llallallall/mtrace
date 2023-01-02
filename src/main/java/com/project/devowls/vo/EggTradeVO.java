@@ -48,7 +48,7 @@ public class EggTradeVO {
 	
 	//거래내역 
 	
-	private List<EggTradeDetailVO> eggTradeList;
+	private String 	transInfo;
 
 
 }

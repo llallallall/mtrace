@@ -862,13 +862,16 @@ var FullCalendar = (function (exports) {
     }
     class GregorianCalendarSystem {
         getMarkerYear(d) {
-            return d.getUTCFullYear();
+            //return d.getUTCFullYear();
+            return d.getFullYear();
         }
         getMarkerMonth(d) {
-            return d.getUTCMonth();
+            //return d.getUTCMonth();
+            return d.getMonth() + 1;
         }
         getMarkerDay(d) {
-            return d.getUTCDate();
+            //return d.getUTCDate();
+            return d.getDate(); 
         }
         arrayToMarker(arr) {
             return arrayToUtcDate(arr);

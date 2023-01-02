@@ -4,6 +4,44 @@
 
 <mapper namespace="com.project.devowls.dao.EggTradeDAO">
 
+	<select id="selectEggTradeSucceeded" resultType="EggTradeVO">
+		<![CDATA[  
+			SELECT 
+				m.report_time, 
+				m.result_code, 
+				m.result_msg, 
+				m.egg_hist_idx, 
+				m.packing_report_date, 
+				m.egg_hist_no, 
+				m.hist_no_issue_date, 
+				m.egg_usage, 
+				m.spawning_date, 
+				m.reporter_business_no, 
+				m.reporter_license_no,
+				n.trans_info
+			FROM egg_trade m,
+				(SELECT 	
+					info.egg_hist_idx, 
+					GROUP_CONCAT(info.info SEPARATOR '\n\r<br>') AS trans_info
+				from (
+						SELECT 
+						egg_hist_idx, 
+						CONCAT(trans_idx,'. ',account_nm, '(' , CONCAT(substring(trans_date, 1, 4),'/',substring(trans_date, 5, 2),'/',substring(trans_date, 7, 2)) ,', ', total_egg,'개, ',(SELECT c.nm 
+						FROM code_secondary c where c.parent_cd = "transType" and c.use_yn = "Y" and c.cd = trans_type
+						),')')   as info
+						FROM egg_trade_detail
+					) info
+				GROUP BY info.egg_hist_idx
+				) n
+			WHERE 
+				m.egg_hist_idx = n.egg_hist_idx	
+			  AND 
+			  	m.result_code = "INFO-0000"
+		]]> 	  	
+	</select>
+
+
+
 	<select id="selectAccountListOnTradeUse" parameterType="hashmap" resultType="AccountVO">
 		SELECT b.*
 			FROM (
@@ -78,111 +116,88 @@
 		WHERE
 		    egg_hist_no =  #{eggHistNo} 
 	</select>
+	
+	<select id="selectEggTradeRstByHistNo" parameterType="String" resultType="EggTradeInfoVO">
+		SELECT 
+			m.*, d.*
+
+		FROM 
+			 egg_trade m,  egg_trade_detail d
+		WHERE
+			m.egg_hist_no =  #{eggHistNo} 
+		 AND 
+		 	m.egg_hist_idx = d.egg_hist_idx
+	</select>
+	
 
 	<select id="selectEggTrade" parameterType="hashmap" resultType="EggTradeVO">
+	<![CDATA[  
 		SELECT b.*
 			FROM (
 				SELECT *
 				FROM 
 				 	(SELECT 
-						ROW_NUMBER() over ( ORDER BY report_time asc ) as num,
-						ROW_NUMBER() over ( ORDER BY report_time desc ) as idx,
-						report_time, 
-						result_code, 
-						result_msg, 
+						ROW_NUMBER() over ( ORDER BY m.report_time asc ) as num,
+						ROW_NUMBER() over ( ORDER BY m.report_time desc ) as idx,
 						
-						business_no, 
-						license_no, 
-						egg_hist_no, 
+						m.report_time, 
+						m.result_code, 
+						m.result_msg, 
+
+						m.egg_hist_no, 
+						m.egg_hist_idx, 
+						m.spawning_date, 
+						m.hist_no_issue_date, 
+						m.packing_report_date, 
 						
-						request_date, 
-						report_date,
-						
-						farm_id_no, 
-						egg_usage, 
-						spawning_date, 
-						storage_method, 
-						washing_method, 
-						
-						egg_xxl, 
-						egg_xl, 
-						egg_l, 
-						egg_m, 
-						egg_s, 
-						egg_e, 
-						
-						egg_xxl_dealt, 
-						egg_xl_dealt, 
-						egg_l_dealt, 
-						egg_m_dealt, 
-						egg_s_dealt, 
-						egg_e_dealt, 
-						
-						egg_xxl_dispose, 
-						egg_xl_dispose, 
-						egg_l_dispose, 
-						egg_m_dispose, 
-						egg_s_dispose, 
-						egg_e_dispose,
-						
-						total_egg, 
-						total_dealt, 
-						total_dispose
+						n.trans_info
+
 					FROM 
-						mtrace.egg_trade
+						mtrace.egg_trade m,
+						(SELECT 	
+							info.egg_hist_idx, 
+							GROUP_CONCAT(info.info SEPARATOR '<br>') AS trans_info
+						from (
+								SELECT 
+								egg_hist_idx, 
+								CONCAT(trans_idx,'. ',account_nm, '(' , CONCAT(substring(trans_date, 1, 4),'/',substring(trans_date, 5, 2),'/',substring(trans_date, 7, 2)) ,', ', total_egg,'개, ',(SELECT c.nm 
+								FROM code_secondary c where c.parent_cd = "transType" and c.use_yn = "Y" and c.cd = trans_type
+								),')')   as info
+								FROM egg_trade_detail
+							) info
+						GROUP BY info.egg_hist_idx
+						) n
+					WHERE 
+						m.egg_hist_idx = n.egg_hist_idx	
 					) a
 				order by a.num asc 
 			) b
-		where b.idx between #{startrow} and #{startrow}+4		
+		where b.idx between #{startrow} and #{startrow}+4	
+		]]>	
 	</select>
 	
 	
-	<select id="selectEggTradeBySpawningDate" parameterType="String" resultType="EggTradeVO">
+	<select id="selectEggPackingByHistNo" parameterType="String" resultType="EggPackingVO">
 			SELECT 
 				report_time, 
 				result_code, 
 				result_msg, 
-				
 				business_no, 
 				license_no, 
 				egg_hist_no, 
-				
 				request_date, 
-			
 				farm_id_no, 
 				egg_usage, 
 				spawning_date, 
 				storage_method, 
 				washing_method, 
-				
-				egg_xxl, 
-				egg_xl, 
-				egg_l, 
-				egg_m, 
-				egg_s, 
-				egg_e, 
-				
-				egg_xxl_dealt, 
-				egg_xl_dealt, 
-				egg_l_dealt, 
-				egg_m_dealt, 
-				egg_s_dealt, 
-				egg_e_dealt, 
-				
-				egg_xxl_dispose, 
-				egg_xl_dispose, 
-				egg_l_dispose, 
-				egg_m_dispose, 
-				egg_s_dispose, 
-				egg_e_dispose,
-				
-				total_egg, 
-				total_dealt, 
-				total_dispose
-			FROM 
-				mtrace.egg_trade
-			WHERE 
-				spawning_date = #{spawningDate}
+				issue_date, 
+				client_business_no, 
+				client_license_no
+		FROM 
+			egg_packng
+		WHERE 
+			egg_hist_no = #{eggHistNo}
 	</select>
 	
 	
@@ -238,35 +253,8 @@
 	
 	
 	
-	<insert id="insertEggTradeByAccount" parameterType="EggTradeVO">
-	
-		INSERT INTO mtrace.egg_trade
-			(	report_time, 
-				result_code, 
-				result_msg, 
-				egg_hist_idx, 
-				packing_report_date, 
-				egg_hist_no, 
-				hist_no_issue_date, 
-				egg_usage, 
-				spawning_date, 
-				reporter_business_no, 
-				reporter_license_no
-			)
-		VALUES
-			(	CURRENT_TIMESTAMP(), 
-				#{resultCode}, 
-				#{resultMsg}, 
-				#{eggHistIdx}, 
-				#{packingReportDate}, 
-				#{eggHistNo},
-				#{histNoIssueDate}, 
-				#{eggUsage}, 
-				#{spawningDate},
-				#{reporterBusinessNo}, 
-				#{reporterLicenseNo}
-			)
-			
+	<insert id="insertEggTradeByAccount" parameterType="EggTradeDetailVO">
+
 		INSERT INTO mtrace.egg_trade_detail
 			(	egg_hist_idx, 
 				trans_idx, 

@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import com.project.devowls.dao.AccountDAO;
 import com.project.devowls.dao.EggTradeDAO;
 import com.project.devowls.vo.AccountVO;
+import com.project.devowls.vo.EggPackingVO;
+import com.project.devowls.vo.EggTradeDetailVO;
+import com.project.devowls.vo.EggTradeInfoVO;
 import com.project.devowls.vo.EggTradeVO;
 import com.project.devowls.vo.HistoryNumberVO;
 import com.project.devowls.vo.PageInfo;
@@ -43,78 +46,32 @@ public class EggTradeServiceImpl implements EggTradeService {
 	}
 
 	@Override
-	public void insertEggTrade(EggTradeVO eggTradeVO) {
+	public void insertEggTrade(EggTradeVO eggTradeVO, ArrayList<EggTradeDetailVO> tradeListVO) {
 		//메인항목 등록(1건)
 		int idx = eDAO.selectEggHistIdx(eggTradeVO.getEggHistNo());
 		
 		
-		System.out.println("============================		trans master		==================================");
+		//System.out.println("============================		trans master		==================================");
 		//이력번호 인덱스 생성
 		eggTradeVO.setEggHistIdx( eggTradeVO.getEggHistNo() + String.format("%03d", idx) );
 		eDAO.insertEggTrade(eggTradeVO);
-		
-		System.out.println(eggTradeVO.getEggHistIdx());
-		System.out.println(eggTradeVO.getPackingReportDate());
-		System.out.println(eggTradeVO.getEggHistNo());
-		System.out.println(eggTradeVO.getHistNoIssueDate());
-		System.out.println(eggTradeVO.getEggUsage());
-		System.out.println(eggTradeVO.getSpawningDate());
-		System.out.println(eggTradeVO.getReporterBusinessNo());
-		System.out.println(eggTradeVO.getReporterLicenseNo());
 
-		
 		//거래처별 상세항목 등록(여러건)
 		//거래처수만큼 이력번호를 VO에 입력
-		System.out.println("============================		trans detail		==================================");
+		//System.out.println("============================		trans detail setting		==================================");
+		int transIdx = eDAO.selectTransIdxByEggHistIdx(eggTradeVO.getEggHistIdx());
+		for(int i=0; i< tradeListVO.size(); i++){
+			tradeListVO.get(i).setEggHistIdx(eggTradeVO.getEggHistIdx());
+			tradeListVO.get(i).setTransIdx(transIdx + i);
+			
+			//System.out.println(tradeListVO.get(i).getEggHistIdx());
+			//System.out.println(tradeListVO.get(i).getTransIdx());
+			eDAO.insertEggTradeByAccount(tradeListVO.get(i));
+		}
 		
-		
-		//List<EggTradeDetailVO> eggTradeDetailVO = eggTradeVO.getEggTradeDetailVO();
-		
-		
-		//System.out.println(eggTradeDetailVO.size());
-		//String[] accountArray = eggTradeVO.getAccountBusinessNo().split(",");
-//		String strEggHistIdx = "";
-//		for(int i=0; i < accountArray.length -1 ; i++) {
-//			strEggHistIdx += eggTradeVO.getEggHistIdx() +',';
-//		}
-//		strEggHistIdx = strEggHistIdx +eggTradeVO.getEggHistIdx();
-//		eggTradeVO.setEggHistIdx(strEggHistIdx);
-//
-//		//이력번호 인텍스 마다 거래번호 생성
-//		int transIdx = eDAO.selectTransIdxByEggHistIdx(eggTradeVO.getEggHistIdx());
-//		eggTradeVO.setTransIdx(transIdx);
-//		System.out.println("============================		trans detail		==================================");
-//		
-//		System.out.println(eggTradeVO.getEggHistIdx());
-//		System.out.println(eggTradeVO.getTransIdx());
-//		System.out.println(eggTradeVO.getAccountNm());
-//		System.out.println(eggTradeVO.getAccountBusinessNo());
-//		System.out.println(eggTradeVO.getAccountLicenseNo());
-//		System.out.println(eggTradeVO.getEggXxl());
-//		System.out.println(eggTradeVO.getEggXl());
-//		System.out.println(eggTradeVO.getEggL());
-//		System.out.println(eggTradeVO.getEggM());
-//		System.out.println(eggTradeVO.getEggS());
-//		System.out.println(eggTradeVO.getEggE());
-//		System.out.println(eggTradeVO.getTotalEgg());
-//		System.out.println(eggTradeVO.getTransDate());
-//		System.out.println(eggTradeVO.getTransDate());
-
-		
-		
-		
-		
-		
-		
-		//eDAO.insertEggTradeByAccount(eggTradeVO);
 	}
 
-	@Override
-	public ArrayList<EggTradeVO> searchEggTradeBySpawningDate(String spawningDate) {
-		// TODO Auto-generated method stub
-		return eDAO.selectEggTradeBySpawningDate(spawningDate);
-	}
-
+	
 	
 	@Override
 	public HistoryNumberVO searchEggTradeByHistNo(String eggHistNo) {
@@ -147,5 +104,24 @@ public class EggTradeServiceImpl implements EggTradeService {
 		
 		return eDAO.selectAccountListOnTradeUse( param);
 	}
+
+	@Override
+	public ArrayList<EggPackingVO> searchEggPackingByHistNo(String eggHistNo) {
+		// TODO Auto-generated method stub
+		return eDAO.selectEggPackingByHistNo( eggHistNo);
+	}
+
+	@Override
+	public ArrayList<EggTradeVO> searchEggTradeSucceeded() {
+		// TODO Auto-generated method stub
+		return eDAO.selectEggTradeSucceeded();
+	}
+
+	@Override
+	public ArrayList<EggTradeInfoVO> searchEggTradeRstByHistNo(String eggHistNo) {
+		// TODO Auto-generated method stub
+		return eDAO.selectEggTradeRstByHistNo( eggHistNo);
+	}
+
 
 }

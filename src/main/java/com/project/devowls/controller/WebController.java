@@ -8,7 +8,12 @@ public class WebController {
 	
 	@GetMapping("/")
 	public String index() {
-		return "index";
+		return "dashboard";
+	}
+	
+	@GetMapping("/dashboard")
+	public String dashboard() {
+		return "dashboard";
 	}
 	
 	@GetMapping("/historyNumber")
@@ -39,6 +44,21 @@ public class WebController {
 	@GetMapping("/accountMgmt")
 	public String accountMgmt() {
 		return "accountMgmt";
+	}
+	
+	@GetMapping("/scheduleInfo")
+	public String scheduleInfo() {
+		return "scheduleInfo";
+	}
+	
+	@GetMapping("/scheduleMgmt")
+	public String scheduleMgmt() {
+		return "scheduleMgmt";
+	}
+	
+	@GetMapping("/scheduleHist")
+	public String scheduleHist() {
+		return "scheduleHist";
 	}
 	
 	

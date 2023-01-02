@@ -30,7 +30,7 @@ let year = today.getFullYear(); // 년도
 let month = today.getMonth() + 1;  // 월
 let date = today.getDate();  // 날짜
 
-var stdDate = year+ '-' + month + '-' + date;
+var stdDate = year+ '-' + month.toString().padStart(2, '0') + '-' + date.toString().padStart(2, '0');
 	
 var calendar = new FullCalendar.Calendar(calendarEl, {
 		initialDate: stdDate,
@@ -40,6 +40,7 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 //	            return false;
 //	        }
 //	    },
+		eventOrder : 'displayOrder', 
       	select: function(obj){
 			//console.log(obj)
 			//console.log(typeof obj.start.getMonth())

@@ -13,8 +13,8 @@ $(document).ready(function(){
 		let initDateYear = initDate.getFullYear(); // 년도
 		let initDateMonth = initDate.getMonth() + 1;  // 월
 		let initDateDate = initDate.getDate();  // 날짜
-		
-		var initDateStr = initDateYear+ '-' + initDateMonth + '-' + initDateDate;
+		//console.log(initDate.getUTCFullYear())
+		var initDateStr = initDateYear+ '-' + initDateMonth.toString().padStart(2, '0') + '-' + initDateDate.toString().padStart(2, '0');
 		var week = new Array('일', '월', '화', '수', '목', '금', '토');
 		$('#reportDate').val(initDateStr+ '(' + week[initDate.getDay()] + ')' );
 
@@ -28,16 +28,20 @@ let year = today.getFullYear(); // 년도
 let month = today.getMonth() + 1;  // 월
 let date = today.getDate();  // 날짜
 
-var stdDate = year+ '-' + month + '-' + date;
-	
+
+var stdDate = year+ '-' + month.toString().padStart(2, '0') + '-' + date.toString().padStart(2, '0');
+//console.log(stdDate);	
 var calendar = new FullCalendar.Calendar(calendarEl, {
-		initialDate: stdDate,
+ 		initialDate: stdDate,
       	locale: 'ko',
+      	//dateFormat: 'YYYY-MM-DD',
 //      	selectAllow: function(info) {
 //	        if (!info.event.extendedProps.eggHistNo) {
 //	            return false;
 //	        }
 //	    },
+		//initialDate: '2023-01-01',
+		eventOrder : 'displayOrder', 
       	select: function(obj){
 			//console.log(obj)
 			//console.log(typeof obj.start.getMonth())
@@ -74,6 +78,10 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
       	eventDidMount: function(info) {
             tippy(info.el, {
                 content:  info.event.extendedProps.description,//이벤트 디스크립션을 툴팁으로 가져옵니다. 
+                placement : 'bottom',
+                theme: 'yellow',
+                arrow : true,
+                allowHTML : true
             });
         },
         eventClick: function(info) {
@@ -288,10 +296,25 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 							
 							if (shipment !=null && shipment.length > 0) {
 								for(var i=0; i < shipment.length; i++) {
+									console.log(shipment[i].description);
 									events.push({
 								 		title : shipment[i].title,
 								 		start : shipment[i].start.substr(0,4)+'-'+shipment[i].start.substr(4,2)+'-'+shipment[i].start.substr(6,2),
 								 		end : shipment[i].end.substr(0,4)+'-'+shipment[i].end.substr(4,2)+'-'+shipment[i].end.substr(6,2),
+								 		groupId : shipment[i].groupId,
+								 		extendedProps: {
+									
+											eggHistNo			: shipment[i].eggHistNo,
+											histNoIssueDate		: shipment[i].histNoIssueDate,
+											packingReportDate	: shipment[i].packingReportDate,
+											spawningDate		: shipment[i].spawningDate,
+											
+											eggUsage				: shipment[i].eggUsage,
+											reporterBusinessNo		: shipment[i].reporterBusinessNo,
+											reporterLicenseNo		: shipment[i].reporterLicenseNo
+											
+									      },
+								 		
 								 		description : shipment[i].description,
 								 		backgroundColor: '#A569BD',
 								 		borderColor: '#A569BD',
@@ -411,6 +434,7 @@ function searchEggTrade(page){
 		page=1;
 	}
 
+	// 거래처 정보 조회
 	$.ajax({
 		type : 'GET',
 		url : '/callAccountListForEggTrade',
@@ -440,20 +464,20 @@ function searchEggTrade(page){
 				html+='		<input type="hidden" name="accountLicenseNo" id="licenseNo" value="'+list.licenseNo+'" >';
 				html+='		<input type="hidden" name="transType" id="transType" value="309002" >';	//거래유형 : 출고
 				
-				html+='<td class="text-center " ><input type="text" class="transDate w-100 p-0 m-0 py-2 text-center bg-tranparent" oninput="inputDateFormat(this,\'-\')" onKeyUp="setTransDate(this.value,\'transDate'+i+'\')" value="'+dateFormat(year+''+month+''+date,'-')+'" > </td>';		//거래일자	
-				html+='		<input type="hidden" name="transDate" id="transDate'+i+'" value="'+dateFormat(year+''+month+''+date,'')+'"  >';
+				html+='<td class="text-center " ><input type="text" class="transDate w-100 p-0 m-0 py-2 text-center bg-tranparent" oninput="inputDateFormat(this,\'-\')" onKeyUp="setTransDate(this.value,\'transDate'+i+'\')" value="'+dateFormat(year+''+month.toString().padStart(2, '0')+''+date.toString().padStart(2, '0'),'-')+'" > </td>';		//거래일자	
+				html+='		<input type="hidden" name="transDate" id="transDate'+i+'" value="'+dateFormat(year+''+month.toString().padStart(2, '0')+''+date.toString().padStart(2, '0'),'')+'"  >';
 				
 				html+='<td class="" style="text-align: right;"> <input id="eggXxlDealt'+i+'" type="text" class="w-100 p-0 m-0 py-2 text-end bg-tranparent" name="eggXxlDealtStr" placeholder="0" onKeyup="sumAccountRow(\''+i+'\');inputNumberFormat(this);setEggVal(this)"></td>';
 				html+='		<input type="hidden" name="eggXxl" id="eggXxl'+i+'" value="" >';
-				html+='<td class="" style="text-align: right;"> <input id="eggXlDealt'+i+'" type="text" class="w-100 p-0 m-0 text-end bg-tranparent" name="eggXlDealtStr" placeholder="0" onKeyup="sumAccountRow(\''+i+'\');inputNumberFormat(this)"></td>';
+				html+='<td class="" style="text-align: right;"> <input id="eggXlDealt'+i+'" type="text" class="w-100 p-0 m-0 text-end bg-tranparent" name="eggXlDealtStr" placeholder="0" onKeyup="sumAccountRow(\''+i+'\');inputNumberFormat(this);setEggVal(this)"></td>';
 				html+='		<input type="hidden" name="eggXl" id="eggXl'+i+'" value="" >';
-				html+='<td class="" style="text-align: right;"> <input id="eggLDealt'+i+'" type="text" class="w-100 p-0 m-0 text-end bg-tranparent" name="eggLDealtStr" placeholder="0" onKeyup="sumAccountRow(\''+i+'\');inputNumberFormat(this)"></td>';
+				html+='<td class="" style="text-align: right;"> <input id="eggLDealt'+i+'" type="text" class="w-100 p-0 m-0 text-end bg-tranparent" name="eggLDealtStr" placeholder="0" onKeyup="sumAccountRow(\''+i+'\');inputNumberFormat(this);setEggVal(this)"></td>';
 				html+='		<input type="hidden" name="eggL" id="eggL'+i+'" value="" >';
-				html+='<td class="" style="text-align: right;"> <input id="eggMDealt'+i+'" type="text" class="w-100 p-0 m-0 text-end bg-tranparent" name="eggMDealtStr" placeholder="0" onKeyup="sumAccountRow(\''+i+'\');inputNumberFormat(this)"></td>';
+				html+='<td class="" style="text-align: right;"> <input id="eggMDealt'+i+'" type="text" class="w-100 p-0 m-0 text-end bg-tranparent" name="eggMDealtStr" placeholder="0" onKeyup="sumAccountRow(\''+i+'\');inputNumberFormat(this);setEggVal(this)"></td>';
 				html+='		<input type="hidden" name="eggM" id="eggM'+i+'" value="" >';
-				html+='<td class="" style="text-align: right;"> <input id="eggSDealt'+i+'" type="text" class="w-100 p-0 m-0 text-end bg-tranparent" name="eggSDealtStr" placeholder="0" onKeyup="sumAccountRow(\''+i+'\');inputNumberFormat(this)"></td>';
+				html+='<td class="" style="text-align: right;"> <input id="eggSDealt'+i+'" type="text" class="w-100 p-0 m-0 text-end bg-tranparent" name="eggSDealtStr" placeholder="0" onKeyup="sumAccountRow(\''+i+'\');inputNumberFormat(this);setEggVal(this)"></td>';
 				html+='		<input type="hidden" name="eggS" id="eggS'+i+'" value="" >';
-				html+='<td class="" style="text-align: right;"> <input id="eggEDealt'+i+'" type="text" class="w-100 p-0 m-0 text-end bg-tranparent" name="eggEDealtStr" placeholder="0" onKeyup="sumAccountRow(\''+i+'\');inputNumberFormat(this)"></td>';
+				html+='<td class="" style="text-align: right;"> <input id="eggEDealt'+i+'" type="text" class="w-100 p-0 m-0 text-end bg-tranparent" name="eggEDealtStr" placeholder="0" onKeyup="sumAccountRow(\''+i+'\');inputNumberFormat(this);setEggVal(this)"></td>';
 				html+='		<input type="hidden" name="eggE" id="eggE'+i+'" value="" >';
 				html+='<td class="" style="text-align: right;"> <input id="eggTotalDealt'+i+'" type="text" class="w-100 p-0 m-0 text-end bg-tranparent" name="eggTotalDealtStr" value="0" disabled></td>';				
 				html+='		<input type="hidden" name="totalEgg" id="totalEgg'+i+'" value="" >';
@@ -504,10 +528,155 @@ function searchEggTrade(page){
 				pageHtml+='</li>';
 			}
 
+			$("#accountPageing").html(pageHtml);
+			
+		} 
+	});
+	
+	
+	
+	// 등록내역 조회
+	$.ajax({
+		type : 'GET',
+		url : '/callEggTrade',
+		dataType : 'json',
+		contentType : "application/json",
+		data : {
+            "page" : page
+        },
+		success : function(data) {
+			// 데이터 로딩
+			var dataList = data.eventList;
+			
+			//console.dir(dataList);
+			var html="";
+			
+			for(var i=0; i<dataList.length; i++){
+				var list = dataList[i];
+
+				////console.log(list);
+				if (list.resultCode == "INFO-0000") {
+					html+='<tr>';
+					
+				
+					html+='<td class="text-success">'+ list.num +'</td>';
+					
+					html+='<td class="text-success">'+ formatDateTime(list.reportTime) +'</td>';
+					html+='<td class="text-success">'+ list.resultCode +'</td>';
+					html+='<td class="text-success">'+ list.resultMsg +'</td>';
+					
+					html+='<td class="text-success">'+ list.eggHistNo +'</td>';
+					html+='<td class="text-success">'+ list.eggHistIdx +'</td>';
+					
+					html+='<td class="text-success">'+ list.spawningDate +'</td>';
+					html+='<td class="text-success">'+ list.histNoIssueDate +'</td>';
+					html+='<td class="text-success">'+ list.packingReportDate +'</td>';
+					
+					html+='<td class="text-success">'+ list.transInfo +'</td>';
+					
+					
+	
+					html+='</tr>';
+					
+				} else if (list.resultCode.includes("ERROR")) {
+					
+					html+='<tr>';
+					
+					html+='<td class="text-danger">'+ list.num +'</td>';
+					
+					html+='<td class="text-danger">'+ formatDateTime(list.reportTime) +'</td>';
+					html+='<td class="text-danger">'+ list.resultCode +'</td>';
+					html+='<td class="text-danger">'+ list.resultMsg +'</td>';
+					
+					html+='<td class="text-danger">'+ list.eggHistNo +'</td>';
+					html+='<td class="text-danger">'+ list.eggHistIdx +'</td>';
+					
+					html+='<td class="text-danger">'+ list.spawningDate +'</td>';
+					html+='<td class="text-danger">'+ list.histNoIssueDate +'</td>';
+					html+='<td class="text-danger">'+ list.packingReportDate +'</td>';
+					
+					html+='<td class="text-danger">'+ list.transInfo +'</td>';
+	
+					
+					html+='</tr>';
+					
+				} else {
+					
+					html+='<tr>';
+
+					html+='<td class="">'+ list.num +'</td>';
+					
+					html+='<td class="">'+ formatDateTime(list.reportTime) +'</td>';
+					html+='<td class="">'+ list.resultCode +'</td>';
+					html+='<td class="">'+ list.resultMsg +'</td>';
+					
+					html+='<td class="">'+ list.eggHistNo +'</td>';
+					html+='<td class="">'+ list.eggHistIdx +'</td>';
+					
+					html+='<td class="">'+ list.spawningDate +'</td>';
+					html+='<td class="">'+ list.histNoIssueDate +'</td>';
+					html+='<td class="">'+ list.packingReportDate +'</td>';
+					
+					html+='<td class="">'+ list.transInfo +'</td>';
+	
+					html+='</tr>';
+					
+				}
+				
+				
+			
+                
+                
+			}
+							
+			$("#egg-packing-body").html(html);
+			
+			// 페이지 로딩
+			
+			var pageInfo = data.pageInfo;
+			
+			var pageHtml="";
+			
+			var preLang = "이전";
+			var nextLang= "다음";
+			
+			
+			
+			if(pageInfo.page<=1){
+				pageHtml+='<li class="page-item disabled">';
+				pageHtml+='<a class="page-link" href="#" tabindex="-1" id="preLang">'+preLang+'</a>';
+				pageHtml+='</li>';
+			}else{
+				pageHtml+='<li class="page-item">';
+				pageHtml+='<a class="page-link" onclick="searchEggPacking('+(pageInfo.page-1)+')" tabindex="-1" id="preLang">'+preLang+'</a>';
+				pageHtml+='</li>';
+			}
+			for(var i=pageInfo.startPage;i<=pageInfo.endPage;i++){
+				if(pageInfo.page==i){
+					pageHtml+='<li class="page-item active">';
+					pageHtml+='<a class="page-link" onclick="searchEggPacking('+i+')">'+i+' <span class="sr-only">(current)</span></a>';
+					pageHtml+='</li>';
+				}else{
+					pageHtml+='<li class="page-item">';
+					pageHtml+='<a class="page-link" onclick="searchEggPacking('+i+')">'+i+' </a>';
+					pageHtml+='</li>';
+				}
+			}
+			if(pageInfo.page>=pageInfo.maxPage){
+				pageHtml+='<li class="page-item disabled">';
+				pageHtml+='<a class="page-link" href="#" id="nextLang">'+nextLang+'</a>';
+				pageHtml+='</li>';
+			}else{
+				pageHtml+='<li class="page-item">';
+				pageHtml+='<a class="page-link" onclick="searchEggPacking('+(pageInfo.page+1)+')" href="#" id="nextLang">'+nextLang+'</a>';
+				pageHtml+='</li>';
+			}
+
 			$("#pageing").html(pageHtml);
 			
 		} 
 	});
+
 
 }
 
@@ -642,7 +811,7 @@ function submitEggTrade() {
 	let year = now.getFullYear(); // 년도
 	let month = now.getMonth() + 1;  // 월
 	let date = now.getDate();  // 날짜
-	var today = new Date(year+'-'+month+'-'+date);
+	var today = new Date(year+'-'+month.toString().padStart(2, '0')+'-'+date.toString().padStart(2, '0'));
 	//console.log(today);
 	
 	// 입력기간 검증
@@ -651,82 +820,17 @@ function submitEggTrade() {
 		return false;
 	}
 
-	//console.log($("#reportDateHidden").val());
-	//var formsubmitSerialArray = $("#eggTradeDetailForm").serializeObject();
-	//var formsubmit = JSON.stringify(objectifyForm(formsubmitSerialArray));
 	
-//	let formData = $("#eggTradeForm")
-//	let formDetailData = $("#eggTradeDetailForm").serializeArrayObject()
-//	formData.eggTradeList = formDetailData;
-//	
-//	const form = document.getElementById('eggTradeForm');
-//	const payload = new FormData(form);
-//	let   url_form_data = new URLSearchParams(payload)
-//	let fetchData = JSON.stringify(formData);
-//	console.log(fetchData);
-//	
-//	fetch('/registerEggTrade', {
-//	    method: 'POST',
-//	    cache: 'no-cache',
-//	    headers: {
-//        'Content-Type': 'application/x-www-form-urlencoded'
-//    	},
-//	    body: url_form_data
-//	})
-//	.then((response) => response.json())
-//	.then((data) => {
-//	    //console.log(data.resultCode);
-//	    if(data.resultCode == 'success') {
-//			setToast("bg-success", "출고 등록", null, "성공적으로 등록 되었습니다.")
-//			bsAlert.show();//show it
-//			
-//		} else if (data.resultCode == 'error') {
-//			setToast("bg-danger", "출고 등록", null, "오류가 발생했습니다.<br>"+data.resultCd+"<br>"+data.resultStr)
-//			bsAlert.show();//show it
-//		}
-//	    resetEggCount();
-//		searchEggTrade(1);
-//		calendar.refetchEvents();
-//	});
-//	
-//	
-//	
-//	
-//	
-//	return false;
-	
-	const ajax = function(url, data){
-		    console.log("ajax", url, data);
-		    const xhr = new XMLHttpRequest();
-		    xhr.open("POST", url);
-		    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8;");
-		    xhr.responseType = "json";
-		    xhr.onload = function(e) {
-		        console.log(this, e);
-		    };
-	    xhr.send(JSON.stringify(data));
-	}
-	
-	const sendUrl = "/registerEggTrade";
 	
 	let formData = $("#eggTradeForm").serializeObject()
 	let formDetailData = $("#eggTradeDetailForm").serializeArrayObject()
 	formData.eggTradeList = formDetailData;
-	
-	console.log(formData);
-	//console.log(formDetailData);
-	//ajax(sendUrl, formData);
-				
+
 	
 	$.ajax({
 			 url :"/registerEggTrade"
 			,type:"post"
 			,data: JSON.stringify(formData)
-//			{
-//				 reportData : formsubmitSerialArray.serialize()
-//				,ACOUNTDATA : $("#EGGTRADEDETAILFORM").SERIALIZE()
-//			}
-			//,data:formsubmit
 			,dataType:"json"
 			,contentType: 'application/json'
 			,success:function(data){

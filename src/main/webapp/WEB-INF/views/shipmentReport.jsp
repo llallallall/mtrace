@@ -138,7 +138,7 @@
 										</div>
 										
 										<nav aria-label="Page navigation" class="py-3">
-										    <ul class="pagination justify-content-center" id="pageing"></ul>
+										    <ul class="pagination justify-content-center" id="accountPageing"></ul>
 										</nav> 
 				          			</div>
 				          			</form>
@@ -149,7 +149,7 @@
 				            
 				           <hr class="my-4">
 				
-				          <button id="submitBtn" class="w-100 btn btn-primary btn-lg" type="button" onclick="submitEggTrade()">출고 신고하기</button>
+				          <button id="submitBtn" class="w-100 btn btn-primary btn-lg" type="button" onclick="submitEggTrade()">거래처별 출고 신고하기</button>
 				          
 				          </div>
 
@@ -172,38 +172,20 @@
 			
 			                                <thead  >
 			                                    <tr>
-			                                        <th rowspan="2">#</th>
-			                                        <th rowspan="2">전송시간</th>
+			                                        <th >#</th>
+			                                        <th >전송시간</th>
 			                                        
-			                                        <th rowspan="2">응답코드</th>
-			                                        <th rowspan="2">응답메시지</th>
+			                                        <th >응답코드</th>
+			                                        <th >응답메시지</th>
 			                                        
-			                                        <th rowspan="2">이력번호</th>
-			                                        <th rowspan="2">거래일자</th>
-			                                        <th rowspan="2">신고일자</th>
-			                                        
-			                                        
-			                                        <th colspan="2" class="text-center">거래처</th>
-
-			                                        <th colspan="7" class="text-center">출고수량</th>
-
+			                                        <th >이력번호</th>
+			                                        <th >이력번호 순번</th>
+			                                        <th >산란일자</th>
+			                                        <th >이력번호 발급일자</th>
+			                                        <th >선별포장 신고일자</th>
+			           								<th> 출고내역</th>
 			                                    </tr>
-			                                    <tr>
-
-			                                        
-			                                        <th>업체명</th>
-			                                        <th>사업자번호</th>
-			                                        
-			                                        
-			                                        <th>왕란</th>
-			                                        <th>특란</th>
-			                                        <th>대란</th>
-			                                        <th>중란</th>
-			                                        <th>소란</th>
-			                                        <th>기타</th>
-			                                        <th>합계</th>
-
-			                                    </tr>
+			                                    
 			                                </thead>
 			                                <tbody id="egg-packing-body">
 			                                    
@@ -242,8 +224,12 @@
 	<script src="/assets/bundle/jquery.toast/jquery.toast.min.js"></script>
 
 	<!-- full calendar -->
-	<script src='/assets/bundle/fullcalendar-6.0.1/dist/index.global.js'></script>
-	<script src='/assets/bundle/fullcalendar-6.0.1/packages/bootstrap5/index.global.js'></script>
+	<script src='/assets/bundle/fullcalendar-6.0.2/dist/index.global.js'></script>
+	<script src='/assets/bundle/fullcalendar-6.0.2/packages/bootstrap5/index.global.js'></script>
+<!-- 	<script src='/assets/bundle/fullcalendar-6.0.2/packages/moment/index.global.js'></script> -->
+<!-- 	<script src='/assets/bundle/fullcalendar-6.0.2/packages/moment-timezone/index.global.js'></script> -->
+	<script src='/assets/bundle/fullcalendar-6.0.2/packages/web-component/index.global.js'></script>
+	
 	<script src="/assets/bundle/popper.2.11.6/js/popper.js"></script>
 	<script src="/assets/bundle/tippy.6.3.7/js/tippy.js"></script>
 	<script src="/assets/js/custom.js"></script>
