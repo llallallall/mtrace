@@ -8,7 +8,7 @@
 	
 	<select id="selectScheduleTerm" parameterType="String" resultType="String">
 		SELECT 
-			concat(ifnull(second,'*'),' ',ifnull(minute,'*'),' ',ifnull(hour,'*'),' ',ifnull(date,'*'),' ',ifnull(month,'*'),' ',ifnull(day,'?'),' ',ifnull(year,'*') ) as term
+			concat(ifnull(second,'*'),' ',ifnull(minute,'*'),' ',ifnull(hour,'*'),' ',ifnull(date,'*'),' ',ifnull(month,'*'),' ',ifnull(day,'?')) as term
 		FROM 
 			schedule_job
 		WHERE
@@ -23,6 +23,42 @@
 			schedule_job
 		WHERE 
 			jobname = #{jobName}
+	</select>
+	
+	<select id="selectScheduleInfo" resultType="ScheduleVO">
+			SELECT 
+				packing_business_no, 
+				packing_license_no, 
+				farm_id_no, 
+				egg_usage, 
+				storage_method, 
+				egg_xxl, 
+				egg_xl, 
+				egg_l, 
+				egg_m, 
+				egg_s, 
+				egg_e, 
+				washing_method, 
+				farm_uniq_no, 
+				trade_business_no, 
+				trade_license_no, 
+				trade_term,
+				total_dispose,
+				breading_method
+		FROM schedule_info
+	</select>
+	
+	<select id="selectScheduleAccount" resultType="ScheduleVO">
+			SELECT 
+				account_nm, 
+				account_business_no, 
+				account_license_no, 
+				egg_xxl, egg_xl, 
+				egg_l, egg_m, 
+				egg_s, egg_e, 
+				total_egg, 
+				trade_term
+		FROM schedule_account
 	</select>
 
 	

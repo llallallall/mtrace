@@ -25,6 +25,8 @@ public class ScheduleVO {
 	
 	private int		totalEgg;
 	
+	private int		totalDispose;		//총 폐기수량
+	
 	
 	private String 	farmIdNo;
 	private String 	eggUsage;
@@ -33,6 +35,7 @@ public class ScheduleVO {
 	private String 	farmUniqNo;
 	private String 	clientBusinessNo;
 	private String 	clientLicenseNo;
+	private String 	breadingMethod;
 	
 	
 	private String 	tradeTerm;

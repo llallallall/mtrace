@@ -21,6 +21,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -310,7 +311,16 @@ public class EggTradeController {
 
 	@RequestMapping(value="/registerEggTrade", method=RequestMethod.POST)
 	@ResponseBody
-	public HashMap<String, Object> registerEggTrade( HttpServletRequest req ) throws IOException, ParseException {
+	public HashMap<String, Object> registerEggTrade( HttpServletRequest req, 
+					EggTradeVO eggTradeVO, 
+					ArrayList<EggTradeDetailVO> eggTradeDetailVO,
+					@RequestParam(value="mode",required=false, defaultValue="manual") String mode) 
+					throws IOException, ParseException {
+		
+		EggTradeVO reporterVO = new EggTradeVO();
+		ArrayList<EggTradeDetailVO> tradeListVO = new ArrayList<EggTradeDetailVO>();
+		
+		if (mode !="auto") {
 		System.out.println("parsing Ajax Json");
 
 		JSONObject jsonObject = readJSONStringFromRequestBody(req);
@@ -327,7 +337,7 @@ public class EggTradeController {
 		String reportDate = (String) jsonObject.get("reportDate");
 		String requestDate = (String) jsonObject.get("requestDate");
 
-		EggTradeVO reporterVO = new EggTradeVO();
+		
 		reporterVO.setReporterBusinessNo(reporterBusinessNo);
 		reporterVO.setReporterLicenseNo(reporterLicenseNo);
 		reporterVO.setEggHistNo(eggHistNo);
@@ -340,7 +350,7 @@ public class EggTradeController {
 		
 		//System.out.println(reporterVO);
 
-		ArrayList<EggTradeDetailVO> tradeListVO = new ArrayList<EggTradeDetailVO>();
+		
 		
 		JSONArray eggTradeList = (JSONArray) jsonObject.get("eggTradeList");
 		for(int i=0; i<eggTradeList.size(); i++){
@@ -381,13 +391,19 @@ public class EggTradeController {
 			tradeListVO.add(tradeVO);
 		}
 		
+		} else {
+			reporterVO  = eggTradeVO;
+			tradeListVO = eggTradeDetailVO;
+			
+		}
+		
 		//System.out.println("출고내역 :: " + tradeListVO);
 
 		HashMap<String, Object> data = new HashMap<String, Object>();
 		
 		
 		// 선별포장거래 신고 내역 - 정상 입력 값 여부 확인
-		ArrayList<EggPackingVO> voList = tService.searchEggPackingByHistNo(eggHistNo);
+		ArrayList<EggPackingVO> voList = tService.searchEggPackingByHistNo(reporterVO.getEggHistNo());
 		Boolean isPackingRst = false;
 		for(EggPackingVO vo : voList) {
 			//System.out.println("이력번호 조회 :: " + eggHistNo + vo.getResultCode());
@@ -399,7 +415,7 @@ public class EggTradeController {
 		}	
 		
 		// 선별포장거래 신고 내역 - 정상 입력 값 여부 확인
-		ArrayList<EggTradeInfoVO> voList2 = tService.searchEggTradeRstByHistNo(eggHistNo);
+		ArrayList<EggTradeInfoVO> voList2 = tService.searchEggTradeRstByHistNo(reporterVO.getEggHistNo());
 		Boolean isTradeRst = false;
 		for(EggTradeInfoVO vo : voList2) {
 			//System.out.println("출고내역 조회 :: " + eggHistNo + vo.getResultCode());
@@ -431,15 +447,15 @@ public class EggTradeController {
 				String reporterParam ="";
 				String tradeParam ="";
 				
-				reporterVO.setReporterBusinessNo(reporterBusinessNo);
-				reporterVO.setReporterLicenseNo(reporterLicenseNo);
-				reporterVO.setEggHistNo(eggHistNo);
-				reporterVO.setHistNoIssueDate(histNoIssueDate);
-				reporterVO.setSpawningDate(spawningDate);
-				reporterVO.setEggUsage(eggUsage);
-				reporterVO.setPackingReportDate(packingReportDate);
-				reporterVO.setReportDate(reportDate);
-				reporterVO.setRequestDate(requestDate);
+				reporterVO.setReporterBusinessNo(reporterVO.getReporterBusinessNo());
+				reporterVO.setReporterLicenseNo(reporterVO.getReporterLicenseNo());
+				reporterVO.setEggHistNo(reporterVO.getEggHistNo());
+				reporterVO.setHistNoIssueDate(reporterVO.getHistNoIssueDate());
+				reporterVO.setSpawningDate(reporterVO.getSpawningDate());
+				reporterVO.setEggUsage(reporterVO.getEggUsage());
+				reporterVO.setPackingReportDate(reporterVO.getPackingReportDate());
+				reporterVO.setReportDate(reporterVO.getReportDate());
+				reporterVO.setRequestDate(reporterVO.getRequestDate());
 				
 				reporterParam	= reporterVO.getReporterBusinessNo()+"|"    	// 1.신고인 사업자등록번호(필수)
 		         				+ reporterVO.getReporterLicenseNo()+"|"			// 2.신고인 인허가번호 	(필수)

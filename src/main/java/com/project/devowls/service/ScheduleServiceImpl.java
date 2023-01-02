@@ -38,4 +38,16 @@ public class ScheduleServiceImpl implements ScheduleService {
 		return sDAO.selectTriggerName(jobName);
 	}
 
+	@Override
+	public ScheduleVO searchScheduleInfo() {
+		// TODO Auto-generated method stub
+		return sDAO.selectScheduleInfo();
+	}
+
+	@Override
+	public ArrayList<ScheduleVO> searchScheduleAccount() {
+		// TODO Auto-generated method stub
+		return sDAO.selectScheduleAccount();
+	}
+
 }

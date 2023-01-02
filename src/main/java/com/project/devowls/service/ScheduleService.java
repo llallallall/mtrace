@@ -14,4 +14,8 @@ public interface ScheduleService {
 
 	String searchTriggerName(String jobName);
 
+	ScheduleVO searchScheduleInfo();
+
+	ArrayList<ScheduleVO> searchScheduleAccount();
+
 }

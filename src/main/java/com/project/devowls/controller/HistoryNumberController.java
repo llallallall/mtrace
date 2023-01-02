@@ -152,11 +152,11 @@ public class HistoryNumberController {
 		String postUrl = "http://api.mtrace.go.kr/rest/dfts/trace/transParam";
 		String eggHistNoParam ="";
 		
-		System.out.println(historyNumberVO.getBusinessNo());
-		System.out.println(historyNumberVO.getLicenseNo());
-		
-		System.out.println(historyNumberVO.getClientBusinessNo());
-		System.out.println(historyNumberVO.getClientLicenseNo());
+//		System.out.println(historyNumberVO.getBusinessNo());
+//		System.out.println(historyNumberVO.getLicenseNo());
+//		
+//		System.out.println(historyNumberVO.getClientBusinessNo());
+//		System.out.println(historyNumberVO.getClientLicenseNo());
 		
 		//이력번호 (산란일자(4)+농장고유번호(5)+사육방식(1))
 		String histNo = historyNumberVO.getSpawningDate().substring(4,8) + historyNumberVO.getFarmUniqNo() + historyNumberVO.getBreedingMethod();

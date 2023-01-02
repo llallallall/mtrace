@@ -19,4 +19,8 @@ public interface ScheduleDAO {
 
 	String selectTriggerName(String jobName);
 
+	ScheduleVO selectScheduleInfo();
+
+	ArrayList<ScheduleVO> selectScheduleAccount();
+
 }
