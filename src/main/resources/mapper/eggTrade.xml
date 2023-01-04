@@ -16,6 +16,8 @@
 				m.hist_no_issue_date, 
 				m.egg_usage, 
 				m.spawning_date, 
+				m.request_date, 
+				m.report_date, 
 				m.reporter_business_no, 
 				m.reporter_license_no,
 				n.trans_info
@@ -108,7 +110,8 @@
 			egg_s, 
 			egg_e, 
 			washing_method,
-			report_date,
+			request_date, 
+			report_date, 
 			farm_uniq_no
 			
 		FROM 
@@ -150,6 +153,9 @@
 						m.hist_no_issue_date, 
 						m.packing_report_date, 
 						
+						m.request_date, 
+						m.report_date, 
+						
 						n.trans_info
 
 					FROM 
@@ -186,6 +192,7 @@
 				license_no, 
 				egg_hist_no, 
 				request_date, 
+				report_date, 
 				farm_id_no, 
 				egg_usage, 
 				spawning_date, 
@@ -217,6 +224,8 @@
 				result_code, 
 				result_msg, 
 				egg_hist_idx, 
+				request_date,   <!-- 입력 당일 -->
+				report_date,	<!-- 출하신고 일자 -->
 				packing_report_date, 
 				egg_hist_no, 
 				hist_no_issue_date, 
@@ -230,6 +239,8 @@
 				#{resultCode}, 
 				#{resultMsg}, 
 				#{eggHistIdx}, 
+				#{requestDate}, 
+				#{reportDate}, 
 				#{packingReportDate}, 
 				#{eggHistNo},
 				#{histNoIssueDate}, 

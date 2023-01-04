@@ -39,8 +39,8 @@
 				          		<div class="col-sm-6">
 				          		
 				          			<div class="row reportDate" >
-							              <label for="reportDate" class="form-label">출고 신고일자</label>
-							              <input type="text" class="form-control text-center" id="reportDate" >
+							              <label for="tradeReportDate" class="form-label">출고 신고일자</label>
+							              <input type="text" class="form-control text-center" id="tradeReportDate" >
 					              			
 							                    
 						            </div>
@@ -60,10 +60,13 @@
 							                    
 						            </div>
 						            <form id="eggTradeForm" >
-						            	<input type="hidden" id="histNoIssueDate" name="histNoIssueDate">
-						            	<input type="hidden" id="reportDateHidden" name="reportDate">
+						            
+						            	
+						            							            	
+						            	<input type="hidden" id="tradeReportDateHidden" name="reportDate">
+						            	
 						            	<input type="hidden" id="requestDateHidden" name="requestDate">
-						            	<input type="hidden" id="spawningDate" name="spawningDate">
+						            	
 				          			<div class="row d-flex flex-row ">
 				          				<div class="table-responsive ">
 						          			<table class="table table-bordered align-middle">

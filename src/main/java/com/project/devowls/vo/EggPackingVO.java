@@ -12,7 +12,8 @@ public class EggPackingVO {
 	private String 	resultMsg; 
 	
 	private String 	eggHistNo; 
-	private String 	requestDate; 
+	private String 	requestDate; 	//선별포장 전송일자
+	private String 	reportDate; 	//선별포장 등록 기준일자
 	private String 	issueDate;   	//이력번호 발급일자
 	
 	private String 	businessNo; 

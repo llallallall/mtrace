@@ -148,7 +148,7 @@
 				          		<div class="col-sm-8">
 				          		
 				          			<div class="row reportDate" >
-							              <label for="reportDate" class="form-label">산란일자</label>
+							              <label for="spawningDate" class="form-label">산란일자</label>
 							              <input type="text" class="form-control text-center" id="spawningDate" >
 					              	
 							                    
@@ -156,6 +156,7 @@
 						            <div class="row" >
 						            	<div id='calendar'></div>
 						            	<input type="hidden" id="reportDateHidden" name="reportDate">
+						            	<input type="hidden" id="requestDateHidden" name="requestDate">
 						            	<input type="hidden" id="spawningDateHidden" name="spawningDate">
 						            </div>
 										
@@ -179,7 +180,7 @@
 							            
 							            <div class="col-sm-12 eggSize">
 							              <label for="size3" class="form-label">대란</label>
-							              <input type="text" class="form-control text-end" id="size3" placeholder="2,200" value="2,200" onKeyup="inputNumberFormat(this)"  >
+							              <input type="text" class="form-control text-end" id="size3" placeholder="0" value="330" onKeyup="inputNumberFormat(this)"  >
 							              <input type="hidden" id="size3Hidden" name="eggL">
 							            </div>
 							            

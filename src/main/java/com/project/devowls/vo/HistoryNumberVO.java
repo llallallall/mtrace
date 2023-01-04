@@ -22,6 +22,7 @@ public class HistoryNumberVO {
 	private String 	eggUsage; 
 	
 	private String 	reportDate; 
+	private String 	requestDate; 
 	private String 	spawningDate; 
 	private String 	storageMethod; 
 	

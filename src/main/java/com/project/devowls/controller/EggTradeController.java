@@ -187,9 +187,10 @@ public class EggTradeController {
 			eventParams.put("groupId", "packing");
 			
 			eventParams.put("eggHistNo", vo.getEggHistNo());
-			eventParams.put("issueDate", vo.getIssueDate());
-			eventParams.put("requestDate", vo.getRequestDate());
-			eventParams.put("spawningDate", vo.getSpawningDate());
+			eventParams.put("issueDate", vo.getIssueDate());		//이력번호 발급일자 = 이력번호 신고일자
+			eventParams.put("packingRequestDate", vo.getRequestDate());	//선별포장 신고 - 등록일자
+			eventParams.put("packingReportDate", vo.getReportDate());	//선별포장 신고 - 의로일자
+			eventParams.put("spawningDate", vo.getSpawningDate());	//산란일자
 			
 			eventParams.put("eggUsage", vo.getEggUsage());
 			eventParams.put("reporterBusinessNo", vo.getClientBusinessNo());
@@ -238,8 +239,8 @@ public class EggTradeController {
 			DecimalFormat df = new DecimalFormat("###,###");
 			
 			eventParams.put("title", "출하신고");
-			eventParams.put("start", vo.getPackingReportDate());
-			eventParams.put("end", vo.getPackingReportDate());
+			eventParams.put("start", vo.getReportDate());
+			eventParams.put("end", vo.getReportDate());
 			eventParams.put("description", vo.getTransInfo());
 			//System.out.println( vo.getTransInfo());
 			eventParams.put("groupId", "trade");
@@ -248,6 +249,8 @@ public class EggTradeController {
 			eventParams.put("histNoIssueDate", vo.getHistNoIssueDate());
 			eventParams.put("packingReportDate", vo.getPackingReportDate());
 			eventParams.put("spawningDate", vo.getSpawningDate());
+			eventParams.put("requestDate", vo.getRequestDate());
+			eventParams.put("reportDate", vo.getReportDate());
 			
 			eventParams.put("eggUsage", vo.getEggUsage());
 			eventParams.put("reporterBusinessNo", vo.getReporterBusinessNo());
@@ -324,18 +327,18 @@ public class EggTradeController {
 		System.out.println("parsing Ajax Json");
 
 		JSONObject jsonObject = readJSONStringFromRequestBody(req);
-
+		System.out.println(jsonObject);
 		String reporterBusinessNo = (String) jsonObject.get("reporterBusinessNo");
 		String reporterLicenseNo = (String) jsonObject.get("reporterLicenseNo");
 		
-		String eggHistNo = (String) jsonObject.get("eggHistNo");
-		String histNoIssueDate = (String) jsonObject.get("histNoIssueDate");
-		String spawningDate = (String) jsonObject.get("spawningDate");
+		String eggHistNo = (String) jsonObject.get("eggHistNo");							//이력번호
+		String histNoIssueDate = (String) jsonObject.get("histNoIssueDate");				//이력번호 발급일자
+		String spawningDate = (String) jsonObject.get("spawningDate");						//산란일자
 		String eggUsage = (String) jsonObject.get("eggUsage");
-		
-		String packingReportDate = (String) jsonObject.get("packingReportDate");
-		String reportDate = (String) jsonObject.get("reportDate");
-		String requestDate = (String) jsonObject.get("requestDate");
+
+		String packingReportDate = (String) jsonObject.get("packingReportDate");			//선별포장신고일자
+		String reportDate = (String) jsonObject.get("reportDate");							//출하신고일자    ==> API 전송시에는 선별포장일자로 입력해야함
+		String requestDate = (String) jsonObject.get("requestDate");						//출하신고 요청일자    ==> 입력 당일
 
 		
 		reporterVO.setReporterBusinessNo(reporterBusinessNo);
@@ -345,8 +348,8 @@ public class EggTradeController {
 		reporterVO.setSpawningDate(spawningDate);
 		reporterVO.setEggUsage(eggUsage);
 		reporterVO.setPackingReportDate(packingReportDate);
-		reporterVO.setReportDate(reportDate);
-		reporterVO.setRequestDate(requestDate);
+		reporterVO.setReportDate(reportDate);										//신고일자 <== 출하신고 일자는, 선별포장신고 일자와 동일하게 입력
+		reporterVO.setRequestDate(requestDate);												//요청일자 <== 입력화면의 당일(보고일자)
 		
 		//System.out.println(reporterVO);
 
@@ -447,16 +450,6 @@ public class EggTradeController {
 				String reporterParam ="";
 				String tradeParam ="";
 				
-				reporterVO.setReporterBusinessNo(reporterVO.getReporterBusinessNo());
-				reporterVO.setReporterLicenseNo(reporterVO.getReporterLicenseNo());
-				reporterVO.setEggHistNo(reporterVO.getEggHistNo());
-				reporterVO.setHistNoIssueDate(reporterVO.getHistNoIssueDate());
-				reporterVO.setSpawningDate(reporterVO.getSpawningDate());
-				reporterVO.setEggUsage(reporterVO.getEggUsage());
-				reporterVO.setPackingReportDate(reporterVO.getPackingReportDate());
-				reporterVO.setReportDate(reporterVO.getReportDate());
-				reporterVO.setRequestDate(reporterVO.getRequestDate());
-				
 				reporterParam	= reporterVO.getReporterBusinessNo()+"|"    	// 1.신고인 사업자등록번호(필수)
 		         				+ reporterVO.getReporterLicenseNo()+"|"			// 2.신고인 인허가번호 	(필수)
 		         				+ ""+"|";	// 									// 3.신고인 농장식별번호
@@ -464,7 +457,7 @@ public class EggTradeController {
 		        tradeParam		= tradeListVO.get(i).getTransType()+"|"			// 4.거래구분	(필수)
 		         				
 								+tradeListVO.get(i).getTransDate()+"|"	 		// 5.거래일자 (필수)	
-								+""+"|"	// 										// 6. 농장여부
+								+""+"|"	// 										// 6.농장여부
 		         				+""+"|"    										// 7.거래처 유형
 		         				+tradeListVO.get(i).getAccountBusinessNo()+"|"	// 8.거래처 사업자번호 (필수)
 		         				+tradeListVO.get(i).getAccountLicenseNo()+"|"	// 9.거래처 인허가번호 (필수)	

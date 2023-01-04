@@ -53,7 +53,6 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 			var week = new Array('일', '월', '화', '수', '목', '금', '토');
 			$('#requestDate').val(selDateStr+ '(' + week[obj.start.getDay()] + ')' );
 			
-//			$('#reportDateHidden').val(selyear+selmonth+seldate);
 			
 			//입력정보 초기화 
 			resetEggCount();
@@ -98,6 +97,9 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 			
 			$("#eggHistNoHidden").val(info.event.extendedProps.eggHistNo);
 			
+			$('#reportDateHidden').val(clickYear + clickMonth + clickDate);
+			console.log(clickYear + clickMonth + clickDate);
+			
 			$("#size1").val(info.event.extendedProps.eggXxl);
 			$("#size2").val(info.event.extendedProps.eggXl);
 			$("#size3").val(info.event.extendedProps.eggL);
@@ -114,6 +116,7 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 				$("#size6Dealt").val(info.event.extendedProps.eggE);
 				
 			} else if(info.event.groupId =="packing") {
+			
 				
 				$("#size1Dealt").val(info.event.extendedProps.eggXxlDealt);
 				$("#size2Dealt").val(info.event.extendedProps.eggXlDealt);
@@ -184,7 +187,11 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 								 		extendedProps: {
 									
 											eggHistNo		: packaging[i].eggHistNo,
+											issueDate		: packaging[i].issueDate,			//이력번호 발급일자
+											requestDate		: packaging[i].requestDate,			//선별포장신고 - 신고일자
+											spawningDate	: packaging[i].spawningDate,		//산란일자
 											
+							
 									        eggXxl			: packaging[i].eggXxl,
 									        eggXl			: packaging[i].eggXl,
 									        eggL			: packaging[i].eggL,
@@ -334,10 +341,16 @@ function chkHistNo () {
 	}
 	
 	// 2. 합계 초과
+	
 	if(sum < (dealt+dispose)) {
 		//console.log(2);
-		$('#'+size+'Dispose').val(numberWithCommas(Math.max(sum-dealt,0)));
+		if(step == "dealt") {
+			$('#'+size+'Dispose').val(numberWithCommas(Math.max(sum-dealt,0)));
+		} else if (step == "dispose") {
+			$('#'+size+'Dealt').val(numberWithCommas(Math.max(sum-dispose,0)));
+		}	
 	}
+	
 	
 	// 3. 폐기 초과
 	if(sum < (dispose)) {
@@ -409,9 +422,9 @@ function searchEggPacking(page){
 					html+='<td class="text-success">'+ list.resultMsg +'</td>';
 					
 					html+='<td class="text-success">'+ list.eggHistNo +'</td>';
-					html+='<td class="text-success">'+ list.issueDate +'</td>';
+					html+='<td class="text-success">'+ dateFormat(list.issueDate,'-') +'</td>';
 					
-					html+='<td class="text-success">'+ list.requestDate +'</td>';
+					html+='<td class="text-success">'+ dateFormat(list.requestDate,'-') +'</td>';
 					
 					
 					html+='<td class="text-success" style="text-align: right;">'+ numberWithCommas(list.eggXxl) +'</td>';
@@ -441,9 +454,9 @@ function searchEggPacking(page){
 					html+='<td class="text-danger">'+ list.resultMsg +'</td>';
 					
 					html+='<td class="text-danger">'+ list.eggHistNo +'</td>';
-					html+='<td class="text-danger">'+ list.issueDate +'</td>';
+					html+='<td class="text-danger">'+ dateFormat(list.issueDate,'-') +'</td>';
 					
-					html+='<td class="text-danger">'+ list.requestDate +'</td>';
+					html+='<td class="text-danger">'+ dateFormat(list.requestDate,'-') +'</td>';
 					
 
 					html+='<td class="text-danger" style="text-align: right;">'+ numberWithCommas(list.eggXxl) +'</td>';
@@ -473,8 +486,8 @@ function searchEggPacking(page){
 					html+='<td class="">'+ list.resultMsg +'</td>';
 					
 					html+='<td class="">'+ list.eggHistNo +'</td>';
-					html+='<td class="">'+ list.issueDate +'</td>';
-					html+='<td class="">'+ list.requestDate +'</td>';
+					html+='<td class="">'+ dateFormat(list.issueDate,'-') +'</td>';
+					html+='<td class="">'+ dateFormat(list.requestDate,'-') +'</td>';
 					
 
 					html+='<td class="" style="text-align: right;">'+ numberWithCommas(list.eggXxl) +'</td>';

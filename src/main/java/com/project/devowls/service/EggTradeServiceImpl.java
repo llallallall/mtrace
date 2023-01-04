@@ -55,6 +55,9 @@ public class EggTradeServiceImpl implements EggTradeService {
 		//이력번호 인덱스 생성
 		eggTradeVO.setEggHistIdx( eggTradeVO.getEggHistNo() + String.format("%03d", idx) );
 		eDAO.insertEggTrade(eggTradeVO);
+		
+//		reporterVO.setReportDate(packingReportDate);										//신고일자 <== 출하신고 일자는, 선별포장신고 일자와 동일하게 입력
+//		reporterVO.setRequestDate(reportDate);												//요청일자 <== 입력화면의 당일(보고일자)
 
 		//거래처별 상세항목 등록(여러건)
 		//거래처수만큼 이력번호를 VO에 입력

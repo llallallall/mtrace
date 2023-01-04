@@ -52,7 +52,7 @@
 						            <div class="row" >
 						            	<div id='calendar'></div>
 <!-- 						            	<input type="hidden" id="spawningDateHidden" name="spawningDate"> -->
-<!-- 						            	<input type="hidden" id="reportDateHidden" name="reportDate"> -->
+						            	<input type="hidden" id="reportDateHidden" name="reportDate">
 						            	<input type="hidden" id="requestDateHidden" name="requestDate">  <!-- 오늘 날짜 -->
 <!-- 						            	<input type="hidden" id="clientBusinessNoHidden" name="clientBusinessNo" value="8609200580">	의뢰인 사업자 번호 : 해오름농장 -->
 <!-- 						            	<input type="hidden" id="clientLicenseNoHidden" name="clientLicenseNo" value="00000202239"> 의뢰인 허가번호 : 해오름농장 -->

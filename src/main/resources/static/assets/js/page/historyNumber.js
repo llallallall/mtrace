@@ -16,7 +16,9 @@ $(document).ready(function(){
 		
 		var initDateStr = initDateYear+ '-' + initDateMonth + '-' + initDateDate;
 		var week = new Array('일', '월', '화', '수', '목', '금', '토');
-		$('#reportDate').val(initDateStr+ '(' + week[initDate.getDay()] + ')' );
+		$('#spawningDate').val(initDateStr+ '(' + week[initDate.getDay()] + ')' );
+		
+		$('#requestDateHidden').val(initDateYear+ initDateMonth + initDateDate );    //입력일자(당일)
 		
 		
 				
@@ -49,6 +51,8 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 			$('#spawningDate').val(selDateStr+ '(' + week[obj.start.getDay()] + ')' );
 			
 			$('#spawningDateHidden').val(selyear+selmonth+seldate);
+			
+			$('#reportDateHidden').val(selyear+selmonth+seldate);
 		},
       	expandRows: true,
       	headerToolbar: {
@@ -382,13 +386,13 @@ function submitHistoryNumber() {
 	$("#size6Hidden").val(eggSize6);
 	
 	
-	let reportDate = new Date();   
-	let reportDateYear = reportDate.getFullYear(); // 년도
-	let reportDateMonth = String((reportDate.getMonth() + 1)+'').padStart(2, "0");  // 월
-	let reportDateDate = String((reportDate.getDate()+'').padStart(2, "0"));  // 날짜
+//	let reportDate = new Date();   
+//	let reportDateYear = reportDate.getFullYear(); // 년도
+//	let reportDateMonth = String((reportDate.getMonth() + 1)+'').padStart(2, "0");  // 월
+//	let reportDateDate = String((reportDate.getDate()+'').padStart(2, "0"));  // 날짜
 	
 	
-	$("#reportDateHidden").val(reportDateYear+reportDateMonth+reportDateDate);
+//	$("#reportDateHidden").val(reportDateYear+reportDateMonth+reportDateDate);
 	
 	console.log($("#breedingMethod").val());
 	$.ajax({

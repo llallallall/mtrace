@@ -16,7 +16,12 @@ $(document).ready(function(){
 		//console.log(initDate.getUTCFullYear())
 		var initDateStr = initDateYear+ '-' + initDateMonth.toString().padStart(2, '0') + '-' + initDateDate.toString().padStart(2, '0');
 		var week = new Array('일', '월', '화', '수', '목', '금', '토');
-		$('#reportDate').val(initDateStr+ '(' + week[initDate.getDay()] + ')' );
+		
+		//의뢰일자
+		$('#requestDate').val(initDateStr+ '(' + week[initDate.getDay()] + ')' );
+		
+		//의뢰일자
+		$('#requestDateHidden').val(initDateYear+ initDateMonth.toString().padStart(2, '0') + initDateDate.toString().padStart(2, '0') );
 
 });
 
@@ -52,9 +57,12 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 			
 			var selDateStr = selyear+ '-' + selmonth + '-' + seldate;
 			var week = new Array('일', '월', '화', '수', '목', '금', '토');
-			$('#reportDate').val(selDateStr+ '(' + week[obj.start.getDay()] + ')' );
+			$('#tradeReportDate').val(selDateStr+ '(' + week[obj.start.getDay()] + ')' );
 			
-			$('#reportDateHidden').val(selyear+selmonth+seldate);
+			$('#tradeReportDateHidden').val(selyear+selmonth+seldate);
+			
+			
+						            	
 			
 			//입력정보 초기화 
 			resetEggCount();
@@ -98,14 +106,16 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 			var clickDateStr = clickYear+ '-' + clickMonth + '-' + clickDate;
 			var week = new Array('일', '월', '화', '수', '목', '금', '토');
 			
-			$('#reportDate').val(clickDateStr+ '(' + week[clickStart.getDay()] + ')' );
-			//$('#reportDateHidden').val(clickYear+clickMonth+clickDate);
 			
-			
-			let eggHistNo  		= info.event.extendedProps.eggHistNo ;				//이력번호
-			let issueDate  		= info.event.extendedProps.issueDate ;				//이력번호 발급일자
-			let spawningDate  	= info.event.extendedProps.spawningDate ;			//산란일자
-			let requestDate  	= info.event.extendedProps.requestDate ;			//선별포장신고 일자
+			//출하 등록일자
+			$('#tradeReportDate').val(clickDateStr+ '(' + week[clickStart.getDay()] + ')' );
+			$('#tradeReportDateHidden').val(clickYear+clickMonth+clickDate);
+
+											
+			let eggHistNo  					= info.event.extendedProps.eggHistNo ;				//이력번호
+			let eggHistNoIssueDate  		= info.event.extendedProps.eggHistNoIssueDate ;				//이력번호 발급일자
+			let spawningDate  				= info.event.extendedProps.spawningDate ;			//산란일자
+			let packingReportDate  			= info.event.extendedProps.packingReportDate ;			//선별포장신고 일자
 			
 			let eggUsage  				= info.event.extendedProps.eggUsage ;				//계란용도
 			let reporterBusinessNo  	= info.event.extendedProps.reporterBusinessNo ;			//사업자번호	
@@ -127,10 +137,14 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 				html +="<tr>";
 				
 				html +="	<td><input type='text' id='selEggHistNo' name='eggHistNo' class='w-100 p-0 m-0 text-end bg-tranparent' value='"+eggHistNo+"'/></td>"; 		//이력번호
-				html +="	<td><input type='text' id='selIssueDate' class='w-100 p-0 m-0 text-end bg-tranparent'  value='"+dateFormat(issueDate,'-')+"'/></td>";			//신고일자
+				html +="	<td><input type='text' id='selIssueDate' class='w-100 p-0 m-0 text-end bg-tranparent'  value='"+dateFormat(eggHistNoIssueDate,'-')+"'/></td>";			//신고일자
 				html +="	<td><input type='text' id='selSpawningDate' class='w-100 p-0 m-0 text-end bg-tranparent'  value='"+dateFormat(spawningDate,'-')+"'/></td>";		//산란일자
 				
-				html +=' 		<input type="hidden" name="packingReportDate" id="packingReportDate" value="'+requestDate+'" >';
+
+				html +=' 		<input type="hidden" name="histNoIssueDate" id="histNoIssueDate" value="'+eggHistNoIssueDate+'" >';
+				html +=' 		<input type="hidden" name="spawningDate" id="spawningDate" value="'+spawningDate+'" >';
+				
+				html +=' 		<input type="hidden" name="packingReportDate" id="packingReportDate" value="'+packingReportDate+'" >';
 				html +=' 		<input type="hidden" name="eggUsage" id="eggUsage" value="'+eggUsage+'" >';
 				html +=' 		<input type="hidden" name="reporterBusinessNo" id="reporterBusinessNo" value="'+reporterBusinessNo+'" >';
 				html +=' 		<input type="hidden" name="reporterLicenseNo" id="packingReportDate" value="'+reporterLicenseNo+'" >';
@@ -153,22 +167,28 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 				
 				$("#accountListForTradeHeader").removeAttr("class");
 				$("#accountListForTradeHeader").addClass("table-success text-center");	
-				
+				console.log(packingReportDate);
 				
 				//거래일자를 선별포장 신고일자로 변경(초기 오늘날짜)
 				let tds = document.querySelectorAll('.transDate');
-				tds.forEach(td => td.value = dateFormat(requestDate,'-'));
+				tds.forEach(td => td.value = dateFormat(packingReportDate,'-'));
 				
 				let tdHiddens = document.querySelectorAll('input[name="transDate"]');
-				tdHiddens.forEach(td => td.value = requestDate);
+				tdHiddens.forEach(td => td.value = packingReportDate);
 					 //console.log(tdHiddens);
 					 
 				
+
+						            	
 				//이력번호 발급일자 입력
-				$("#histNoIssueDate").val(issueDate);
+				$("#histNoIssueDate").val(eggHistNoIssueDate);
 				
 				//산란일자 입력
 				$("#spawningDate").val(spawningDate);
+				
+				//선별포장신고 일자
+				$("#packingReportDateHidden").val(packingReportDate);
+				console.log(packingReportDate);
 				
 			}
 			
@@ -235,10 +255,12 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 								 		groupId : packaging[i].groupId,
 								 		extendedProps: {
 									
-											eggHistNo		: packaging[i].eggHistNo,
-											issueDate		: packaging[i].issueDate,
-											spawningDate	: packaging[i].spawningDate,
-											requestDate		: packaging[i].requestDate,
+											eggHistNo				: packaging[i].eggHistNo,
+											eggHistNoIssueDate		: packaging[i].issueDate,	//이력번호 발급일자 = 이력번호 신고일자
+											spawningDate			: packaging[i].spawningDate,//산란일자
+											packingReportDate		: packaging[i].packingReportDate,	//선별포장 신고 - 등록일자
+											packingRequestDate		: packaging[i].packingRequestDate,	//선별포장 신고 - 의뢰일자
+											
 											
 											eggUsage		: packaging[i].eggUsage,
 											reporterBusinessNo		: packaging[i].reporterBusinessNo,
@@ -305,9 +327,13 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 								 		extendedProps: {
 									
 											eggHistNo			: shipment[i].eggHistNo,
-											histNoIssueDate		: shipment[i].histNoIssueDate,
-											packingReportDate	: shipment[i].packingReportDate,
-											spawningDate		: shipment[i].spawningDate,
+											histNoIssueDate		: shipment[i].histNoIssueDate,			//이력번호 발급일자 = 이력번호 신고일자
+											packingReportDate	: shipment[i].packingReportDate,		//선별포장 신고 - 요청일자
+											spawningDate		: shipment[i].spawningDate,				//산란일자
+											
+											tradeReportDate		: shipment[i].reportDate,				//출하신고 일자(거래처별 거래일자와 다름, = 선별포장일자와 같음)
+											tradeRequestDate	: shipment[i].requestDate,				//출하신고 등록 요청일자
+											
 											
 											eggUsage				: shipment[i].eggUsage,
 											reporterBusinessNo		: shipment[i].reporterBusinessNo,
@@ -568,9 +594,9 @@ function searchEggTrade(page){
 					html+='<td class="text-success">'+ list.eggHistNo +'</td>';
 					html+='<td class="text-success">'+ list.eggHistIdx +'</td>';
 					
-					html+='<td class="text-success">'+ list.spawningDate +'</td>';
-					html+='<td class="text-success">'+ list.histNoIssueDate +'</td>';
-					html+='<td class="text-success">'+ list.packingReportDate +'</td>';
+					html+='<td class="text-success">'+ dateFormat(list.spawningDate,'-') +'</td>';
+					html+='<td class="text-success">'+ dateFormat(list.histNoIssueDate,'-') +'</td>';
+					html+='<td class="text-success">'+ dateFormat(list.packingReportDate,'-') +'</td>';
 					
 					html+='<td class="text-success">'+ list.transInfo +'</td>';
 					
@@ -591,9 +617,9 @@ function searchEggTrade(page){
 					html+='<td class="text-danger">'+ list.eggHistNo +'</td>';
 					html+='<td class="text-danger">'+ list.eggHistIdx +'</td>';
 					
-					html+='<td class="text-danger">'+ list.spawningDate +'</td>';
-					html+='<td class="text-danger">'+ list.histNoIssueDate +'</td>';
-					html+='<td class="text-danger">'+ list.packingReportDate +'</td>';
+					html+='<td class="text-danger">'+ dateFormat(list.spawningDate,'-') +'</td>';
+					html+='<td class="text-danger">'+ dateFormat(list.histNoIssueDate,'-') +'</td>';
+					html+='<td class="text-danger">'+ dateFormat(list.packingReportDate,'-') +'</td>';
 					
 					html+='<td class="text-danger">'+ list.transInfo +'</td>';
 	
@@ -613,9 +639,9 @@ function searchEggTrade(page){
 					html+='<td class="">'+ list.eggHistNo +'</td>';
 					html+='<td class="">'+ list.eggHistIdx +'</td>';
 					
-					html+='<td class="">'+ list.spawningDate +'</td>';
-					html+='<td class="">'+ list.histNoIssueDate +'</td>';
-					html+='<td class="">'+ list.packingReportDate +'</td>';
+					html+='<td class="">'+ dateFormat(list.spawningDate,'-') +'</td>';
+					html+='<td class="">'+ dateFormat(list.histNoIssueDate,'-') +'</td>';
+					html+='<td class="">'+ dateFormat(list.packingReportDate,'-') +'</td>';
 					
 					html+='<td class="">'+ list.transInfo +'</td>';
 	
@@ -804,7 +830,7 @@ function submitEggTrade() {
 	}
 
 	
-	var reportDate = new Date($('#reportDateHidden').val().substr(0,4)+'-'+$('#reportDateHidden').val().substr(4,2)+'-'+$('#reportDateHidden').val().substr(6,2));
+	var reportDate = new Date($('#tradeReportDateHidden').val().substr(0,4)+'-'+$('#tradeReportDateHidden').val().substr(4,2)+'-'+$('#tradeReportDateHidden').val().substr(6,2));
 	
 	
 	let now = new Date();   
@@ -820,7 +846,7 @@ function submitEggTrade() {
 		return false;
 	}
 
-	
+	console.log("==============================="+$("#packingReportDate").val());
 	
 	let formData = $("#eggTradeForm").serializeObject()
 	let formDetailData = $("#eggTradeDetailForm").serializeArrayObject()

@@ -94,6 +94,8 @@ public class EggPackingController {
 			eventParams.put("groupId", "history");
 			
 			eventParams.put("eggHistNo", vo.getEggHistNo());
+			eventParams.put("reportDate", vo.getReportDate());			//이력번호 등록 - 등록일자(=산란일자)
+			eventParams.put("requestDate", vo.getRequestDate());		//이력번혹 등록 - 의뢰일자
 			
 			eventParams.put("eggXxl", df.format(vo.getEggXxl()));
 			eventParams.put("eggXl", df.format(vo.getEggXl()));
@@ -174,6 +176,15 @@ public class EggPackingController {
 			eventParams.put("groupId", "packing");
 			
 			eventParams.put("eggHistNo", vo.getEggHistNo());
+			eventParams.put("issueDate", vo.getIssueDate());		//이력번호 발급일자 = 이력번호 신고일자
+			eventParams.put("requestDate", vo.getRequestDate());	//선별포장 신고 - 의뢰일자
+			eventParams.put("reportDate", vo.getReportDate());		//선별포장 신고 - 등록일자
+			eventParams.put("spawningDate", vo.getSpawningDate());	//산란일자
+			
+			eventParams.put("eggUsage", vo.getEggUsage());
+			eventParams.put("reporterBusinessNo", vo.getClientBusinessNo());
+			eventParams.put("reporterLicenseNo", vo.getClientLicenseNo());
+			
 			
 			eventParams.put("eggXxl", df.format(vo.getEggXxl()));
 			eventParams.put("eggXl", df.format(vo.getEggXl()));
@@ -266,7 +277,11 @@ public class EggPackingController {
 		
 		eggPackingVO.setFarmIdNo(voHistory.getFarmIdNo());
 		eggPackingVO.setEggUsage(voHistory.getEggUsage());
-		eggPackingVO.setIssueDate(voHistory.getReportDate());  			//이력번호 발급일자 
+		eggPackingVO.setIssueDate(voHistory.getReportDate());  			//이력번호 발급일자 = 등록일자 = 산란일자
+		
+		
+		System.out.println("================"+eggPackingVO.getReportDate() +"====================");
+		
 		eggPackingVO.setSpawningDate(voHistory.getSpawningDate());
 		eggPackingVO.setStorageMethod(voHistory.getStorageMethod());
 		eggPackingVO.setEggXxl(voHistory.getEggXxl());

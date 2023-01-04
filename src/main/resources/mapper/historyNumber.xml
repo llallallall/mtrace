@@ -68,6 +68,7 @@
 						egg_e, 
 						washing_method,
 						report_date,
+						request_date,
 						farm_uniq_no
 					FROM 
 						mtrace.history_number
@@ -100,6 +101,7 @@
 				egg_e, 
 				washing_method,
 				report_date,
+				request_date,
 				farm_uniq_no
 			FROM 
 				mtrace.history_number
@@ -136,6 +138,7 @@
 				egg_e, 
 				washing_method,
 				report_date,
+				request_date,
 				farm_uniq_no
 			)
 		VALUES
@@ -164,6 +167,7 @@
 				#{eggE}, 
 				#{washingMethod},
 				#{reportDate},
+				#{requestDate},
 				#{farmUniqNo}
 			)
 	</insert>
