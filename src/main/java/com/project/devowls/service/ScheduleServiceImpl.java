@@ -104,7 +104,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		mail.setSubject(subject);
 		mail.setText(template);
 
-		mail.setTo("brightly.hwang@gmail.com");
+		mail.setTo("hik2075@daum.net");
 		mail.setCc("llallallall@kakao.com");
 
 		mail.setFrom("devowls@naver.com");
