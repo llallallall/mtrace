@@ -319,7 +319,7 @@ public class EggTradeController {
 					ArrayList<EggTradeDetailVO> eggTradeDetailVO,
 					@RequestParam(value="mode",required=false, defaultValue="manual") String mode) 
 					throws IOException, ParseException {
-		
+		System.out.println(" registerEggTrade : " + mode +"================================================");
 		EggTradeVO reporterVO = new EggTradeVO();
 		ArrayList<EggTradeDetailVO> tradeListVO = new ArrayList<EggTradeDetailVO>();
 		
@@ -421,7 +421,7 @@ public class EggTradeController {
 		ArrayList<EggTradeInfoVO> voList2 = tService.searchEggTradeRstByHistNo(reporterVO.getEggHistNo());
 		Boolean isTradeRst = false;
 		for(EggTradeInfoVO vo : voList2) {
-			//System.out.println("출고내역 조회 :: " + eggHistNo + vo.getResultCode());
+			System.out.println("출고내역 조회 :: " + vo.getResultCode());
 			
 			if ( vo.getResultCode().equals("INFO-0000") ) {
 				isTradeRst = true;

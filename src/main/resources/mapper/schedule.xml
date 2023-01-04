@@ -57,7 +57,8 @@
 				egg_l, egg_m, 
 				egg_s, egg_e, 
 				total_egg, 
-				trade_term
+				trade_term,
+				trans_type
 		FROM schedule_account
 	</select>
 
@@ -113,6 +114,37 @@
 		order by a.num desc 
 			
 		
+	</select>
+	
+	
+	<select id="selectTradeInfoByHistNo" parameterType="String" resultType="EggTradeVO">
+		<![CDATA[  
+			SELECT 
+				m.egg_hist_no, 
+				m.egg_hist_idx, 
+				m.result_code, 
+				m.result_msg,
+				m.report_time, 
+				n.trans_info
+			FROM egg_trade m,
+				(SELECT 	
+					info.egg_hist_idx, 
+					GROUP_CONCAT(info.info SEPARATOR '\n\r<br>') AS trans_info
+				from (
+						SELECT 
+						egg_hist_idx, 
+						CONCAT(trans_idx,'. ',account_nm, '(' , CONCAT(substring(trans_date, 1, 4),'/',substring(trans_date, 5, 2),'/',substring(trans_date, 7, 2)) ,', ', total_egg,'개, ',(SELECT c.nm 
+						FROM code_secondary c where c.parent_cd = "transType" and c.use_yn = "Y" and c.cd = trans_type
+						),')')   as info
+						FROM egg_trade_detail
+					) info
+				GROUP BY info.egg_hist_idx
+				) n
+			WHERE 
+				m.egg_hist_idx = n.egg_hist_idx	
+			  AND
+			    m.egg_hist_no = #{histNo}	
+		]]> 	  	
 	</select>
 	
 

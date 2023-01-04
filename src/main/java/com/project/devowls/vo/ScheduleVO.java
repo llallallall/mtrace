@@ -37,6 +37,8 @@ public class ScheduleVO {
 	private String 	clientLicenseNo;
 	private String 	breadingMethod;
 	
+	private String 	transDate;
+	private String 	transType;
 	
 	private String 	tradeTerm;
 	private Date	regDate;

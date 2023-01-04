@@ -51,7 +51,7 @@ public class EggTradeServiceImpl implements EggTradeService {
 		int idx = eDAO.selectEggHistIdx(eggTradeVO.getEggHistNo());
 		
 		
-		//System.out.println("============================		trans master		==================================");
+		System.out.println("============================		trans master		==================================");
 		//이력번호 인덱스 생성
 		eggTradeVO.setEggHistIdx( eggTradeVO.getEggHistNo() + String.format("%03d", idx) );
 		eDAO.insertEggTrade(eggTradeVO);
@@ -61,13 +61,13 @@ public class EggTradeServiceImpl implements EggTradeService {
 
 		//거래처별 상세항목 등록(여러건)
 		//거래처수만큼 이력번호를 VO에 입력
-		//System.out.println("============================		trans detail setting		==================================");
+		System.out.println("============================		trans detail setting		==================================");
 		int transIdx = eDAO.selectTransIdxByEggHistIdx(eggTradeVO.getEggHistIdx());
 		for(int i=0; i< tradeListVO.size(); i++){
 			tradeListVO.get(i).setEggHistIdx(eggTradeVO.getEggHistIdx());
 			tradeListVO.get(i).setTransIdx(transIdx + i);
 			
-			//System.out.println(tradeListVO.get(i).getEggHistIdx());
+			System.out.println(tradeListVO.get(i).getEggHistIdx());
 			//System.out.println(tradeListVO.get(i).getTransIdx());
 			eDAO.insertEggTradeByAccount(tradeListVO.get(i));
 		}

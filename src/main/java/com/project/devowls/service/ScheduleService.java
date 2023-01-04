@@ -2,6 +2,8 @@ package com.project.devowls.service;
 
 import java.util.ArrayList;
 
+import com.project.devowls.vo.EggTradeVO;
+import com.project.devowls.vo.MessageVO;
 import com.project.devowls.vo.ScheduleVO;
 
 public interface ScheduleService {
@@ -17,5 +19,9 @@ public interface ScheduleService {
 	ScheduleVO searchScheduleInfo();
 
 	ArrayList<ScheduleVO> searchScheduleAccount();
+
+	ArrayList<EggTradeVO> searchTradeInfoByHistNo();
+
+	void sendMail(MessageVO mVO);
 
 }

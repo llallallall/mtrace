@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import com.project.devowls.vo.EggTradeVO;
 import com.project.devowls.vo.ScheduleVO;
 
 @Mapper
@@ -22,5 +23,7 @@ public interface ScheduleDAO {
 	ScheduleVO selectScheduleInfo();
 
 	ArrayList<ScheduleVO> selectScheduleAccount();
+
+	ArrayList<EggTradeVO> selectTradeInfoByHistNo();
 
 }
